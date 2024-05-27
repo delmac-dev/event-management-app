@@ -1,6 +1,6 @@
 <h1 align="center">Event Management Application</h1>
 
-## Must Do Features
+### Must Do Features
 
 - [ ] Model Relational Data
 - [ ] Handle Overall App Authentication
