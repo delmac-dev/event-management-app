@@ -1,9 +1,9 @@
 
 export default async function OrganisationRoles() {
 
-    return (
-      <div className="">
-        organisations roles page
-      </div>
-    );
+  return (
+    <div className="">
+      organisations roles page
+    </div>
+  );
 }
