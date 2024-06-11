@@ -2,11 +2,11 @@ import { LinksProp, StarterLink } from "@/components/starter";
 import { _dashboardEvent, _dashboardEventAttendees, _dashboardEventModerators, _dashboardEventRoles, _dashboardEventTickets } from "@/lib/routes";
 import { QueryProps } from "@/lib/types";
 
-interface Props extends QueryProps {
+interface LayoutProps extends QueryProps {
   children: React.ReactNode
 } 
 
-export default function Layout({children, params}: Props) {
+export default function Layout({children, params}: LayoutProps) {
   const eventID = params.event_id;
   const data:LinksProp[] = [
     {name: "edit", link: _dashboardEvent(eventID)},
