@@ -9,7 +9,7 @@ export const _events = '/events';
 export const _event = (slug: string) => `${_events}/${slug}`;
 export const _joinEvent = (slug: string) => `${_event(slug)}/join`;
 export const _organisations = '/organisations';
-export const _organisation = (slug: string) => `${_organisation}/${slug}`;
+export const _organisation = (slug: string) => `${_organisations}/${slug}`;
 export const _tickets = '/tickets';
 export const _ticket = (ticketCode: string) => `${_tickets}/${ticketCode}`;
 export const _profile = (profileId: string) => `/profile/${profileId}`;
