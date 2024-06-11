@@ -5,7 +5,7 @@ export default async function OrganisationEvents({ params }: QueryProps) {
 
   return (
     <div className="">
-      organisation events page
+      all {organisationID} events page
     </div>
   );
 }

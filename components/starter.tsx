@@ -26,7 +26,7 @@ export function StarterHeader({title, description, icon, links}: StarterProps){
 
 export function StarterLink({links, isPrimary}: {links: LinksProp[], isPrimary?: boolean}) {
     return (
-        <div className={cn("flex_center gap-2 justify-start mt-2 flex-wrap", isPrimary? "mt-0 bg-neutral-900 p-4 rounded-md border" : "")}>
+        <div className={cn("flex_center gap-2 justify-start mt-2 flex-wrap", isPrimary? "mx-4 mt-0 bg-neutral-900 p-4 rounded-md border" : "")}>
             {links.map((link, _i)=>(
                 <Link key={_i} href={link.link} className="text-xs flex_center shrink-0 gap-1 5 p-1.5 rounded-sm bg-neutral-800/90 hover:bg-neutral-800 backdrop-blur-sm">
                     <LinkIcon className="h-3 w-3" />

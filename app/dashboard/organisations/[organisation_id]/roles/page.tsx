@@ -5,7 +5,7 @@ export default async function OrganisationRoles({ params }: QueryProps) {
 
   return (
     <div className="">
-      organisations roles page
+      all {organisationID} roles page
     </div>
   );
 }
