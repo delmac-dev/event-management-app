@@ -33,6 +33,11 @@
     --ring: 0 0% 3.9%;
 
     --radius: 0.5rem;
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   .dark {
@@ -68,7 +73,7 @@
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border font-inter ;
   }
 
   body {
