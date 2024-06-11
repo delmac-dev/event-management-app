@@ -1,5 +1,5 @@
 import { LinksProp, StarterHeader, StarterLink, StarterProps } from "@/components/starter";
-import { _events, _home, _join, _login, _organisations, _profile, _tickets } from "@/lib/routes";
+import { _dashboard, _events, _home, _join, _login, _organisations, _profile, _tickets } from "@/lib/routes";
 
 const data: StarterProps = {
   title: "Public Links",
@@ -16,6 +16,7 @@ const data: StarterProps = {
 const authLink:LinksProp[] = [
   {name: "login", link: _login},
   {name: "join", link: _join},
+  {name: "dashboard", link: _dashboard},
 ]
 
 export default function Layout({children}: {children: React.ReactNode}) {
