@@ -7,8 +7,8 @@ const data: StarterProps = {
   links: [
     {name: "organisations", link: _dashboardOrgs},
     {name: "events", link: _dashboardEvents},
+    {name: "tickets", link: _dashboardTickets},
     {name: "settings", link: _dashboardSettings},
-    {name: "find tickets", link: _dashboardTickets},
     {name: "my profile", link: _dashboardProfile},
     {name: "notifications", link: _dashboardNotifications},
   ]

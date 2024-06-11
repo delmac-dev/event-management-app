@@ -5,7 +5,7 @@ export default async function EventModerators({ params }: QueryProps) {
 
   return (
     <div className="">
-      event moderators page
+      all {eventID} moderators page
     </div>
   );
 }

@@ -5,7 +5,7 @@ export default async function EventTickets({ params }: QueryProps) {
   
   return (
     <div className="">
-      event tickets page
+      all {eventID} tickets page
     </div>
   );
 }

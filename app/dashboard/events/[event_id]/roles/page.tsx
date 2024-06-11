@@ -5,7 +5,7 @@ export default async function EventRoles({ params }: QueryProps) {
 
   return (
     <div className="">
-      event roles page
+      all {eventID} roles page
     </div>
   );
 }
