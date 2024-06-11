@@ -1,7 +1,7 @@
 
 // auth
 export const _login = '/auth/login';
-export const _signUp = '/auth/join';
+export const _join = '/auth/join';
 
 // public
 export const _home = '/';
@@ -38,5 +38,5 @@ export const _dashboardSettings = `${_dashboard}/settings`;
 // company
 export const _company = '/company';
 export const _contactUs = '/contact-us';
-export const _Terms = '/terms'; 
+export const _terms = '/terms'; 
 export const _privacy = '/privacy';
