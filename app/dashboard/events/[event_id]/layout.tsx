@@ -7,7 +7,7 @@ interface LayoutProps extends QueryProps {
 } 
 
 export default function Layout({children, params}: LayoutProps) {
-  const eventID = params.event_id;
+  const eventID = params["event_id"] || "";
   const data:LinksProp[] = [
     {name: "edit", link: _dashboardEvent(eventID)},
     {name: "attendees", link: _dashboardEventAttendees(eventID)},
