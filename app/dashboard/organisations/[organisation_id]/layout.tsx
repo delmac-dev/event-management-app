@@ -3,7 +3,8 @@ import { _dashboardOrg, _dashboardOrgEvents, _dashboardOrgMembers, _dashboardOrg
 import { QueryProps } from "@/lib/types";
 
 interface Props extends QueryProps {
-  children: React.ReactNode
+  children: React.ReactNode,
+  params: {[key: string]: string}
 } 
 
 export default function Layout({children, params}: Props) {
