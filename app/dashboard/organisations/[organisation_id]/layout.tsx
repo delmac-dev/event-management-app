@@ -1,8 +1,7 @@
 import { LinksProp, StarterLink } from "@/components/starter";
 import { _dashboardOrg, _dashboardOrgEvents, _dashboardOrgMembers, _dashboardOrgRoles } from "@/lib/routes";
-import { QueryProps } from "@/lib/types";
 
-interface Props extends QueryProps {
+interface Props {
   children: React.ReactNode,
   params: {[key: string]: string}
 } 
