@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 
-export default function SpinnerIcon({className}: {className?: string}) {
+export default function LogoIcon({className}: {className?: string}) {
     return (
         <svg width="60" height="60" viewBox="0 0 60 60" fill="currentColor" xmlns="http://www.w3.org/2000/svg" className={cn(className)}>
             <path d="M20 30C18.6193 30 17.5 31.1193 17.5 32.5C17.5 33.8807 18.6193 35 20 35H40C41.3807 35 42.5 33.8807 42.5 32.5C42.5 31.1193 41.3807 30 40 30H20Z"/>
