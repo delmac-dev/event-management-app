@@ -77,7 +77,7 @@
   }
 
   body {
-    @apply relative bg-background text-foreground min-h-screen w-full flex_center flex-col gap-4;
+    @apply relative bg-background text-foreground min-h-screen w-full flex-col gap-4;
   }
 
   .flex_center {
