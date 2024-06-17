@@ -4,8 +4,8 @@ export default async function Ticket({ params }: QueryProps) {
   const ticketID = params.ticket_id;
 
   return (
-    <div className="">
-      {ticketID} page
-    </div>
+    <main className="w-full min-h-screen flex_center">
+      {ticketID} ticket detail page
+    </main>
   );
 }

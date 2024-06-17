@@ -1,16 +1,14 @@
-import { LinksProp, StarterLink } from "@/components/starter";
 import { _ticket } from "@/lib/routes";
-
-const data:LinksProp[] = [
-  {name: "ticket one", link: _ticket("ticket3456789")},
-  {name: "ticket two", link: _ticket("ticket1234098")},
-  {name: "ticket three", link: _ticket("ticket12345")},
-  {name: "ticket four", link: _ticket("ticket908765")},
-]
+import Header from "../(components)/header";
+import Link from "next/link";
 
 export default async function Tickets() {
-
   return (
-    <StarterLink links={data} isPrimary />
+    <>
+      <Header />
+      <section>search for a ticket by code</section>
+      <section>search results section eg: <Link href={_ticket("example-ticket")} className="hover:underline">example ticket</Link></section>
+      <footer>footer section</footer>
+    </>
   );
 }

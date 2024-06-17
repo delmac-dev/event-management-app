@@ -1,6 +1,6 @@
 import Logo from "@/components/common/logo";
 import { Button } from "@/components/ui/button";
-import { _dashboard, _events, _home, _organisations } from "@/lib/routes";
+import { _dashboard, _events, _home, _organisations, _tickets } from "@/lib/routes";
 import { cn } from "@/lib/utils";
 import { User } from "@supabase/supabase-js";
 import { MenuIcon } from "lucide-react";
@@ -25,7 +25,7 @@ const navLinks = [
     },
     {
         name: "find my ticket",
-        link: _home
+        link: _tickets
     }
 ]
 
