@@ -1,6 +1,13 @@
 import OAuthProviders from "@/components/auth/oauth-buttons";
 import { _login } from "@/lib/routes";
+import { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata:Metadata = {
+  title: "CampEvents - Join",
+  description: "Join campus events for free",
+  keywords: ["CampusEvents", "SignUp to CampusEvents", "Join CampusEvents"]
+};
 
 export default function Join(){
   return (

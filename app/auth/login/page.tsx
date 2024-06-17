@@ -1,9 +1,15 @@
 import OAuthProviders from "@/components/auth/oauth-buttons";
 import { _join } from "@/lib/routes";
+import { Metadata } from "next";
 import Link from "next/link";
 
-export default function Login() {
+export const metadata:Metadata = {
+  title: "CampEvents - Login",
+  description: "Login into CampusEvents now",
+  keywords: ["CampusEvents", "Login to CampusEvents"]
+};
 
+export default function Login() {
   return (
     <div className="flex flex-col w-full max-w-xs mx-2 p-2 gap-5">
       <h1 className="font-bold text-2xl text-center">Welcome Back</h1>
