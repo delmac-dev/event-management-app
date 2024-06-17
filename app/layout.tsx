@@ -9,7 +9,7 @@ const defaultUrl = process.env.VERCEL_URL
 export const metadata:Metadata = {
   metadataBase: new URL(defaultUrl),
   title: "CampEvents - Campus Events Management and Ticketing.",
-  description: "Manage and attend campus events with ease. Create, promote, and ticket your events in one plac",
+  description: "Manage and attend campus events with ease. Create, promote, and ticket your events in one place",
   keywords: ["Campus Events", "Events Management", "Ticketing University Events", "College Events", "Events Registration", "Attendance Tracking"]
 };
 
