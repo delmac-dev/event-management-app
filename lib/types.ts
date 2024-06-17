@@ -10,5 +10,5 @@ export type QueryProps = {
 export type OAuthProvider = {
     provider: Provider,
     name: string,
-    icon?: React.ReactElement
+    icon?: React.ElementType
 }
