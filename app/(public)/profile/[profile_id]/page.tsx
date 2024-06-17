@@ -1,11 +1,13 @@
 import { QueryProps } from "@/lib/types";
+import Header from "../../(components)/header";
 
 export default async function Profile({ params }: QueryProps) {
     const profileID = params.profile_id;
 
     return (
-        <div className="">
-            public profile of {profileID} page
-        </div>
+        <>
+            <Header />
+            <section>public profile of {profileID} page</section>
+        </>
     );
 }

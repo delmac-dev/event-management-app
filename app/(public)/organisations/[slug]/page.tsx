@@ -1,11 +1,14 @@
 import { QueryProps } from "@/lib/types";
+import Header from "../../(components)/header";
 
 export default async function Organisation({ params }: QueryProps) {
   const slug = params.slug;
 
   return (
-    <div className="">
-      {slug} page
-    </div>
+    <>
+      <Header />
+      <section>{slug} organisation page</section>
+      <footer>footer section</footer>
+    </>
   );
 }
