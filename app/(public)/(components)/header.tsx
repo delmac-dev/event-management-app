@@ -32,7 +32,7 @@ const navLinks = [
 export default function Header ({user}:{user?: User}) {
 
     return (
-        <header className="relative w-full h-14 flex_center justify-between px-5 md:px-10">
+        <header className="relative w-full h-12 flex_center justify-between px-5 md:px-10">
             <Logo />
             <div className="hidden md:flex gap-4">
                 {navLinks.map(({name, link}, _i) => (
@@ -52,8 +52,8 @@ const AuthSection = ({user, isMobile = false}:{user?: User, isMobile?: boolean})
         </div>
     ): (
         <div className={cn(!isMobile? "hidden md:flex gap-2" : "flex gap-2 flex-col md:hidden")}>
-            <Button variant={'outline'}>Login</Button>
-            <Button>Sign Up</Button>
+            <Button variant={'outline'} size='xs'>Login</Button>
+            <Button size='xs'>Sign Up</Button>
         </div>
     )
 )

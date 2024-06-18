@@ -4,8 +4,8 @@ import { _home } from "@/lib/routes";
 
 export default function Logo() {
  return (
-    <Link href={_home} className="w-12 h-12 rounded-sm flex_center">
-        <LogoIcon className="h-10 w-10 text-foreground" />
+    <Link href={_home} className="w-9 h-9 rounded-md flex_center bg-foreground">
+        <LogoIcon className="h-7 w-7 text-background" />
     </Link>
  )
 }
