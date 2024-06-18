@@ -1,5 +1,6 @@
 import { QueryProps } from "@/lib/types";
 import Header from "../../(components)/header";
+import Footer from "../../(components)/footer";
 
 export default async function Organisation({ params }: QueryProps) {
   const slug = params.slug;
@@ -8,7 +9,7 @@ export default async function Organisation({ params }: QueryProps) {
     <>
       <Header />
       <section>{slug} organisation page</section>
-      <footer>footer section</footer>
+      <Footer />
     </>
   );
 }
