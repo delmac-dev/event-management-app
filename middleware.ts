@@ -6,7 +6,7 @@ export async function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
   const pathname = url.pathname;
   const isAuth = pathname.startsWith(_login) || pathname.startsWith(_join);
-  const isPublic = (pathname: string) => /^\/(events|organisations|tickets|profile)|\/$/.test(pathname);
+  const isPublic = (pathname: string) => /^\/(events|organisations|tickets|profile|api)|\/$/.test(pathname);
   const { user, response } = await updateSession(request);
 
   // logged out users can only access public pages or auth pages
