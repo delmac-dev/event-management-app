@@ -12,6 +12,7 @@ export async function middleware(request: NextRequest) {
   // logged out users can only access public pages or auth pages
   if(!user){
     if(isPublic(pathname) || isAuth) return response;
+    if(pathname.startsWith("/auth")) return response;
     return NextResponse.redirect(new URL(_login, url.origin));
   }
 
