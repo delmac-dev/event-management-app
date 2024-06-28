@@ -5,6 +5,10 @@ import { _dashboard, _events, _home, _join, _login } from "./lib/routes";
 export async function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
   const pathname = url.pathname;
+  const params = url.searchParams;
+  const hasParams = params.size != 0;
+  const redirectTo = encodeURIComponent(`${pathname}${hasParams? `?${params.toString()}`: ''}`);
+  
   const isAuth = pathname.startsWith(_login) || pathname.startsWith(_join);
   const isPublic = (pathname: string) => /^\/(events|organisations|tickets|profile|api)|\/$/.test(pathname);
   const { user, response } = await updateSession(request);
@@ -13,7 +17,7 @@ export async function middleware(request: NextRequest) {
   if(!user){
     if(isPublic(pathname) || isAuth) return response;
     if(pathname.startsWith("/auth")) return response;
-    return NextResponse.redirect(new URL(_login, url.origin));
+    return NextResponse.redirect(new URL(`${_login}?redirectTo=${redirectTo}`, url.origin));
   }
 
   // signed in users cant access login or join page

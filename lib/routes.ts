@@ -5,7 +5,7 @@ export const _join = '/auth/join';
 
 // public
 export const _home = '/';
-export const _events = '/events';
+export const _events = '/events?id=iy&s=uyeyryghffgfgjh';
 export const _event = (slug: string) => `${_events}/${slug}`;
 export const _joinEvent = (slug: string) => `${_event(slug)}/join`;
 export const _organisations = '/organisations';
