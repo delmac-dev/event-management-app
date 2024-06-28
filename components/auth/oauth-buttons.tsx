@@ -4,7 +4,7 @@ import { OAuthProvider } from "@/lib/types";
 import { Button } from "../ui/button";
 import GoogleIcon from "../icons/google-icon";
 import GithubIcon from "../icons/github-icon";
-import { SignInWithOauth } from "@/lib/actions";
+import { signInWithOauth } from "@/lib/actions";
 
 
 export default async function OAuthProviders() {
@@ -26,7 +26,7 @@ export default async function OAuthProviders() {
                     key={_i} 
                     variant={'outline'} 
                     className="gap-3 capitalize" 
-                    onClick={async ()=> await SignInWithOauth(provider.name)}
+                    onClick={async ()=> await signInWithOauth(provider.name)}
                 >
                     {provider.icon? <provider.icon /> : ''}
                     Sign In With {provider.name}
