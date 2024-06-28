@@ -8,7 +8,6 @@ export type QueryProps = {
 // export TypedSupabaseClient = SuperbaseClient<>
 
 export type OAuthProvider = {
-    provider: Provider,
-    name: string,
+    name: Provider,
     icon?: React.ElementType
 }
