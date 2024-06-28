@@ -1,6 +1,10 @@
 
 // ALL QUERIES RELATING TO EVENTS
-export const getEvents = () => {};
+export const getEvents = () => {
+    // get all general events or user specific event;
+    // for user specific event pass in user_events to the transaction
+    // also pass in filter object to the transaction
+};
 export const getEventByID = () => {};
 export const setEvent = () => {};
 export const updateEvent = () => {};
