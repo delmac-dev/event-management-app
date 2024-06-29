@@ -1,7 +1,5 @@
-import { QueryProps } from "@/lib/types";
 
-export default async function DashboardTickets({ params }: QueryProps) {
-  const profileID = params.profile_id;
+export default async function DashboardTickets() {
 
   return (
     <div className="">

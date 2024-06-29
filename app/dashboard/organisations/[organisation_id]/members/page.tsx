@@ -1,4 +1,4 @@
-import { QueryProps } from "@/lib/types";
+import { QueryProps } from "@/types/global.type";
 
 export default async function OrganisationMembers({ params }: QueryProps) {
   const organisationID = params.organisation_id;

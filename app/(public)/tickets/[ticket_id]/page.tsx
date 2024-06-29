@@ -1,4 +1,4 @@
-import { QueryProps } from "@/lib/types";
+import { QueryProps } from "@/types/global.type";
 
 export default async function Ticket({ params }: QueryProps) {
   const ticketID = params.ticket_id;

@@ -1,8 +1,8 @@
 import { _joinEvent } from "@/lib/routes";
-import { QueryProps } from "@/lib/types";
 import Header from "../../(components)/header";
 import Link from "next/link";
 import Footer from "../../(components)/footer";
+import { QueryProps } from "@/types/global.type";
 
 export default async function Event({ params }: QueryProps) {
   const slug = params.slug;
