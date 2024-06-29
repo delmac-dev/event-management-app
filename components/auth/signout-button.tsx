@@ -1,5 +1,5 @@
 import { _login } from "@/lib/routes";
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/client";
 import { redirect } from "next/navigation";
 
 export default async function SignOutButton() {

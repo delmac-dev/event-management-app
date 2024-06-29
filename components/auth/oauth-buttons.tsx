@@ -4,10 +4,10 @@ import { OAuthProvider } from "@/lib/types";
 import { Button } from "../ui/button";
 import GoogleIcon from "../icons/google-icon";
 import GithubIcon from "../icons/github-icon";
-import { signInWithOauth } from "@/lib/actions";
+import { signIn } from "next-auth/react";
 
 
-export default async function OAuthProviders() {
+export default async function OAuthProviders({ redirectTo }:{ redirectTo?: string}) {
     const providers:OAuthProvider[] = [
         {
             name: "github",
@@ -26,7 +26,7 @@ export default async function OAuthProviders() {
                     key={_i} 
                     variant={'outline'} 
                     className="gap-3 capitalize" 
-                    onClick={async ()=> await signInWithOauth(provider.name)}
+                    onClick={ ()=> signIn(provider.name, { redirectTo })}
                 >
                     {provider.icon? <provider.icon /> : ''}
                     Sign In With {provider.name}

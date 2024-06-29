@@ -1,7 +1,7 @@
 "use server";
 
 import { Provider } from "@supabase/supabase-js";
-import { createClient } from "./supabase/server";
+import { createClient } from "./client";
 import { getUrl } from "./utils";
 import { redirect } from "next/navigation";
 import { _login } from "./routes";
