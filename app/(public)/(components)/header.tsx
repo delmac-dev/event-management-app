@@ -44,14 +44,14 @@ const AuthSection = ({isMobile = false}:{ isMobile?: boolean }) => {
         const fetchUser = async () => {
             const { data, error } = await supabase.auth.getUser();
             if (error) {
-                console.error('Error fetching user:', error);
+                console.error('Error fetching user:', error.message);
                 return;
             }
             setUser(data.user);
         };
         
         fetchUser();
-    },[user]); 
+    },[]); 
 
     return (
         <>
