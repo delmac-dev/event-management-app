@@ -1,5 +1,8 @@
-import { auth } from "./auth";
+import NextAuth from "next-auth";
+import authConfig from "./auth.config";
 import { _dashboard, _events, _home, _join, _login } from "./lib/routes";
+
+const { auth } = NextAuth({ ...authConfig })
 
 export default auth((request) => {
   const url = request.nextUrl.clone();
