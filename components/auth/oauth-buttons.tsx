@@ -7,7 +7,7 @@ import { signIn } from "next-auth/react";
 import { OAuthProvider } from "@/types/global.type";
 
 
-export default async function OAuthProviders({ redirectTo }:{ redirectTo?: string}) {
+export default function OAuthProviders({ redirectTo }:{ redirectTo?: string}) {
     const providers:OAuthProvider[] = [
         { name: "github", icon: GithubIcon },
         { name: "google", icon: GoogleIcon },
