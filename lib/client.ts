@@ -1,7 +1,7 @@
 import { createClient as _createClient } from "@supabase/supabase-js";
 import { auth } from "@/auth";
 
-export const createClient = async() => {
+export const createClient = async () => {
   const session = await auth();
 
   return _createClient(

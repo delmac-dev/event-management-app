@@ -1,5 +1,4 @@
 import NextAuth from "next-auth"
-import { SupabaseAdapter } from "@auth/supabase-adapter"
 import authConfig from "@/auth.config";
 import jwt from 'jsonwebtoken';
  
