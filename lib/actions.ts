@@ -2,23 +2,27 @@
 
 import { Provider } from "@supabase/supabase-js";
 import { createClient } from "./supabase/server";
-import { getUrl } from "./utils";
 import { redirect } from "next/navigation";
 import { _login } from "./routes";
+import { headers } from "next/headers";
 
-export const signInWithOauth = async (provider: Provider) => {
-    const supabase = createClient();
 
-    const {data, error} = await supabase.auth.signInWithOAuth({
-        provider,
-        options: {
-          redirectTo: getUrl('/auth/callback'),
-        },
-    });
+export const signInWithOAuth = async (provider: Provider) =>  {
+  const origin = headers().get("origin");
+  const supabase = createClient();
 
-    if(error) redirect(`${_login}?error=could not signin with oauth`);
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider,
+    options: {
+      redirectTo: `${origin}/auth/callback`,
+    },
+  });
 
-    return redirect(data.url);
+  if(error) 
+    redirect(`${_login}?error=could not signin with oauth`);
+  
+  if (data.url)
+    redirect(data.url);
 }
 
 export const signOut = async () => {
