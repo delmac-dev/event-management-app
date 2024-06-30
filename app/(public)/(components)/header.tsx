@@ -51,7 +51,7 @@ const AuthSection = ({isMobile = false}:{ isMobile?: boolean }) => {
         };
         
         fetchUser();
-    },[]); 
+    },[user]); 
 
     return (
         <>
