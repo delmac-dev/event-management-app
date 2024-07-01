@@ -1,6 +1,7 @@
 import { ThemeProvider } from "@/components/common/theme-provider"
 import { Metadata } from "next";
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -19,6 +20,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
       <body>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
             {children}
+            <Toaster />
         </ThemeProvider>
       </body>
     </html>
