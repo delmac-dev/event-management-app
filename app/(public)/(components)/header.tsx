@@ -2,42 +2,47 @@
 
 import Logo from "@/components/common/logo";
 import { Button } from "@/components/ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { signOut } from "@/lib/actions";
-import { _dashboard, _events, _home, _organisations, _tickets } from "@/lib/routes";
+import { _dashboard, _events, _home, _organisations, _profile, _tickets } from "@/lib/routes";
 import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
-import { User } from "@supabase/supabase-js";
-import { MenuIcon } from "lucide-react";
+import { User, UserMetadata } from "@supabase/supabase-js";
+import { Bell, ChevronDown, MenuIcon } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const supabase = createClient();
 
 const navLinks = [
-    { name: "home", link: _home },
     { name: "events",link: _events },
-    { name: "organisations", link: _organisations },
     { name: "dashboard", link: _dashboard },
-    { name: "find my ticket", link: _tickets }
+    { name: "my ticket", link: _tickets }
 ]
 
 export default function Header () {
 
     return (
-        <header className="relative w-full h-12 flex_center justify-between px-5 md:px-10">
-            <Logo />
-            <div className="hidden md:flex gap-4">
-                {navLinks.map(({name, link}, _i) => (
-                    <Link key={_i} href={link} className="font-medium text-sm capitalize">{name}</Link>
-                ))}
+        <header className="relative w-full h-12 border-b flex_center justify-between px-5 md:px-10">
+            <div className="flex gap-8 items-center">
+                <div className="flex gap-1 items-center">
+                    <Logo />
+                    <p className="text-sm font-semibold">CampusEvents</p>
+                </div>
+                <div className="hidden md:flex gap-4">
+                    {navLinks.map(({name, link}, _i) => (
+                        <Link key={_i} href={link} className="font-medium text-sm capitalize">{name}</Link>
+                    ))}
+                </div>
             </div>
-            <AuthSection />
-            <MobileNav />
+            <HeaderOptions />
         </header>
     )
 }
 
-const AuthSection = ({isMobile = false}:{ isMobile?: boolean }) => {
+const HeaderOptions = () => {
     const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
@@ -54,27 +59,72 @@ const AuthSection = ({isMobile = false}:{ isMobile?: boolean }) => {
     },[]); 
 
     return (
-        <>
+        <div className="flex gap-1.5 items-center">
             {user ? (
-                <form className="flex gap-2">
-                    <Button size='xs' formAction={async () => await signOut()}> Sign Out</Button>
-                </form>
+                <div className="flex gap-2">
+                    <Notification />
+                    <ProfileAvatar user={user} />
+                </div>
             ): (
-                <div className={cn(!isMobile? "hidden md:flex gap-2" : "flex gap-2 flex-col md:hidden")}>
-                    <Button variant={'outline'} size='xs'>Login</Button>
-                    <Button size='xs'>Sign Up</Button>
+                <div className="hidden md:flex gap-2">
+                    <Button variant={'outline'} size='sm' className="rounded-full">Login</Button>
+                    <Button size='sm' className="rounded-full">Sign Up</Button>
                 </div>
             )}
-        </>
-    )
-}
-
-const MobileNav = () => {
-    return (
-        <div className="block md:hidden">
-            <Button variant={'ghost'} className="w-10 h-10 p-0">
-                <MenuIcon />
-            </Button>
+            <MobileNav user={user} />
         </div>
     )
 }
+
+const MobileNav = ({ user }:{ user:User|null }) => {
+    return (
+        <div className="block md:hidden">
+            <Sheet>
+                <SheetTrigger asChild>
+                    <Button variant={'ghost'} size='sm' className="p-1.5">
+                        <MenuIcon size={20} />
+                    </Button>
+                </SheetTrigger>
+                <SheetContent className="w-80 py-20">
+                    <div className="flex flex-col gap-2">
+                        {navLinks.map(({name, link}, _i) => (
+                            <Link key={_i} href={link} className="w-full rounded-sm p-2.5 hover:bg-secondary capitalize">{name}</Link>
+                        ))}
+                    </div>
+                    <div className={cn(user? "hidden" : "absolute w-full bottom-4 left-0 flex flex-col gap-2 px-4")}>
+                        <Button variant={'outline'}>Login</Button>
+                        <Button>Sign Up</Button>
+                    </div>
+                </SheetContent>
+            </Sheet>
+        </div>
+    )
+};
+
+const ProfileAvatar = ({ user }:{ user:User }) => {
+    const userData:UserMetadata = user.user_metadata;
+
+    return (
+        <Popover>
+            <PopoverTrigger asChild>
+                <Button variant="outline" size='sm' className="flex items-center gap-2 rounded-full p-1.5">
+                    <Image src={userData["avatar_url"]} height={40} width={40} alt="avatar" className="w-7 h-7 rounded-full" />
+                    <ChevronDown size={16} />
+                </Button>
+            </PopoverTrigger>
+            <PopoverContent sideOffset={14} className="w-64 flex flex-col mr-4">
+                <Link href={_profile(user.id)} className="w-full rounded-sm p-2.5 text-sm hover:bg-secondary">My Profile</Link>
+                <Link href={_dashboard} className="w-full rounded-sm p-2.5 text-sm hover:bg-secondary">Dashboard</Link>
+                <form>
+                    <Button type="submit" formAction={async()=> await signOut()} className="mt-4">SignOut</Button>
+                </form>
+            </PopoverContent>
+        </Popover>
+    )
+}
+
+const Notification = () => (
+    <Button variant='outline' size='sm' className="aspect-square p-1.5 rounded-full">
+        <Bell size={20} />
+    </Button>
+)
