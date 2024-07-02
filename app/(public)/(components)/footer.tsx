@@ -1,26 +1,63 @@
 import Logo from "@/components/common/logo";
-import { _dashboard, _events, _home, _organisations, _tickets } from "@/lib/routes";
+import { _dashboard, _dashboardTickets, _events, _tickets } from "@/lib/routes";
+import Link from "next/link";
 
 const footerLinks = [
     {
-        title: "General",
+        title: "explore",
         links: [
-            {name: "home", link: _home},
-            {name: "events", link: _events},
-            {name: "organisations", link: _organisations},
-            {name: "my dashboard", link: _dashboard},
+            {name: "find events", link: _events},
+            {name: "start an event", link: _dashboard},
+            {name: "create an organisation", link: _dashboard},
+            {name: "all your tickets", link: _dashboardTickets},
             {name: "find my ticket", link: _tickets},
         ]
-    }
+    },
+    {
+        title: "company",
+        links: [
+            {name: "about", link: "/"},
+            {name: "team", link: "/"},
+            {name: "pricing", link: "/"},
+            {name: "faq", link: "/"},
+        ]
+    },
+    {
+        title: "legal",
+        links: [
+            {name: "privacy policy", link: "/"},
+            {name: "terms", link: "/"},
+            {name: "cookies", link: "/"},
+        ]
+    },
 ]
 
 const Footer = () => {
-  return (
-    <footer className="w-full py-8 px-2 flex bg-secondary justify-center">
-        <div className="">
-            <div className="flex gap-2 5 items-center flex-col">
-                <Logo />
-                <span className="text-lg font-semibold">CampusEvents</span>
+  return ( 
+    <footer className="w-full py-8 px-4 border-t">
+        <div className="w-full max-w-8xl mx-auto flex items-start lg:flex-row flex-col-reverse gap-8 lg:gap-24">
+            <div className="w-full max-w-md">
+                <div className="flex items-center gap-2 mb-1">
+                    <Logo />
+                    <p className="text-sm font-semibold">CampusEvents</p>
+                </div>
+                <p className="text-sm text-secondary-foreground">Create, promote, and ticket your events in one place</p>
+            </div>
+            <div className="max-lg:w-full flex-1 grid grid-cols-1 sm:grid-cols-2  md:grid-cols-3 gap-7 md:gap-4 ">
+                {footerLinks.map(({title, links}, _id) => (
+                    <div key={_id} className="">
+                        <h5 className="text-sm font-semibold text-accent-foreground uppercase tracking-wide mb-1.5">{title}</h5>
+                        <ul className="flex flex-col gap-1">
+                            {links.map(({ name, link }, _i) => (
+                                <li key={_i}>
+                                    <Link href={link} className="capitalize text-sm font-medium hover:underline underline-offset-2">
+                                        {name}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                ))}
             </div>
         </div>
     </footer>
