@@ -10,7 +10,7 @@ import React from "react";
 
 export default function Breadcrumbs({panel, content}: { panel?: PanelProps[], content: BreadcrumbProps[]}){
     return (
-        <section className="w-full max-w-8xl h-9 flex_center justify-start lg:px-2">
+        <section className="w-full max-w-8xl h-9 flex_center justify-start px-2">
             {panel? <Panel panel={panel} /> : ''}
             <Breadcrumb>
                 <BreadcrumbList>
@@ -40,7 +40,7 @@ export default function Breadcrumbs({panel, content}: { panel?: PanelProps[], co
 const Panel = ({ panel }: { panel: PanelProps[] }) => {
 
     return (
-        <div className="lg:hidden px-2 flex_center">
+        <div className="lg:hidden pr-2 flex_center">
             <Sheet>
                 <SheetTrigger asChild>
                     <Button variant={'ghost'} size='sm' className="p-1">
