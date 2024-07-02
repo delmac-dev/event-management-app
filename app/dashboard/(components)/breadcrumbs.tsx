@@ -2,7 +2,7 @@
 
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetClose, SheetContent, SheetOverlay, SheetPortal, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetClose, SheetContent, SheetPortal, SheetTrigger } from "@/components/ui/sheet";
 import { BreadcrumbProps, PanelProps, } from "@/lib/types";
 import { PanelLeft, X } from "lucide-react";
 import Link from "next/link";
