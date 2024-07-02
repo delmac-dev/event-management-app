@@ -11,3 +11,13 @@ export type OAuthProvider = {
     name: Provider,
     icon?: React.ElementType
 }
+
+export type PanelProps = {
+    name: string,
+    link: string
+}
+
+export type BreadcrumbProps = {
+    name: string,
+    link?: string
+}

@@ -1,16 +1,29 @@
-import { LinksProp, StarterLink } from "@/components/starter";
-import { _dashboardOrg } from "@/lib/routes";
+import { _dashboardOrg, _dashboardOrgs } from "@/lib/routes";
+import Breadcrumbs from "../(components)/breadcrumbs";
+import { BreadcrumbProps, PanelProps } from "@/lib/types";
 
-const data:LinksProp[] = [
-  {name: "orginsation one", link: _dashboardOrg("orginsation-one")},
-  {name: "orginsation two", link: _dashboardOrg("orginsation-two")},
-  {name: "orginsation three", link: _dashboardOrg("orginsation-three")},
-  {name: "orginsation four", link: _dashboardOrg("orginsation-four")},
+const content:BreadcrumbProps[] = [
+  { name: "Orginsations" }
+];
+
+const panel:PanelProps[] = [
+  { name: "Home", link: _dashboardOrgs},
+  { name: "Organisation", link: _dashboardOrgs},
+  { name: "Members", link: _dashboardOrgs},
+  { name: "Roles", link: _dashboardOrgs},
 ]
 
 export default async function DashboardOrganisations() {
 
   return (
-    <StarterLink links={data} isPrimary />
+    <>
+      <Breadcrumbs panel={panel} content={content} />
+      <section className="w-full max-w-8xl py-2 px-4">
+        <p className="text-2xl font-semibold">Organisations</p>
+      </section>
+      <section className="w-full max-w-8xl py-2 px-4">
+        <p className="text-sm">Filter</p>
+      </section>
+    </>
   );
 }
