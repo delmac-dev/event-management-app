@@ -5,13 +5,14 @@ import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { signOut } from "@/lib/actions";
-import { _dashboard, _events, _home, _organisations, _profile, _tickets } from "@/lib/routes";
+import { _dashboard, _events, _home, _join, _login, _organisations, _profile, _tickets } from "@/lib/routes";
 import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 import { User, UserMetadata } from "@supabase/supabase-js";
 import { Bell, ChevronDown, MenuIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const supabase = createClient();
@@ -25,7 +26,7 @@ const navLinks = [
 export default function Header () {
 
     return (
-        <header className="relative w-full h-12 border-b flex_center justify-between px-5 md:px-10">
+        <header className="relative w-full h-14 border-b flex_center justify-between px-5 md:px-10">
             <div className="flex gap-8 items-center">
                 <div className="flex gap-1 items-center">
                     <Logo />
@@ -44,6 +45,7 @@ export default function Header () {
 
 const HeaderOptions = () => {
     const [user, setUser] = useState<User | null>(null);
+    const router = useRouter();
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -63,12 +65,12 @@ const HeaderOptions = () => {
             {user ? (
                 <div className="flex gap-2">
                     <Notification />
-                    <ProfileAvatar user={user} />
+                    <ProfileAvatar user={user} setUser={setUser} />
                 </div>
             ): (
                 <div className="hidden md:flex gap-2">
-                    <Button variant={'outline'} size='sm' className="rounded-full">Login</Button>
-                    <Button size='sm' className="rounded-full">Sign Up</Button>
+                    <Button variant={'outline'} size='sm' className="rounded-full"  onClick={() => router.push(_login)}>Login</Button>
+                    <Button size='sm' className="rounded-full"  onClick={() => router.push(_join)}>Sign Up</Button>
                 </div>
             )}
             <MobileNav user={user} />
@@ -77,6 +79,8 @@ const HeaderOptions = () => {
 }
 
 const MobileNav = ({ user }:{ user:User|null }) => {
+    const router = useRouter();
+
     return (
         <div className="block md:hidden">
             <Sheet>
@@ -92,8 +96,8 @@ const MobileNav = ({ user }:{ user:User|null }) => {
                         ))}
                     </div>
                     <div className={cn(user? "hidden" : "absolute w-full bottom-4 left-0 flex flex-col gap-2 px-4")}>
-                        <Button variant={'outline'}>Login</Button>
-                        <Button>Sign Up</Button>
+                        <Button variant={'outline'} onClick={() => router.push(_login)}>Login</Button>
+                        <Button onClick={() => router.push(_join)}>Sign Up</Button>
                     </div>
                 </SheetContent>
             </Sheet>
@@ -101,7 +105,7 @@ const MobileNav = ({ user }:{ user:User|null }) => {
     )
 };
 
-const ProfileAvatar = ({ user }:{ user:User }) => {
+const ProfileAvatar = ({ user, setUser }:{ user:User, setUser: React.Dispatch<React.SetStateAction<User | null>>}) => {
     const userData:UserMetadata = user.user_metadata;
 
     return (
@@ -116,7 +120,15 @@ const ProfileAvatar = ({ user }:{ user:User }) => {
                 <Link href={_profile(user.id)} className="w-full rounded-sm p-2.5 text-sm hover:bg-secondary">My Profile</Link>
                 <Link href={_dashboard} className="w-full rounded-sm p-2.5 text-sm hover:bg-secondary">Dashboard</Link>
                 <form>
-                    <Button type="submit" formAction={async()=> await signOut()} className="mt-4">SignOut</Button>
+                    <Button 
+                        type="submit"  
+                        className="mt-4 w-full" 
+                        formAction={async()=> {
+                            await signOut();
+                            setUser(null);
+                        }}>
+                        SignOut
+                    </Button>
                 </form>
             </PopoverContent>
         </Popover>

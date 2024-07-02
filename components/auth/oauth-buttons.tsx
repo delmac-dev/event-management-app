@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import { OAuthProvider } from "@/lib/types";
 import { Button } from "../ui/button";
@@ -7,7 +7,7 @@ import GithubIcon from "../icons/github-icon";
 import { signInWithOAuth } from "@/lib/actions";
 
 
-export default async function OAuthProviders() {
+export default function OAuthProviders() {
     const providers:OAuthProvider[] = [
         {
             name: "github",
