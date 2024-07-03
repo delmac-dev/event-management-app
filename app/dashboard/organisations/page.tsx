@@ -1,7 +1,7 @@
 import { _dashboardOrg, _dashboardOrgs } from "@/lib/routes";
 import Breadcrumbs from "../(components)/breadcrumbs";
 import { BreadcrumbProps } from "@/lib/types";
-import { organisations } from "@/lib/constant";
+import { organisations } from "@/lib/constants";
 
 const content:BreadcrumbProps[] = [
   { name: "Organisations" }
