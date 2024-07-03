@@ -10,7 +10,7 @@ import React from "react";
 
 export default function Breadcrumbs({panel, content}: { panel?: PanelProps[], content: BreadcrumbProps[]}){
     return (
-        <section className="w-full max-w-7xl mx-auto h-9 flex_center justify-start px-2">
+        <section className="section py-0 h-9 flex_center justify-start px-2">
             {panel? <Panel panel={panel} /> : ''}
             <Breadcrumb>
                 <BreadcrumbList>
