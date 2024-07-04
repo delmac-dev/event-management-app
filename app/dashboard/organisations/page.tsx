@@ -1,20 +1,16 @@
-import { _dashboardOrg, _dashboardOrgs } from "@/lib/routes";
+import { _dashboardOrg } from "@/lib/routes";
 import Breadcrumbs from "../(components)/breadcrumbs";
-import { BreadcrumbProps, QueryProps } from "@/lib/types";
+import { QueryProps } from "@/lib/types";
 import { organisations } from "@/lib/constants";
 import Link from "next/link";
 import { NewOrganisationModal } from "../(forms)/new-organisation";
-
-const content:BreadcrumbProps[] = [
-  { name: "Organisations" }
-];
 
 export default async function DashboardOrganisations({ searchParams }: QueryProps) {
   const isOrgFormOpen = searchParams.new as unknown as boolean;
 
   return (
     <>
-      <Breadcrumbs content={content} />
+      <Breadcrumbs />
       <section className="section flex items-center justify-between">
         <p className="text-2xl font-semibold">Organisations</p>
         <NewOrganisationModal isOpen={isOrgFormOpen} />
