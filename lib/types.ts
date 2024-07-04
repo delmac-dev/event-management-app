@@ -13,8 +13,9 @@ export type OAuthProvider = {
 }
 
 export type PanelProps = {
-    name: string,
-    link: string
+    name: string;
+    link: string;
+    active: boolean;
 }
 
 export type BreadcrumbProps = {

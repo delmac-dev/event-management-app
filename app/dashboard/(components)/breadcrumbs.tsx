@@ -6,12 +6,18 @@ import { Sheet, SheetClose, SheetContent, SheetPortal, SheetTrigger } from "@/co
 import { BreadcrumbProps, PanelProps, } from "@/lib/types";
 import { PanelLeft, X } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import Panel from "./panel";
+import { usePathname } from "next/navigation";
+import { getPathSegments } from "@/lib/utils";
 
-export default function Breadcrumbs({panel, content}: { panel?: PanelProps[], content: BreadcrumbProps[]}){
+export default function Breadcrumbs({panel}: { panel?: PanelProps[] }){
+    const pathname = usePathname();
+    const content = getPathSegments(pathname);
+    content.shift();
     return (
         <section className="section py-0 h-9 flex_center justify-start px-2">
-            {panel? <Panel panel={panel} /> : ''}
+            {panel? <PanelWrapper panel={panel} /> : ''}
             <Breadcrumb>
                 <BreadcrumbList>
                     <BreadcrumbItem>
@@ -23,7 +29,7 @@ export default function Breadcrumbs({panel, content}: { panel?: PanelProps[], co
                             <BreadcrumbItem>
                                 {link ? (
                                     <BreadcrumbLink asChild>
-                                        <Link href="/">{ name }</Link>
+                                        <Link href={link}>{ name }</Link>
                                     </BreadcrumbLink>
                                 ): (
                                     <BreadcrumbPage>{ name }</BreadcrumbPage>
@@ -37,11 +43,12 @@ export default function Breadcrumbs({panel, content}: { panel?: PanelProps[], co
     )
 }
 
-const Panel = ({ panel }: { panel: PanelProps[] }) => {
+const PanelWrapper = ({ panel }: { panel: PanelProps[] }) => {
+    const [open, setOpen] = useState(false);
 
     return (
         <div className="lg:hidden pr-2 flex_center">
-            <Sheet>
+            <Sheet open={open} onOpenChange={setOpen}>
                 <SheetTrigger asChild>
                     <Button variant={'ghost'} size='sm' className="p-1">
                         <PanelLeft size={20} />
@@ -53,11 +60,7 @@ const Panel = ({ panel }: { panel: PanelProps[] }) => {
                             <X className="h-5 w-5" />
                             <span className="sr-only">Close</span>
                         </SheetClose>
-                        <div className="flex flex-col gap-0.5">
-                            {panel?.map(({name, link}, _i) => (
-                                <Link key={_i} href={link} className="w-full rounded-sm p-2.5 text-sm hover:bg-secondary capitalize">{name}</Link>
-                            ))}
-                        </div>
+                        <Panel panel={panel} onClick = {() => setOpen(false)}/>
                     </SheetContent>
                 </SheetPortal>
             </Sheet>
