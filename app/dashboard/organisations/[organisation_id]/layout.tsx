@@ -1,4 +1,4 @@
-import { _dashboardOrg, _dashboardOrgEvents, _dashboardOrgMembers, _dashboardOrgRoles } from "@/lib/routes";
+import { _dashboardOrg, _dashboardOrgEdit, _dashboardOrgEvents, _dashboardOrgMembers, _dashboardOrgRoles } from "@/lib/routes";
 import { PanelProps } from "@/lib/types";
 import Breadcrumbs from "../../(components)/breadcrumbs";
 import Panel from "../../(components)/panel";
@@ -14,6 +14,7 @@ export default function Layout({children, params}: Props) {
 
   const panel:PanelProps[] = [
     { name: "home", link: _dashboardOrg(organisationID), active: true },
+    { name: "edit", link: _dashboardOrgEdit(organisationID), active: true },
     { name: "events", link: _dashboardOrgEvents(organisationID), active: false },
     { name: "members", link: _dashboardOrgMembers(organisationID), active: false },
     { name: "roles", link: _dashboardOrgRoles(organisationID), active: false },
@@ -26,7 +27,7 @@ export default function Layout({children, params}: Props) {
         <aside className="hidden lg:flex w-64 min-h-[100vh-96px]">
           <Panel panel={panel} />
         </aside>
-        <aside className="min-w-0 flex-1 h-full px-2">
+        <aside className="min-w-0 flex-1 h-full px-2 pb-14">
           { children }
         </aside>
       </div>
