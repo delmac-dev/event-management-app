@@ -19,6 +19,7 @@ export const _dashboard = `/dashboard`;
 
 export const _dashboardEvents = `${_dashboard}/events`;
 export const _dashboardEvent = (eventId: string) => `${_dashboardEvents}/${eventId}`;
+export const _dashboardEventEdit = (eventId: string) => `${_dashboardEvent(eventId)}/edit`;
 export const _dashboardEventAttendees = (eventId: string) => `${_dashboardEvent(eventId)}/attendees`;
 export const _dashboardEventModerators = (eventId: string) => `${_dashboardEvent(eventId)}/moderators`;
 export const _dashboardEventRoles = (eventId: string) => `${_dashboardEvent(eventId)}/roles`;
@@ -26,7 +27,7 @@ export const _dashboardEventTickets = (eventId: string) => `${_dashboardEvent(ev
 
 export const _dashboardOrgs = `${_dashboard}/organisations`;
 export const _dashboardOrg = (orgId: string) => `${_dashboardOrgs}/${orgId}`;
-export const _dashboardOrgEdit = (orgId: string) => `${_dashboardOrgs}/${orgId}/edit`;
+export const _dashboardOrgEdit = (orgId: string) => `${_dashboardOrg(orgId)}/edit`;
 export const _dashboardOrgMembers = (orgId: string) => `${_dashboardOrg(orgId)}/members`;
 export const _dashboardOrgEvents = (orgId: string) => `${_dashboardOrg(orgId)}/events`;
 export const _dashboardOrgRoles = (orgId: string) => `${_dashboardOrg(orgId)}/roles`;

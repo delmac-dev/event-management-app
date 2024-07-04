@@ -11,6 +11,32 @@ export type OrgType = {
     is_verified: boolean;
 }
 
+export type EventType = {
+    id: string;
+    organisation_id: string;
+    organiser: string;
+    name: string;
+    headline: string;
+    about: string;
+    images: string[];
+    start_at: string;
+    end_at: string;
+    location: {
+        address: string;
+        city: string;
+        country: string;
+    };
+    faq: {[key: string] : string}[];
+    agenda: {[key: string] : string}[];
+    is_published: boolean;
+    has_started: boolean;
+    category: string[];
+    capacity: number;
+    event_type: string;
+    updated_at: string;
+    created_at: string;
+}
+
 export const organisations: OrgType[]= [
     {
         id: "187654321098765",
@@ -179,5 +205,113 @@ export const organisations: OrgType[]= [
         contact: "04563857843",
         category: ["academic"],
         is_verified: true
+    }
+];
+
+export const events: EventType[] = [
+    {
+        id: "e1f8a8de-78c1-4c1f-9b1a-7a3d9cbd0e4d",
+        organisation_id: "187654321098765",
+        organiser: "123456789012345",
+        name: "Tech Conference 2024",
+        headline: "Exploring Future Technologies",
+        about: "A conference dedicated to exploring and discussing the future of technology.",
+        images: ["/dddepth-150.jpg"],
+        start_at: "09:00:00",
+        end_at: "17:00:00",
+        location: { address: "Tech Hall, KNUST", city: "Kumasi", country: "Ghana" },
+        faq: [{ "What is the dress code?": "Business casual"}, {"Is registration required?": "Yes" }],
+        agenda: [{ "09:00": "Registration"}, {"10:00": "Keynote Speaker"}, {"12:00": "Lunch Break"}, {"14:00": "Panel Discussion" }],
+        is_published: true,
+        has_started: false,
+        category: ["technology", "conference"],
+        capacity: 300,
+        event_type: "conference",
+        updated_at: "2024-07-04T08:00:00Z",
+        created_at: "2024-07-04T08:00:00Z"
+    },
+    {
+        id: "e2b9c1ed-89d2-4d2f-a6c3-5b9a4cd8d2f6",
+        organisation_id: "298765432109876",
+        organiser: "234567890123456",
+        name: "Drama Festival 2024",
+        headline: "Celebrating Theatrical Arts",
+        about: "An annual festival showcasing various theatrical performances by students.",
+        images: ["/dddepth-164.jpg"],
+        start_at: "14:00:00",
+        end_at: "20:00:00",
+        location: { address: "Main Auditorium, KNUST", city: "Kumasi", country: "Ghana" },
+        faq: [{ "Are tickets free?": "Yes"}, {"Can I participate?": "Contact the organizer" }],
+        agenda: [{ "14:00": "Opening Ceremony"}, {"15:00": "First Performance"}, {"17:00": "Intermission"}, {"18:00": "Second Performance" }],
+        is_published: true,
+        has_started: false,
+        category: ["theater", "festival"],
+        capacity: 500,
+        event_type: "festival",
+        updated_at: "2024-07-04T08:00:00Z",
+        created_at: "2024-07-04T08:00:00Z"
+    },
+    {
+        id: "e3c8d2fe-9ad3-4e3f-b7d4-6c9b5dc8e3f7",
+        organisation_id: "309876543210987",
+        organiser: "345678901234567",
+        name: "Coding Bootcamp",
+        headline: "Learn to Code in 3 Days",
+        about: "An intensive bootcamp designed to teach beginners the fundamentals of programming.",
+        images: ["/dddepth-171.jpg"],
+        start_at: "08:00:00",
+        end_at: "16:00:00",
+        location: { address: "Computer Lab, KNUST", city: "Kumasi", country: "Ghana" },
+        faq: [{ "Do I need prior experience?": "No"}, {"What should I bring?": "Laptop and charger" }],
+        agenda: [{ "08:00": "Introduction"}, {"09:00": "First Session"}, {"12:00": "Lunch Break"}, {"13:00": "Second Session" }],
+        is_published: true,
+        has_started: false,
+        category: ["education", "workshop"],
+        capacity: 100,
+        event_type: "workshop",
+        updated_at: "2024-07-04T08:00:00Z",
+        created_at: "2024-07-04T08:00:00Z"
+    },
+    {
+        id: "e4d9e3ff-0be4-4f4f-c8e5-7d1b6ed9f4f8",
+        organisation_id: "420987654321098",
+        organiser: "456789012345678",
+        name: "Music Concert",
+        headline: "Live Performances by Top Bands",
+        about: "A night of live music performances by some of the best bands in the region.",
+        images: ["/dddepth-202.jpg"],
+        start_at: "18:00:00",
+        end_at: "23:00:00",
+        location: { address: "Outdoor Stage, KNUST", city: "Kumasi", country: "Ghana" },
+        faq: [{ "Is there an age limit?": "No"}, {"Can I bring food?": "Yes" }],
+        agenda: [{ "18:00": "Opening Act"}, {"19:00": "First Band"}, {"21:00": "Intermission"}, {"21:30": "Second Band" }],
+        is_published: true,
+        has_started: false,
+        category: ["music", "concert"],
+        capacity: 1000,
+        event_type: "concert",
+        updated_at: "2024-07-04T08:00:00Z",
+        created_at: "2024-07-04T08:00:00Z"
+    },
+    {
+        id: "e5eaf510-1cf5-4f5f-d9f6-8e2c7f1f5f9a",
+        organisation_id: "531098765432109",
+        organiser: "567890123456789",
+        name: "Environmental Workshop",
+        headline: "Sustainable Living Practices",
+        about: "A workshop on sustainable living practices and how to implement them in daily life.",
+        images: ["/dddepth-236.jpg"],
+        start_at: "10:00:00",
+        end_at: "15:00:00",
+        location: { address: "Green Hall, KNUST", city: "Kumasi", country: "Ghana" },
+        faq: [{ "Is there a fee?": "No", "What should I bring?": "Notebook and pen" }],
+        agenda: [{ "10:00": "Welcome"}, {"11:00": "First Session"}, {"13:00": "Lunch Break"}, {"14:00": "Second Session" }],
+        is_published: true,
+        has_started: false,
+        category: ["environment", "workshop"],
+        capacity: 150,
+        event_type: "workshop",
+        updated_at: "2024-07-04T08:00:00Z",
+        created_at: "2024-07-04T08:00:00Z"
     }
 ];
