@@ -2,10 +2,10 @@
 
 import Logo from "@/components/common/logo";
 import { Button } from "@/components/ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Sheet, SheetClose, SheetContent, SheetOverlay, SheetPortal, SheetTrigger } from "@/components/ui/sheet";
 import { signOut } from "@/lib/actions";
-import { _dashboardEvents, _dashboardOrgs, _dashboardProfile, _dashboardTickets, _login } from "@/lib/routes";
+import { _dashboardEvents, _dashboardNotifications, _dashboardOrgs, _dashboardProfile, _dashboardProfileEdit, _dashboardSettings, _dashboardTickets, _login } from "@/lib/routes";
 import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 import { User, UserMetadata } from "@supabase/supabase-js";
@@ -102,6 +102,7 @@ const MobileNav = () => {
 
 const ProfileAvatar = ({ user, setUser }:{ user:User | null, setUser: React.Dispatch<React.SetStateAction<User | null>>}) => {
     const userData:UserMetadata|null = user?.user_metadata ?? null;
+    const router = useRouter();
 
     return (
         <Popover>
@@ -120,32 +121,47 @@ const ProfileAvatar = ({ user, setUser }:{ user:User | null, setUser: React.Disp
                 </Button>
             </PopoverTrigger>
             <PopoverContent sideOffset={14} className="w-64 flex flex-col mr-4">
-                <Link href={_dashboardProfile} className="w-full rounded-sm p-2.5 text-sm hover:bg-secondary">My Profile</Link>
-                <Link href={_dashboardProfile} className="w-full rounded-sm p-2.5 text-sm hover:bg-secondary">Edit Profile</Link>
+                <PopoverClose asChild>
+                    <Link href={_dashboardProfile} className="w-full rounded-sm p-2.5 text-sm hover:bg-secondary">My Profile</Link>
+                </PopoverClose>
+                <PopoverClose asChild>
+                    <Link href={_dashboardProfileEdit} className="w-full rounded-sm p-2.5 text-sm hover:bg-secondary">Edit Profile</Link>
+                </PopoverClose>
                 <form>
-                    <Button 
-                        type="submit"  
-                        className="mt-4 w-full" 
-                        formAction={async()=> {
-                            await signOut();
-                            setUser(null);
-                        }}>
-                        SignOut
-                    </Button>
+                    <PopoverClose asChild>
+                        <Button 
+                            type="submit"  
+                            className="mt-4 w-full" 
+                            formAction={async()=> {
+                                await signOut();
+                                setUser(null);
+                                router.refresh();
+                            }}>
+                            SignOut
+                        </Button>
+                    </PopoverClose>
                 </form>
             </PopoverContent>
         </Popover>
     )
 }
 
-const Notification = () => (
-    <Button variant='outline' size='sm' className="aspect-square p-1.5 rounded-full">
-        <Bell size={20} />
-    </Button>
-)
+const Notification = () => {
+    const router = useRouter();
 
-const Setting = () => (
-    <Button variant='outline' size='sm' className="aspect-square p-1.5 rounded-full">
-        <Settings size={20} />
-    </Button>
-)
+    return (
+        <Button variant='outline' size='sm' className="aspect-square p-1.5 rounded-full" onClick={() => router.push(_dashboardNotifications)}>
+            <Bell size={20} />
+        </Button>
+    )
+}
+
+const Setting = () => {
+    const router = useRouter();
+
+    return (
+        <Button variant='outline' size='sm' className="aspect-square p-1.5 rounded-full" onClick={() => router.push(_dashboardSettings)}>
+            <Settings size={20} />
+        </Button>
+    )
+}

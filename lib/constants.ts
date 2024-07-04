@@ -37,6 +37,21 @@ export type EventType = {
     created_at: string;
 }
 
+export type TicketType = {
+    id: string;
+    user_id: string;
+    tickets_id: string;
+    has_account: boolean;
+    full_name: string;
+    email: string;
+    ticket_code: string;
+    hold_expire_in: string;
+    status: string;
+    payment_status: string;
+    updated_at: string;
+    created_at: string;
+}
+
 export const organisations: OrgType[]= [
     {
         id: "187654321098765",
@@ -315,3 +330,76 @@ export const events: EventType[] = [
         created_at: "2024-07-04T08:00:00Z"
     }
 ];
+
+export const tickets:TicketType[] = [
+    {
+      id: "1a2b3c4d-5e6f-7a8b-9c0d-1e2f3g4h5i6j",
+      user_id: "123e4567-e89b-12d3-a456-426614174000",
+      tickets_id: "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3g4h5i6j",
+      has_account: true,
+      full_name: "John Doe",
+      email: "john.doe@example.com",
+      ticket_code: "TCKT123456",
+      hold_expire_in: "2024-07-10T12:00:00Z",
+      status: "registered",
+      payment_status: "completed",
+      updated_at: "2024-07-04T08:00:00Z",
+      created_at: "2024-07-04T08:00:00Z"
+    },
+    {
+      id: "2b3c4d5e-6f7a-8b9c-0d1e-2f3g4h5i6j7k",
+      user_id: "123e4567-e89b-12d3-a456-426614174000",
+      tickets_id: "b2c3d4e5-f6a7-8b9c-0d1e-2f3g4h5i6j7k",
+      has_account: false,
+      full_name: "Jane Smith",
+      email: "jane.smith@example.com",
+      ticket_code: "TCKT654321",
+      hold_expire_in: "2024-07-11T12:00:00Z",
+      status: "checked-in",
+      payment_status: "completed",
+      updated_at: "2024-07-04T08:00:00Z",
+      created_at: "2024-07-04T08:00:00Z"
+    },
+    {
+      id: "3c4d5e6f-7a8b-9c0d-1e2f-3g4h5i6j7k8l",
+      user_id: "123e4567-e89b-12d3-a456-426614174000",
+      tickets_id: "c3d4e5f6-a7b8-9c0d-1e2f-3g4h5i6j7k8l",
+      has_account: true,
+      full_name: "Alice Johnson",
+      email: "alice.johnson@example.com",
+      ticket_code: "TCKT789012",
+      hold_expire_in: "2024-07-12T12:00:00Z",
+      status: "cancelled",
+      payment_status: "failed",
+      updated_at: "2024-07-04T08:00:00Z",
+      created_at: "2024-07-04T08:00:00Z"
+    },
+    {
+      id: "4d5e6f7a-8b9c-0d1e-2f3g-4h5i6j7k8l9m",
+      user_id: "123e4567-e89b-12d3-a456-426614174000",
+      tickets_id: "d4e5f6a7-b8c9-0d1e-2f3g-4h5i6j7k8l9m",
+      has_account: false,
+      full_name: "Bob Brown",
+      email: "bob.brown@example.com",
+      ticket_code: "TCKT345678",
+      hold_expire_in: "2024-07-13T12:00:00Z",
+      status: "no-show",
+      payment_status: "pending",
+      updated_at: "2024-07-04T08:00:00Z",
+      created_at: "2024-07-04T08:00:00Z"
+    },
+    {
+      id: "5e6f7a8b-9c0d-1e2f-3g4h-5i6j7k8l9m0n",
+      user_id: "123e4567-e89b-12d3-a456-426614174000",
+      tickets_id: "e5f6a7b8-c9d0-1e2f-3g4h-5i6j7k8l9m0n",
+      has_account: true,
+      full_name: "Charlie Davis",
+      email: "charlie.davis@example.com",
+      ticket_code: "TCKT901234",
+      hold_expire_in: "2024-07-14T12:00:00Z",
+      status: "registered",
+      payment_status: "pending",
+      updated_at: "2024-07-04T08:00:00Z",
+      created_at: "2024-07-04T08:00:00Z"
+    }
+  ];

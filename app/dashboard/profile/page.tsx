@@ -1,11 +1,11 @@
-import { QueryProps } from "@/lib/types";
 
-export default async function Profile({ params }: QueryProps) {
-  const profileID = params.profile_id;
+export default async function Profile() {
 
   return (
-    <div className="">
-      profile page
-    </div>
+    <>
+      <section className="overflow-hidden section_body my-1 bg-secondary h-72 rounded-lg p-0">
+        <img src="/dddepth-312.jpg" className="w-full h-full object-cover" />
+      </section>
+    </>
   );
 }

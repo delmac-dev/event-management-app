@@ -33,9 +33,11 @@ export const _dashboardOrgEvents = (orgId: string) => `${_dashboardOrg(orgId)}/e
 export const _dashboardOrgRoles = (orgId: string) => `${_dashboardOrg(orgId)}/roles`;
 
 export const _dashboardTickets = `${_dashboard}/tickets`;
+
 export const _dashboardProfile = `${_dashboard}/profile`;
-export const _dashboardNotifications = `${_dashboard}/notifications`;
-export const _dashboardSettings = `${_dashboard}/settings`;
+export const _dashboardProfileEdit = `${_dashboardProfile}/edit`;
+export const _dashboardNotifications = `${_dashboardProfile}/notifications`;
+export const _dashboardSettings = `${_dashboardProfile}/settings`;
 
 // company
 export const _company = '/company';
