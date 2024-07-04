@@ -15,7 +15,7 @@ export default function Panel({ panel, onClick }: { panel: PanelProps[], onClick
     }, [pathname]);
 
     return (
-        <div className="w-full h-full flex p-3">
+        <div className="w-full h-full flex px-1.5 lg:p-3">
             <ul className="flex-1">
                 {content?.map(({ name, link, active }, _id) => (
                     <li key={_id} className="my-2.5">

@@ -95,6 +95,9 @@
   }
 
   .section {
-    @apply w-full max-w-7xl mx-auto py-2 px-4
+    @apply w-full max-w-7xl mx-auto py-2
+  }
+  .section_body {
+    @apply w-full py-2 px-4
   }
 }

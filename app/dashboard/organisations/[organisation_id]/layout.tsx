@@ -26,7 +26,7 @@ export default function Layout({children, params}: Props) {
         <aside className="hidden lg:flex w-64 min-h-[100vh-96px]">
           <Panel panel={panel} />
         </aside>
-        <aside className="min-w-0 flex-1 h-full">
+        <aside className="min-w-0 flex-1 h-full px-2">
           { children }
         </aside>
       </div>

@@ -50,13 +50,13 @@ const PanelWrapper = ({ panel }: { panel: PanelProps[] }) => {
         <div className="lg:hidden pr-2 flex_center">
             <Sheet open={open} onOpenChange={setOpen}>
                 <SheetTrigger asChild>
-                    <Button variant={'ghost'} size='sm' className="p-1">
-                        <PanelLeft size={20} />
+                    <Button variant='ghost' className="w-8 h-8 p-0">
+                        <PanelLeft />
                     </Button>
                 </SheetTrigger>
                 <SheetPortal>
                     <SheetContent className="h-[calc(100vh-56px)] top-14 w-56 py-7 px-2 shadow-none border-r" side="left">
-                        <SheetClose className="absolute right-0 translate-x-1/2 p-2 top-6 rounded-full bg-background focus:outline-none shadow-md">
+                        <SheetClose className="absolute right-0 translate-x-1/2 p-2 top-2 rounded-full bg-background focus:outline-none shadow-md">
                             <X className="h-5 w-5" />
                             <span className="sr-only">Close</span>
                         </SheetClose>
