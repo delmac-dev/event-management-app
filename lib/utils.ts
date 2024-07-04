@@ -35,3 +35,7 @@ export const parsePanel = (pathname: string, panel: PanelProps[]) => {
     active: panelItem.link === pathname
   }));
 };
+
+export const findItem = (id: string, data: any[]) => {
+  return data.find(item => item.id === id);
+}

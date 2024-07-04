@@ -26,6 +26,7 @@ export const _dashboardEventTickets = (eventId: string) => `${_dashboardEvent(ev
 
 export const _dashboardOrgs = `${_dashboard}/organisations`;
 export const _dashboardOrg = (orgId: string) => `${_dashboardOrgs}/${orgId}`;
+export const _dashboardOrgEdit = (orgId: string) => `${_dashboardOrgs}/${orgId}/edit`;
 export const _dashboardOrgMembers = (orgId: string) => `${_dashboardOrg(orgId)}/members`;
 export const _dashboardOrgEvents = (orgId: string) => `${_dashboardOrg(orgId)}/events`;
 export const _dashboardOrgRoles = (orgId: string) => `${_dashboardOrg(orgId)}/roles`;
