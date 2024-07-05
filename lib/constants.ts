@@ -1,3 +1,5 @@
+import { User } from "@supabase/supabase-js";
+
 export type OrgType = {
     id: string;
     owner: string;
@@ -402,4 +404,56 @@ export const tickets:TicketType[] = [
       updated_at: "2024-07-04T08:00:00Z",
       created_at: "2024-07-04T08:00:00Z"
     }
-  ];
+];
+
+export const offlineUser: User = { 
+    "id": "0c7d5938-1ea2-4523-9520-fd969590b1c9", 
+    "aud": "authenticated", 
+    "role": "authenticated", 
+    "email": "delalitengue.dev@gmail.com", 
+    "email_confirmed_at": "2024-06-30T21:31:22.525419Z", 
+    "phone": "", 
+    "confirmed_at": "2024-06-30T21:31:22.525419Z", 
+    "last_sign_in_at": "2024-07-05T12:11:27.199207Z", 
+    "app_metadata": { "provider": "github", "providers": ["github"] }, 
+    "user_metadata": { 
+        "avatar_url": "https://avatars.githubusercontent.com/u/136045782?v=4", 
+        "email": "delalitengue.dev@gmail.com", 
+        "email_verified": true, 
+        "full_name": "Delali Tengue", 
+        "iss": "https://api.github.com", 
+        "name": "Delali Tengue", 
+        "phone_verified": false, 
+        "preferred_username": "delmac-dev", 
+        "provider_id": "136045782", 
+        "sub": "136045782", 
+        "user_name": "delmac-dev" 
+    }, 
+    "identities": [
+        { 
+            "identity_id": "d51eb44a-3efb-443c-bf22-db3132af43fd", 
+            "id": "136045782", 
+            "user_id": "0c7d5938-1ea2-4523-9520-fd969590b1c9", 
+            "identity_data": { 
+                "avatar_url": "https://avatars.githubusercontent.com/u/136045782?v=4", 
+                "email": "delalitengue.dev@gmail.com", 
+                "email_verified": true, 
+                "full_name": "Delali Tengue", 
+                "iss": "https://api.github.com", 
+                "name": "Delali Tengue", 
+                "phone_verified": false, 
+                "preferred_username": "delmac-dev", 
+                "provider_id": "136045782", 
+                "sub": "136045782", 
+                "user_name": "delmac-dev" 
+            }, 
+            "provider": "github", 
+            "last_sign_in_at": "2024-06-30T21:31:22.520695Z", 
+            "created_at": "2024-06-30T21:31:22.520745Z", 
+            "updated_at": "2024-07-05T12:11:08.685497Z",
+        }
+    ], 
+    "created_at": "2024-06-30T21:31:22.51676Z", 
+    "updated_at": "2024-07-05T12:11:27.221304Z", 
+    "is_anonymous": false 
+}

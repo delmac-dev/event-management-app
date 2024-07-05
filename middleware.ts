@@ -1,17 +1,18 @@
 import { type NextRequest } from "next/server";
 import { updateSession } from "./lib/supabase/middleware";
-import { _dashboard, _join, _login } from "./lib/routes";
+import { _dashboard,  _login } from "./lib/routes";
+import { offlineUser } from "./lib/constants";
 
 export async function middleware(request: NextRequest) {
   const { response, supabase } = await updateSession(request);
   // const { data: user } = await supabase.auth.getUser();
-  const user = {user:null};
+  const user = {user: offlineUser};
   const url = request.nextUrl.clone();
   const pathname = url.pathname;
   const params = url.searchParams;
   const hasParams = params.size != 0;
   const redirectTo = encodeURIComponent(`${pathname}${hasParams? `?${params.toString()}`: ''}`);
-  const isAuth = pathname.startsWith(_login) || pathname.startsWith(_join);
+  const isAuth = pathname.startsWith(_login);
   const isProtected = pathname.startsWith(_dashboard);
   const isPublic = /^\/(events|organisations|tickets|profile|api)|\/$/.test(pathname);
 

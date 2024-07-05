@@ -28,4 +28,5 @@ export const signInWithOAuth = async (provider: Provider) =>  {
 export const signOut = async () => {
   const supabase = createClient();
   const { error } =  await supabase.auth.signOut();
+  if(!error) redirect(_login);
 }

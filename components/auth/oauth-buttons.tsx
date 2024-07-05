@@ -30,7 +30,7 @@ export default function OAuthProviders() {
                     formAction={async ()=> await signInWithOAuth(provider.name)}
                 >
                     {provider.icon? <provider.icon /> : ''}
-                    Sign In With {provider.name}
+                    Continue With {provider.name}
                 </Button>
             ))}
         </>
