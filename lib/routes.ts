@@ -1,7 +1,6 @@
 
 // auth
 export const _login = '/auth/login';
-export const _join = '/auth/join';
 
 // public
 export const _home = '/';
@@ -12,7 +11,6 @@ export const _organisations = '/organisations';
 export const _organisation = (slug: string) => `${_organisations}/${slug}`;
 export const _tickets = '/tickets';
 export const _ticket = (ticketCode: string) => `${_tickets}/${ticketCode}`;
-export const _profile = (profileId: string) => `/profile/${profileId}`;
 
 // private
 export const _dashboard = `/dashboard`;
