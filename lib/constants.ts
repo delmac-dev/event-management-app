@@ -457,3 +457,46 @@ export const offlineUser: User = {
     "updated_at": "2024-07-05T12:11:27.221304Z", 
     "is_anonymous": false 
 }
+
+export const faqs = [
+    {
+        "question": "How do I create a new event on CampusEvents?",
+        "answer": "To create a new event, log in to your account, click on the 'Create Event' button, fill in the event details, and submit. Your event will then be listed on the platform."
+    },
+    {
+        "question": "Can I promote my event through CampusEvents?",
+        "answer": "Yes, you can promote your event by using our integrated promotion tools, which include social media sharing, email invitations, and featured listings."
+    },
+    {
+        "question": "How do I purchase tickets for an event?",
+        "answer": "To purchase tickets, go to the event page, select the number of tickets you want, and complete the payment process using our secure checkout system."
+    },
+    {
+        "question": "Is there a fee for using CampusEvents?",
+        "answer": "CampusEvents charges a small fee for event organizers to list and promote their events. Attendees may also incur a service fee when purchasing tickets."
+    },
+    {
+        "question": "How can I cancel an event I created?",
+        "answer": "To cancel an event, go to your event dashboard, select the event you want to cancel, and click the 'Cancel Event' button. You will need to confirm the cancellation."
+    },
+    {
+        "question": "Can I get a refund for a ticket I purchased?",
+        "answer": "Refund policies vary by event. Please check the event's refund policy on the event page. If refunds are allowed, you can request one through your ticket purchase history."
+    },
+    {
+        "question": "How do I contact event organizers?",
+        "answer": "You can contact event organizers by visiting the event page and clicking the 'Contact Organizer' button. This will allow you to send a message directly to the organizer."
+    },
+    {
+        "question": "Can I volunteer to help with events?",
+        "answer": "Yes, some events may offer volunteer opportunities. Check the event details for volunteer information or contact the event organizer directly."
+    },
+    {
+        "question": "How do I update my event details after it's been published?",
+        "answer": "To update event details, go to your event dashboard, select the event you want to edit, and make the necessary changes. Remember to save your updates."
+    },
+    {
+        "question": "Is my personal information secure on CampusEvents?",
+        "answer": "Yes, CampusEvents takes your privacy and security seriously. We use industry-standard encryption and security measures to protect your personal information."
+    }
+]

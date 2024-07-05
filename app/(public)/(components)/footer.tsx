@@ -34,8 +34,8 @@ const footerLinks = [
 
 const Footer = () => {
   return ( 
-    <footer className="w-full py-8 px-4 border-t">
-        <div className="w-full max-w-8xl mx-auto flex items-start lg:flex-row flex-col-reverse gap-8 lg:gap-24">
+    <footer className="main_container py-8 px-4 border-t">
+        <div className="w-full max-w-screen-xl mx-auto flex items-start lg:flex-row flex-col-reverse gap-8 lg:gap-24">
             <div className="w-full max-w-md">
                 <div className="flex items-center gap-2 mb-1">
                     <Logo />

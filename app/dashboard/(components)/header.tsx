@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-const supabase = createClient();
+// const supabase = createClient();
 
 const navLinks = [
     { name: "organisations",link: _dashboardOrgs },
@@ -43,15 +43,15 @@ const HeaderOptions = () => {
     const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
-        const fetchUser = async () => {
-            const { data, error } = await supabase.auth.getUser();
-            if (error) {
-                console.error('Error fetching user:', error.message);
-                toast("Error fetching user");
-                return;
-            }
-            setUser(data.user);
-        };
+        // const fetchUser = async () => {
+        //     const { data, error } = await supabase.auth.getUser();
+        //     if (error) {
+        //         console.error('Error fetching user:', error.message);
+        //         toast("Error fetching user");
+        //         return;
+        //     }
+        //     setUser(data.user);
+        // };
         
         // fetchUser();
         setUser(offlineUser);

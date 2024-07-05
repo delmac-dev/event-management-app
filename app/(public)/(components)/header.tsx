@@ -15,7 +15,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-const supabase = createClient();
+// const supabase = createClient();
 
 const navLinks = [
     { name: "events",link: _events },
@@ -30,17 +30,15 @@ const actionLinks = [
 
 export default function Header () {
     return (
-        <header className="relative w-full h-14 border-b flex_center justify-between pl-3 max-lg:pr-1.5 pr-3">
-            <div className="flex gap-8 items-center">
-                <div className="flex gap-1 items-center">
-                    <Logo />
-                    <Link href={_home} className="text-sm font-semibold">CampusEvents</Link>
-                </div>
-                <div className="hidden md:flex gap-4">
-                    {navLinks.map(({name, link}, _i) => (
-                        <Link key={_i} href={link} className="font-medium text-sm capitalize">{name}</Link>
-                    ))}
-                </div>
+        <header className="main_container h-14 border-b flex_center justify-between pl-3 max-lg:pr-1.5 pr-3">
+            <div className="flex gap-1 items-center">
+                <Logo />
+                <Link href={_home} className="text-sm font-semibold">CampusEvents</Link>
+            </div>
+            <div className="hidden md:flex items-center gap-4">
+                {navLinks.map(({name, link}, _i) => (
+                    <Link key={_i} href={link} className="font-medium text-sm capitalize">{name}</Link>
+                ))}
             </div>
             <HeaderOptions />
         </header>
@@ -51,15 +49,15 @@ const HeaderOptions = () => {
     const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
-        const fetchUser = async () => {
-            const { data, error } = await supabase.auth.getUser();
-            if (error) {
-                console.error('Error fetching user:', error.message);
-                toast("Error fetching user");
-                return;
-            }
-            setUser(data.user);
-        };
+        // const fetchUser = async () => {
+        //     const { data, error } = await supabase.auth.getUser();
+        //     if (error) {
+        //         console.error('Error fetching user:', error.message);
+        //         toast("Error fetching user");
+        //         return;
+        //     }
+        //     setUser(data.user);
+        // };
         
         // fetchUser();
         setUser(offlineUser);
