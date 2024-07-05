@@ -4,7 +4,8 @@ import { _dashboard, _join, _login } from "./lib/routes";
 
 export async function middleware(request: NextRequest) {
   const { response, supabase } = await updateSession(request);
-  const { data: user } = await supabase.auth.getUser();
+  // const { data: user } = await supabase.auth.getUser();
+  const user = {user:null};
   const url = request.nextUrl.clone();
   const pathname = url.pathname;
   const params = url.searchParams;
