@@ -23,7 +23,7 @@ export default function ProfileAvatar({ user }: {user:User | null}) {
         <Popover>
             <PopoverTrigger asChild>
                 <Button variant="outline" size='sm' className="flex items-center gap-2 rounded-full p-1.5">
-                    {/* {userData && 
+                    {userData && 
                         <Image 
                             src={userData["avatar_url"]} 
                             height={40} 
@@ -31,7 +31,7 @@ export default function ProfileAvatar({ user }: {user:User | null}) {
                             alt="avatar" 
                             className="w-7 h-7 rounded-full" 
                         />
-                    } */}
+                    }
                     <ChevronDown size={16} />
                 </Button>
             </PopoverTrigger>
