@@ -30,7 +30,7 @@ const actionLinks = [
 
 export default function Header () {
     return (
-        <header className="relative w-full h-14 border-b flex_center justify-between px-5 md:px-10">
+        <header className="relative w-full h-14 border-b flex_center justify-between pl-3 max-lg:pr-1.5 pr-3">
             <div className="flex gap-8 items-center">
                 <div className="flex gap-1 items-center">
                     <Logo />
