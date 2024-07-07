@@ -500,3 +500,10 @@ export const faqs = [
         "answer": "Yes, CampusEvents takes your privacy and security seriously. We use industry-standard encryption and security measures to protect your personal information."
     }
 ]
+
+export const categories = [
+    "seminar", "workshop", "conference", "cultural event", "wellness program", 
+    "concert", "exibition", "film screening", "comedy show", "tournament", 
+    "fitness class", "games", "recreational", "career fair", "charity", "orientation", 
+    'campus tour', "open house", "fundraiser",
+] as const;

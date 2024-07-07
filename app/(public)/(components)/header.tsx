@@ -30,7 +30,7 @@ const actionLinks = [
 
 export default function Header () {
     return (
-        <header className="main_container h-14 border-b flex_center justify-between pl-3 max-lg:pr-1.5 pr-3">
+        <header className="sticky bg-background main_container top-0 left-0 h-14 border-b flex_center justify-between pl-3 max-lg:pr-1.5 pr-3">
             <div className="flex gap-1 items-center">
                 <Logo />
                 <Link href={_home} className="text-sm font-semibold">CampusEvents</Link>

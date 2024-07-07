@@ -91,11 +91,15 @@
   }
 
   .main_container {
-    @apply relative w-full max-w-screen-3xl mx-auto;
+    @apply w-full max-w-screen-3xl mx-auto;
   }
 
   .sub_container {
-    @apply relative w-full max-w-screen-2xl mx-auto px-4;
+    @apply w-full max-w-screen-2xl mx-auto px-4;
+  }
+
+  .events_page_h {
+    @apply min-h-[calc(100vh-56px)];
   }
 
   .flex_center {

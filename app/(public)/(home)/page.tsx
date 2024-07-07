@@ -3,6 +3,8 @@ import Footer from "../(components)/footer";
 import Header from "../(components)/header";
 import { ArrowRight } from "lucide-react";
 import Faqs from "../(components)/faqs";
+import Link from "next/link";
+import { _dashboardEvents } from "@/lib/routes";
 
 const features = [
   {
@@ -33,7 +35,9 @@ export default async function Index() {
             Effortlessly manage and participate in campus events with our intuitive and comprehensive platform, simplifying the process of organizing, promoting, and attending events all in one convenient place.
           </p>
           <Button size="sm" className="group mt-7">
-            Start An Event Now 
+            <Link href={`${_dashboardEvents}?new=true`}>
+              Start An Event Now 
+            </Link>
             <ArrowRight size={16} className="ml-2 group-hover:translate-x-0.5 transition-transform" />
           </Button>
           <div className="w-full max-w-6xl rounded-lg bg-secondary aspect-video mt-7"></div>
@@ -52,7 +56,7 @@ export default async function Index() {
           </div>
         </div>
       </section>
-      <section className="main_container py-10">
+      <section className="main_container py-16">
         <div className="sub_container">
           <h1 className="font-semibold text-3xl text-center">Have Any Question About CampusEvents?</h1>
           <div className="w-full mt-7 flex_center">
