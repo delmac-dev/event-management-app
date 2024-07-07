@@ -6,7 +6,7 @@ export const _login = '/auth/login';
 export const _home = '/';
 export const _events = '/events';
 export const _event = (slug: string) => `${_events}/${slug}`;
-export const _joinEvent = (slug: string) => `${_event(slug)}/join`;
+export const _attendEvent = (slug: string) => `${_event(slug)}/attend`;
 export const _organisations = '/organisations';
 export const _organisation = (slug: string) => `${_organisations}/${slug}`;
 export const _tickets = '/tickets';

@@ -2,6 +2,7 @@
 
 import Logo from "@/components/common/logo";
 import MobileNavigation from "@/components/common/mobile-navigation";
+import Notifications from "@/components/common/notification-button";
 import ProfileAvatar from "@/components/common/profile-avatar";
 import { Button } from "@/components/ui/button";
 import { offlineUser } from "@/lib/constants";
@@ -9,7 +10,6 @@ import { _dashboard, _dashboardEvents, _events, _home, _login, _tickets } from "
 import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 import { User } from "@supabase/supabase-js";
-import { Bell } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -67,7 +67,7 @@ const HeaderOptions = () => {
         <div className="flex gap-1.5 items-center">
             {user ? (
                 <div className="flex gap-2">
-                    <Notification />
+                    <Notifications />
                     <ProfileAvatar user={user} />
                 </div>
             ): (
@@ -103,9 +103,3 @@ const ActionButtons = ({isMobile = false} : {isMobile?: boolean}) => {
         </>
     )
 }
-
-const Notification = () => (
-    <Button variant='outline' size='sm' className="aspect-square p-1.5 rounded-full">
-        <Bell size={20} />
-    </Button>
-)

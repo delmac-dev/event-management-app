@@ -2,15 +2,13 @@
 
 import Logo from "@/components/common/logo";
 import MobileNavigation from "@/components/common/mobile-navigation";
+import Notifications from "@/components/common/notification-button";
 import ProfileAvatar from "@/components/common/profile-avatar";
-import { Button } from "@/components/ui/button";
 import { offlineUser } from "@/lib/constants";
-import { _dashboardEvents, _dashboardNotifications, _dashboardOrgs, _dashboardTickets, _home } from "@/lib/routes";
+import { _dashboardEvents, _dashboardOrgs, _dashboardTickets, _home } from "@/lib/routes";
 import { createClient } from "@/lib/supabase/client";
 import { User } from "@supabase/supabase-js";
-import { Bell } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -66,15 +64,5 @@ const HeaderOptions = () => {
             </div>
             <MobileNavigation navLinks={navLinks} />
         </div>
-    )
-}
-
-const Notifications = () => {
-    const router = useRouter();
-
-    return (
-        <Button variant='outline' size='sm' className="aspect-square p-1.5 rounded-full" onClick={() => router.push(_dashboardNotifications)}>
-            <Bell size={20} />
-        </Button>
     )
 }
