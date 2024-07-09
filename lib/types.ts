@@ -12,13 +12,8 @@ export type OAuthProvider = {
     icon?: React.ElementType
 }
 
-export type PanelProps = {
+export type NavigationProps = {
     name: string;
     link: string;
     active: boolean;
-}
-
-export type BreadcrumbProps = {
-    name: string,
-    link?: string
 }

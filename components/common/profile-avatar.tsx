@@ -10,8 +10,7 @@ import Link from "next/link";
 import SignOutButton from "../auth/signout-button";
 
 const linkList = [
-    {name: "My Profile", link: _dashboardProfile},
-    {name: "Edit Profile", link: _dashboardProfileEdit},
+    {name: "My Profile", link: _dashboardProfileEdit},
     {name: "Settings", link: _dashboardSettings},
     {name: "My Tickets", link: _dashboardTickets},
 ]

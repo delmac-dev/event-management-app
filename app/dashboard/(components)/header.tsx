@@ -22,7 +22,7 @@ const navLinks = [
 
 export default function Header () {
     return (
-        <header className="sticky top-0 left-0 w-full bg-background h-14 border-b flex_center justify-between">
+        <header className="main_container sticky top-0 left-0 bg-background h-14 border-b flex_center justify-between">
             <div className="flex gap-1 h-full items-center px-3 border-r">
                 <Logo />
                 <Link href={_home} className="text-sm font-semibold hidden lg:block">CampusEvents</Link>

@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
-import { BreadcrumbProps, PanelProps } from "./types";
+import { NavigationProps } from "./types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -14,25 +14,10 @@ export function getUrl(link: string = '') {
     return `${origin}${link}`;
 }
 
-export const getPathSegments = (pathname: string) => {
-  const pathSegments = pathname.split('/').filter(segment => segment !== '');
-
-  let accumulatedPath = '';
-  const segmentedList = pathSegments.map(segment => {
-    accumulatedPath += `/${segment}`;
-    return {
-      name: segment,
-      link: accumulatedPath,
-    };
-  });
-
-  return segmentedList;
-};
-
-export const parsePanel = (pathname: string, panel: PanelProps[]) => {
-  return panel.map(panelItem => ({
-    ...panelItem,
-    active: panelItem.link === pathname
+export const parseNavigation = (pathname: string, navigation: NavigationProps[]) => {
+  return navigation.map(navigationItem => ({
+    ...navigationItem,
+    active: navigationItem.link === pathname
   }));
 };
 
