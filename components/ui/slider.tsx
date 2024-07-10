@@ -19,7 +19,7 @@ const Slider = React.forwardRef<
       <SliderPrimitive.Range className="absolute h-full bg-muted-foreground" />
     </SliderPrimitive.Track>
     {value?.map((_, _id) => (
-      <SliderPrimitive.Thumb key={_id} className="block h-3.5 w-3.5 rounded-full cursor-pointer border-2 border-muted-foreground bg-muted ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-muted-foreground focus-visible:ring-offset-1 disabled:pointer-events-none disabled:opacity-50" />
+      <SliderPrimitive.Thumb key={_id} className="block h-3.5 w-3.5 rounded-full cursor-pointer border-2 border-none bg-muted-foreground ring-offset-muted-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-muted-foreground focus-visible:ring-offset-1 disabled:pointer-events-none disabled:opacity-50" />
     ))}
   </SliderPrimitive.Root>
 ))

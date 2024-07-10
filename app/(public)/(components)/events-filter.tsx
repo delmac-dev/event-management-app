@@ -106,7 +106,7 @@ const CategoryItem = ({item}: {item: string}) => {
             control={control}
             name="categories"
             render={({ field }) => (
-                <FormItem key={item} className="group flex_center px-2 py-1.5 rounded-full bg-secondary space-y-0 border border-transparent has-[:checked]:border-border cursor-pointer transition-all">
+                <FormItem key={item} className="group flex_center px-2 py-1.5 rounded-full bg-secondary/80 space-y-0 border border-transparent has-[:checked]:border-border cursor-pointer transition-all">
                     <Checkbox
                         id={item}
                         className="hidden"
