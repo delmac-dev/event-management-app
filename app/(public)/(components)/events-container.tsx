@@ -5,7 +5,7 @@ import EventCard from "./event-card";
 
 export default function EevntsContainer () {
      return (
-        <div className="w-full p-4 pb-16 flex flex-col gap-4">
+        <div className="w-full grid grid-cols-2 gap-x-1.5 gap-y-3">
             {events.map((event, _id) => (
                 <EventCard key={_id} {...event} />
             ))}

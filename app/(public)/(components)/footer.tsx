@@ -50,7 +50,7 @@ const Footer = () => {
                         <ul className="flex flex-col gap-1">
                             {links.map(({ name, link }, _i) => (
                                 <li key={_i}>
-                                    <Link href={link} className="capitalize text-sm font-medium hover:underline underline-offset-2">
+                                    <Link href={link} className="capitalize text-sm font-normal hover:underline underline-offset-2">
                                         {name}
                                     </Link>
                                 </li>
