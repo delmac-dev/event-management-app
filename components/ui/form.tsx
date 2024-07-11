@@ -25,6 +25,16 @@ type FormFieldContextValue
 
 const FormFieldContext = React.createContext<FormFieldContextValue>(
   {} as FormFieldContextValue
+);
+
+type FormFieldContextProviderProps = FormFieldContextValue & {
+  children: React.ReactNode
+}
+
+const FormFieldContextProvider = (props: FormFieldContextProviderProps) => (
+  <FormFieldContext.Provider value={{ name: props.name }}>
+    {props.children}
+  </FormFieldContext.Provider>
 )
 
 const FormField = 
@@ -32,9 +42,9 @@ const FormField =
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>>
   ({ ...props}: ControllerProps<TFieldValues, TName>) => {
   return (
-    <FormFieldContext.Provider value={{ name: props.name }}>
+    <FormFieldContextProvider name={props.name}>
       <Controller {...props} />
-    </FormFieldContext.Provider>
+    </FormFieldContextProvider>
   )
 }
 
@@ -162,6 +172,7 @@ const FormMessage = React.forwardRef<
 FormMessage.displayName = "FormMessage"
 
 export {
+  FormFieldContextProvider,
   useFormField,
   Form,
   FormItem,
