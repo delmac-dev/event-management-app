@@ -1,7 +1,7 @@
 import { _dashboardOrg } from "@/lib/routes";
 import { QueryProps } from "@/lib/types";
 import { organisations } from "@/lib/constants";
-import { NewOrganisationModal } from "../(forms)/new-organisation";
+import { NewOrganisationModal } from "../(forms)/new-organisation-form";
 import BodyHeader from "../(components)/body-header";
 import BodyContent from "../(components)/body-content";
 import OrganisationCard from "../(components)/organisation-card";

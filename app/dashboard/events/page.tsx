@@ -1,6 +1,6 @@
 import { _dashboardEvent } from "@/lib/routes";
 import { QueryProps } from "@/lib/types";
-import { NewEventModal } from "../(forms)/new-event";
+import { NewEventModal } from "../(forms)/new-event-form";
 import { events } from "@/lib/constants";
 import BodyHeader from "../(components)/body-header";
 import BodyContent from "../(components)/body-content";

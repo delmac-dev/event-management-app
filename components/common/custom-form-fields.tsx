@@ -4,16 +4,21 @@ import { Input } from "../ui/input";
 import { useController } from "react-hook-form";
 import { Slider } from "../ui/slider";
 import { Checkbox } from "../ui/checkbox";
-import { Check, UploadCloud } from "lucide-react";
+import { Check, CheckIcon, ChevronsUpDown, UploadCloud } from "lucide-react";
 import { Label } from "../ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { useRef } from "react";
 import Image from "next/image";
+import { Button } from "../ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "../ui/command";
+import { Textarea } from "../ui/textarea";
 
 type CommonProps = {
     name: string,
     label?: string,
     description?: string,
+    disabled?: boolean,
     showError?: boolean,
 }
 
@@ -43,6 +48,23 @@ type SelectInputProps = CommonProps & {
 type ImageInputProps = CommonProps & {
 }
 
+type ComboInputProps = CommonProps & {
+    list: {
+        id: string,
+        label: string
+    }[],
+    placeHolder?: string,
+    searchPlaceHolder?: string,
+    emptyText?: string,
+    isLoading?: boolean,
+}
+
+type TextareaInputProps = CommonProps & {
+    placeHolder?: string,
+    cols?: number,
+    rows?: number
+}
+
 const CustomFieldWrapper = (props:CustomFieldWrapperProps) => {
     const {name, label, className, description, showError = false, children } = props;
     return (
@@ -66,6 +88,7 @@ export const TextInput = (props: TextInputProps) => {
         icon,
         name, 
         label, 
+        disabled=false,
         description, 
         showError, 
         placeHolder="Text Here"
@@ -79,7 +102,7 @@ export const TextInput = (props: TextInputProps) => {
         <CustomFieldWrapper {...wrapperProps}>
             <div className="relative space-y-0 z-0">
                 <FormControl>
-                    <Input {...field} placeholder={placeHolder} className={cn(IconComponent && "pl-8")}/>
+                    <Input {...field} placeholder={placeHolder} disabled={disabled} className={cn(IconComponent && "pl-8")}/>
                 </FormControl>
                 {IconComponent && (
                     <IconComponent 
@@ -97,6 +120,7 @@ export const SliderRangeInput = (props: SliderRangeInputProps) => {
         max = 10000,
         name, 
         label, 
+        disabled=false,
         description, 
         showError,
     } = props;
@@ -110,6 +134,7 @@ export const SliderRangeInput = (props: SliderRangeInputProps) => {
                 <FormControl>
                     <Slider
                         value={field.value} 
+                        disabled={disabled}
                         max={max} 
                         step={1} 
                         minStepsBetweenThumbs={100}
@@ -126,6 +151,7 @@ export const CheckListInput = (props: CheckListInputProps) => {
         list,
         name, 
         label, 
+        disabled=false,
         description, 
         showError,
     } = props;
@@ -146,6 +172,7 @@ export const CheckListInput = (props: CheckListInputProps) => {
                             <Checkbox
                                 id={item}
                                 className="hidden"
+                                disabled={disabled}
                                 checked={field.value?.includes(item)}
                                 onCheckedChange={(checked: boolean) => ( checked ? 
                                     field.onChange([...field.value, item]) :
@@ -169,6 +196,7 @@ export const SelectInput = (props: SelectInputProps) => {
         list,
         name, 
         label, 
+        disabled=false,
         description, 
         showError, 
         placeHolder="Select Something"
@@ -179,7 +207,7 @@ export const SelectInput = (props: SelectInputProps) => {
 
     return (
         <CustomFieldWrapper {...wrapperProps}>
-            <Select onValueChange={field.onChange} defaultValue={field.value}>
+            <Select onValueChange={field.onChange} defaultValue={field.value} disabled={disabled}>
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder={placeHolder} />
@@ -195,10 +223,64 @@ export const SelectInput = (props: SelectInputProps) => {
     )
 };
 
+export const ComboInput = (props: ComboInputProps) => {
+    const {
+        list,
+        isLoading=false,
+        name, 
+        label, 
+        disabled=false,
+        description, 
+        showError, 
+        emptyText="No Data found.",
+        placeHolder="Select",
+        searchPlaceHolder="Search..."
+
+    } = props;
+
+    const wrapperProps = {name, label, description, showError};
+    const { field } = useController({name});
+
+    return (
+        <CustomFieldWrapper {...wrapperProps}>
+            <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      disabled={disabled}
+                      className={cn("w-[200px] justify-between", !field.value && "text-muted-foreground")}
+                    >
+                      {field.value? list.find((item) => item.id === field.value)?.label : placeHolder}
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-[200px] p-0">
+                  <Command>
+                    <CommandInput placeholder={searchPlaceHolder} className="h-9" />
+                    <CommandEmpty>{emptyText}</CommandEmpty>
+                    <CommandGroup>
+                      {list.map((item) => (
+                        <CommandItem key={item.id} value={item.label} onSelect={() => field.onChange(item.id)}>
+                          {item.label}
+                          <CheckIcon className={cn("ml-auto h-4 w-4", item.id === field.value ? "opacity-100": "opacity-0")}/>
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+        </CustomFieldWrapper>
+    )
+};
+
 export const ImageInput = (props: ImageInputProps) => {
     const {
         name, 
         label, 
+        disabled,
         description, 
         showError,
     } = props;
@@ -239,6 +321,36 @@ export const ImageInput = (props: ImageInputProps) => {
     )
 };
 
+export const TextareaInput = (props: TextareaInputProps) => {
+    const {
+        cols=32,
+        rows=24,
+        name, 
+        label, 
+        disabled=false,
+        description, 
+        showError, 
+        placeHolder="Text Here"
+    } = props;
+
+    const wrapperProps = {name, label, description, showError};
+    const { field } = useController({name});
+    return (
+        <CustomFieldWrapper {...wrapperProps}>
+            <FormControl>
+                <Textarea
+                    disabled={disabled}
+                    placeholder={placeHolder}
+                    cols={cols}
+                    rows={rows}
+                    className="resize-none"
+                    {...field}
+                />
+            </FormControl>
+        </CustomFieldWrapper>
+    )
+};
+
 export const DigitInput = () => {};
 
 export const TimeInput = () => {};
@@ -248,8 +360,6 @@ export const DateInput = () => {};
 export const SwitchInput = () => {};
 
 export const RadioGroupInput = () => {};
-
-export const ComboInput = () => {};
 
 export const RadioSelectInput = () => {};
 
