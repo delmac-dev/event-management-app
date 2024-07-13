@@ -2,13 +2,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { Form } from "../ui/form";
+import { Form } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
-import { Tabs, TabsContent } from "../ui/tabs";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { Button } from "../ui/button";
-import { ArrowLeft, ArrowRight, Image, PenBoxIcon, Timer } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import React, { useState } from "react";
-import { TextInput } from "../common/custom-form-fields";
+import { TextareaInput, TextInput } from "@/components/common/custom-form-fields";
 
 const FormSchema = z.object({
     organisation_id: z.string(),
@@ -116,7 +116,7 @@ export default function NewEventForm({onSubmitClick, organisation, className}:Ne
                         </div>
                         <TextInput name="location.school" label="School" placeHolder="Campus event is taking place" />
                         <TextInput name="location.name" label="Location" placeHolder="Location of the event" />
-                        <TextInput name="location.description" label="Location Guide" placeHolder="Help Attendees find event" />
+                        <TextareaInput name="location.description" label="Location Guide" placeHolder="Help Attendees find event" />
                     </CustomTabContent>
                     <CustomTabContent tabName="banner" nextLabel="Create Event" onPrevious={() => moveTo('about')} submit>
                         <TextInput name="banner" label="Banner" placeHolder="A captivating banner" />
