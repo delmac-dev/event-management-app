@@ -99,14 +99,8 @@ export default function NewEventForm({onSubmitClick, organisation, className}:Ne
                     </CustomTabContent>
                     <CustomTabContent tabName="about" onNext={() => moveTo('schedule')} onPrevious={() => moveTo('general')}>
                         <TextInput name="event_type" label="Event Type" placeHolder="Is the event private or public" />
-                        <div className="flex gap-2">
-                            <div className="flex-1">
-                                <TextInput name="category" label="Category" placeHolder="Category your event belongs in" />
-                            </div>
-                            <div className="w-40">
-                                <TextInput name="capacity" label="Capacity" placeHolder="Total Capacity" /> 
-                            </div>
-                        </div>
+                        <TextInput name="category" label="Category" placeHolder="Category your event belongs in" />
+                        <TextInput name="capacity" label="Capacity" placeHolder="Total Capacity" />
                         <TextInput name="tags" label="Tags" placeHolder="Tags Associated with your event" />
                     </CustomTabContent>
                     <CustomTabContent tabName="schedule" onNext={() => moveTo('banner')} onPrevious={() => moveTo('about')}>
