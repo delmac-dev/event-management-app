@@ -24,7 +24,7 @@ export default function DialogFormWrapper(props:DialogFormWrapperProps) {
 
     return (
         <Dialog open = {open} onOpenChange={setOpen}>
-            <DialogContent  className={cn("w-full max-w-screen-md p-7", className)}>
+            <DialogContent  className={cn("w-full max-w-screen-md py-7 px-3.5 sm:px-7", className)}>
                 <DialogHeader>
                     <DialogTitle>{title}</DialogTitle>
                     {description && (<DialogDescription>{description}</DialogDescription>)}

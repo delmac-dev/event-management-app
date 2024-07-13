@@ -65,6 +65,11 @@ type TextareaInputProps = CommonProps & {
     rows?: number
 }
 
+type RadioGroupInputProps = CommonProps & {
+    options?: string[],
+    render?: () => void
+}
+
 const CustomFieldWrapper = (props:CustomFieldWrapperProps) => {
     const {name, label, className, description, showError = false, children } = props;
     return (
@@ -323,8 +328,8 @@ export const ImageInput = (props: ImageInputProps) => {
 
 export const TextareaInput = (props: TextareaInputProps) => {
     const {
-        cols=32,
-        rows=24,
+        cols=10,
+        rows=7,
         name, 
         label, 
         disabled=false,
@@ -335,6 +340,7 @@ export const TextareaInput = (props: TextareaInputProps) => {
 
     const wrapperProps = {name, label, description, showError};
     const { field } = useController({name});
+
     return (
         <CustomFieldWrapper {...wrapperProps}>
             <FormControl>
@@ -351,15 +357,34 @@ export const TextareaInput = (props: TextareaInputProps) => {
     )
 };
 
-export const DigitInput = () => {};
+export const RadioGroupInput = (props: RadioGroupInputProps) => {
+    const {
+        name, 
+        label, 
+        disabled=false,
+        description, 
+        showError, 
+    } = props;
+
+    const wrapperProps = {name, label, description, showError};
+    const { field } = useController({name});
+
+    return (
+        <CustomFieldWrapper {...wrapperProps}>
+            <FormControl>
+                <></>
+            </FormControl>
+        </CustomFieldWrapper>
+    )
+};
+
+export const NumberInput = () => {};
 
 export const TimeInput = () => {};
 
 export const DateInput = () => {};
 
 export const SwitchInput = () => {};
-
-export const RadioGroupInput = () => {};
 
 export const RadioSelectInput = () => {};
 
