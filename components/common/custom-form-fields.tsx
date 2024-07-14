@@ -247,7 +247,7 @@ export const ComboInput = (props: ComboInputProps) => {
     const { field } = useController({name});
 
     return (
-        <CustomFieldWrapper {...wrapperProps}>
+        <CustomFieldWrapper {...wrapperProps} className="w-full">
             <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
@@ -255,25 +255,25 @@ export const ComboInput = (props: ComboInputProps) => {
                       variant="outline"
                       role="combobox"
                       disabled={disabled}
-                      className={cn("w-[200px] justify-between", !field.value && "text-muted-foreground")}
+                      className={cn("w-full justify-between font-normal text-muted-foreground")}
                     >
                       {field.value? list.find((item) => item.id === field.value)?.label : placeHolder}
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
-                <PopoverContent className="w-[200px] p-0">
+                <PopoverContent className=" p-0">
                   <Command>
                     <CommandInput placeholder={searchPlaceHolder} className="h-9" />
                     <CommandEmpty>{emptyText}</CommandEmpty>
-                    <CommandGroup>
+                    {/* <CommandGroup>
                       {list.map((item) => (
                         <CommandItem key={item.id} value={item.label} onSelect={() => field.onChange(item.id)}>
                           {item.label}
                           <CheckIcon className={cn("ml-auto h-4 w-4", item.id === field.value ? "opacity-100": "opacity-0")}/>
                         </CommandItem>
                       ))}
-                    </CommandGroup>
+                    </CommandGroup> */}
                   </Command>
                 </PopoverContent>
               </Popover>

@@ -8,7 +8,7 @@ import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { Button } from "../ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import React, { useState } from "react";
-import { TextareaInput, TextInput } from "@/components/common/custom-form-fields";
+import { ComboInput, TextareaInput, TextInput } from "@/components/common/custom-form-fields";
 
 const FormSchema = z.object({
     organisation_id: z.string(),
@@ -71,6 +71,11 @@ export default function NewEventForm({onSubmitClick, organisation, className}:Ne
     });
 
     const {handleSubmit} = form;
+    const dummyOrgList = [
+        {id: "9897967-90878-85667-786868", label: "ACES"},
+        {id: "9897967-90878-85667-786868", label: "ACES"},
+        {id: "9897967-90878-85667-786868", label: "ACES"},
+    ]
 
     function onSubmit(data: NewEvent) {
         toast.success("You submitted the following values:", {
@@ -93,7 +98,7 @@ export default function NewEventForm({onSubmitClick, organisation, className}:Ne
             <Tabs value={tab} onValueChange={(value) => setTab(value as TabProps)} asChild>
                 <form onSubmit={handleSubmit(onSubmit)} className={cn("w-full flex flex-col", className)}>
                     <CustomTabContent tabName="general" onNext={() => moveTo('about')}>
-                        <TextInput name="organisation_id" label="Organisation" placeHolder="Enter the organisation" />
+                        <ComboInput name="organisation_id" label="Organisation" placeHolder="Select an organisation" list={dummyOrgList} />
                         <TextInput name="name" label="Name" placeHolder="What's the name of your event" />
                         <TextInput name="headline" label="Headline" placeHolder="Enter a memorable headline" />
                     </CustomTabContent>
