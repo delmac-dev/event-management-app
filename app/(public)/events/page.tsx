@@ -14,7 +14,7 @@ export default async function Events() {
             <EventsHeader />
             <EevntsContainer />
           </section>
-          <aside className="">
+          <aside className="hidden lg:block">
             <EventsFilter />
           </aside>
         </div>
