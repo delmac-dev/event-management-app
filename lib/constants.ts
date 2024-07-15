@@ -468,28 +468,8 @@ export const faqs = [
         "answer": "Yes, you can promote your event by using our integrated promotion tools, which include social media sharing, email invitations, and featured listings."
     },
     {
-        "question": "How do I purchase tickets for an event?",
-        "answer": "To purchase tickets, go to the event page, select the number of tickets you want, and complete the payment process using our secure checkout system."
-    },
-    {
-        "question": "Is there a fee for using CampusEvents?",
-        "answer": "CampusEvents charges a small fee for event organizers to list and promote their events. Attendees may also incur a service fee when purchasing tickets."
-    },
-    {
         "question": "How can I cancel an event I created?",
         "answer": "To cancel an event, go to your event dashboard, select the event you want to cancel, and click the 'Cancel Event' button. You will need to confirm the cancellation."
-    },
-    {
-        "question": "Can I get a refund for a ticket I purchased?",
-        "answer": "Refund policies vary by event. Please check the event's refund policy on the event page. If refunds are allowed, you can request one through your ticket purchase history."
-    },
-    {
-        "question": "How do I contact event organizers?",
-        "answer": "You can contact event organizers by visiting the event page and clicking the 'Contact Organizer' button. This will allow you to send a message directly to the organizer."
-    },
-    {
-        "question": "Can I volunteer to help with events?",
-        "answer": "Yes, some events may offer volunteer opportunities. Check the event details for volunteer information or contact the event organizer directly."
     },
     {
         "question": "How do I update my event details after it's been published?",
@@ -501,9 +481,26 @@ export const faqs = [
     }
 ]
 
-export const categories = [
+export const eventCategories = [
     "seminar", "workshop", "conference", "cultural event", "wellness program", 
     "concert", "exibition", "film screening", "comedy show", "tournament", 
     "fitness class", "games", "recreational", "career fair", "charity", "orientation", 
     'campus tour', "open house", "fundraiser",
 ] as const;
+
+export const orgCategories = [
+    {label: "Personal", value: "personal"},
+    {label: "Other", value: "other"},
+    {label: "Cultural", value: "cultural"},
+    {label: "Academic", value: "academic"},
+    {label: "Faith and Spiritual", value: "faith and spiritual"},
+    {label: "Hobbies and Interests", value: "hobbies and interests"},
+    {label: "Volunteer and Charity", value: "volunteer and charity"},
+    {label: "Social and Political", value: "social and political"},
+    {label: "Technology and Innovation", value: "technology and innovation"},
+    {label: "Arts and Performance", value: "arts and performance"},
+];
+
+export const schools = [
+    "Kwame Nkrumah University of Science and Technology"
+]

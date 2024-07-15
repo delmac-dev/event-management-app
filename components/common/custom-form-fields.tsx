@@ -1,10 +1,10 @@
 import { cn } from "@/lib/utils";
 import { FormControl, FormDescription, FormFieldContextProvider, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
-import { useController } from "react-hook-form";
+import { useController, useFieldArray, useFormContext } from "react-hook-form";
 import { Slider } from "../ui/slider";
 import { Checkbox } from "../ui/checkbox";
-import { Check, CheckIcon, ChevronsUpDown, UploadCloud } from "lucide-react";
+import { CalendarIcon, Check, CheckIcon, ChevronsUpDown, PlusCircle, Trash, UploadCloud } from "lucide-react";
 import { Label } from "../ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { useRef } from "react";
@@ -13,6 +13,9 @@ import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "../ui/command";
 import { Textarea } from "../ui/textarea";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { format } from "date-fns";
+import { Calendar } from "../ui/calendar";
 
 type CommonProps = {
     name: string,
@@ -20,6 +23,11 @@ type CommonProps = {
     description?: string,
     disabled?: boolean,
     showError?: boolean,
+}
+
+type CommonObjectProps = {
+    label: string,
+    value: string
 }
 
 type CustomFieldWrapperProps = CommonProps & {
@@ -31,6 +39,11 @@ type TextInputProps = CommonProps & {
     icon?: React.ElementType,
     placeHolder?: string
 }
+type NumberInputProps = CommonProps & {
+    placeHolder?: string,
+    min?: number,
+    max?: number
+}
 
 type SliderRangeInputProps = CommonProps & {
     max?: number,
@@ -41,11 +54,15 @@ type CheckListInputProps = CommonProps & {
 }
 
 type SelectInputProps = CommonProps & {
-    list: string[],
+    list: CommonObjectProps[],
     placeHolder?: string
 }
 
 type ImageInputProps = CommonProps & {
+}
+
+type ImageListInputProps = CommonProps & {
+
 }
 
 type ComboInputProps = CommonProps & {
@@ -66,8 +83,11 @@ type TextareaInputProps = CommonProps & {
 }
 
 type RadioGroupInputProps = CommonProps & {
-    options?: string[],
-    render?: () => void
+    options: string[],
+}
+
+type DateInputProps = CommonProps & {
+    placeHolder?: string
 }
 
 const CustomFieldWrapper = (props:CustomFieldWrapperProps) => {
@@ -220,7 +240,7 @@ export const SelectInput = (props: SelectInputProps) => {
                 </FormControl>
                 <SelectContent>
                     {list.map((item, _id)=>(
-                        <SelectItem key={_id} value={item}>{item}</SelectItem>
+                        <SelectItem key={_id} value={item.value}>{item.label}</SelectItem>
                     ))}
                 </SelectContent>
               </Select>
@@ -240,43 +260,24 @@ export const ComboInput = (props: ComboInputProps) => {
         emptyText="No Data found.",
         placeHolder="Select",
         searchPlaceHolder="Search..."
-
     } = props;
 
     const wrapperProps = {name, label, description, showError};
     const { field } = useController({name});
 
     return (
-        <CustomFieldWrapper {...wrapperProps} className="w-full">
-            <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant="outline"
-                      role="combobox"
-                      disabled={disabled}
-                      className={cn("w-full justify-between font-normal text-muted-foreground")}
-                    >
-                      {field.value? list.find((item) => item.id === field.value)?.label : placeHolder}
-                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className=" p-0">
-                  <Command>
-                    <CommandInput placeholder={searchPlaceHolder} className="h-9" />
-                    <CommandEmpty>{emptyText}</CommandEmpty>
-                    {/* <CommandGroup>
-                      {list.map((item) => (
-                        <CommandItem key={item.id} value={item.label} onSelect={() => field.onChange(item.id)}>
-                          {item.label}
-                          <CheckIcon className={cn("ml-auto h-4 w-4", item.id === field.value ? "opacity-100": "opacity-0")}/>
-                        </CommandItem>
-                      ))}
-                    </CommandGroup> */}
-                  </Command>
-                </PopoverContent>
-              </Popover>
+        <CustomFieldWrapper {...wrapperProps}>
+            <Select onValueChange={field.onChange} defaultValue={field.value} disabled={disabled}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder={placeHolder} />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                    <SelectItem value="something">something</SelectItem>
+                    <div className="something">Create An Organisation</div>
+                </SelectContent>
+            </Select>
         </CustomFieldWrapper>
     )
 };
@@ -361,6 +362,7 @@ export const RadioGroupInput = (props: RadioGroupInputProps) => {
     const {
         name, 
         label, 
+        options,
         disabled=false,
         description, 
         showError, 
@@ -372,22 +374,136 @@ export const RadioGroupInput = (props: RadioGroupInputProps) => {
     return (
         <CustomFieldWrapper {...wrapperProps}>
             <FormControl>
-                <></>
+                <RadioGroup
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  disabled={disabled}
+                  className="flex space-y-0 space-x-1"
+                >  
+                    {options.map((item, _id) => (
+                        <FormItem key={_id} className="relative flex_center space-y-0 w-28 aspect-video rounded-sm border has-[:checked]:bg-muted/20">
+                            <FormControl>
+                                <RadioGroupItem value={item} className="absolute top-1 right-1 border-muted-foreground" />
+                            </FormControl>
+                            <FormLabel className="font-normal capitalize cursor-pointer">
+                                {item}
+                            </FormLabel>
+                        </FormItem>
+                    ))}
+                </RadioGroup>
             </FormControl>
         </CustomFieldWrapper>
     )
 };
 
-export const NumberInput = () => {};
+export const DateInput = (props: DateInputProps) => {
+    const {
+        name, 
+        label,
+        placeHolder = "Pick a date",
+        disabled=false,
+        description, 
+        showError, 
+    } = props;
+
+    const wrapperProps = {name, label, description, showError};
+    const { field } = useController({name});
+
+    return (
+        <CustomFieldWrapper {...wrapperProps}>
+            <Popover>
+                <PopoverTrigger asChild>
+                    <FormControl>
+                        <Button
+                            variant={"outline"}
+                            disabled={disabled}
+                            className={cn("w-full pl-3 text-left font-normal text-muted-foreground")}
+                        >
+                            {field.value ? ( format(field.value, "PPP") ) : ( <span>{placeHolder}</span> )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                    </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        disabled={(date) => date < new Date()}
+                        initialFocus
+                    />
+                </PopoverContent>
+            </Popover>
+        </CustomFieldWrapper>
+    )
+};
+
+export const NumberInput = (props: NumberInputProps) => {
+    const {
+        min=0,
+        max=250,
+        name, 
+        label, 
+        disabled=false,
+        description, 
+        showError, 
+        placeHolder="Text Here"
+    } = props;
+
+    const wrapperProps = {name, label, description, showError};
+    const { field } = useController({name});
+
+    return (
+        <CustomFieldWrapper {...wrapperProps}>
+            <FormControl>
+                <Input {...field} type="number" placeholder={placeHolder} disabled={disabled} min={min} max={max}/>
+            </FormControl>
+        </CustomFieldWrapper>
+    )
+};
+
+export const ImageListInput = (props: ImageListInputProps) => {
+    const {
+        name, 
+        label, 
+        disabled,
+        description, 
+        showError,
+    } = props;
+
+    const wrapperProps = {name, label, description, showError};
+    const { control } = useFormContext();
+    const { fields, append, remove } = useFieldArray({ 
+        control,
+        name 
+    })
+
+    return (
+        <CustomFieldWrapper {...wrapperProps}>
+            <div className="w-full p-3 rounded-lg border flex gap-2 h-60">
+                <div className="flex-1 flex_center h-full rounded-lg border border-dashed bg-muted/50 hover:bg-muted cursor-pointer">
+                    <PlusCircle className="size-5 text-muted-foreground" />
+                </div>
+                <div className="flex-1 h-full flex flex-col gap-1">
+                    {fields.map((field, index) => (
+                        <div key={index} className="w-full h-14 flex rounded-sm border p-1 gap-1">
+                            <div className="h-full aspect-video bg-muted"></div>
+                            <div className="h-full flex-1"></div>
+                            <Button variant="destructive" className="h-full aspect-square p-0">
+                                <Trash className="size-5" />
+                            </Button>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </CustomFieldWrapper>
+    )
+};
 
 export const TimeInput = () => {};
-
-export const DateInput = () => {};
 
 export const SwitchInput = () => {};
 
 export const RadioSelectInput = () => {};
 
 export const SliderInput = () => {};
-
-export const ImageListInput = () => {};

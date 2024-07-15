@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { FieldName, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { Form } from "@/components/ui/form";
@@ -8,25 +8,27 @@ import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { Button } from "../ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import React, { useState } from "react";
-import { ComboInput, TextareaInput, TextInput } from "@/components/common/custom-form-fields";
+import { DateInput, ImageInput, ImageListInput, NumberInput, RadioGroupInput, SelectInput, TextareaInput, TextInput } from "@/components/common/custom-form-fields";
+import { eventCategories, schools } from "@/lib/constants";
 
 const FormSchema = z.object({
-    organisation_id: z.string(),
-    name: z.string(),
-    headline: z.string(),
-    capacity: z.string(),
-    event_type: z.string(),
-    category: z.string(),
-    tags: z.string(),
-    event_date: z.string(),
-    start_at: z.string(),
-    end_at: z.string(),
+    organisation_id: z.string().min(1),
+    name: z.string().min(1),
+    headline: z.string().min(1),
+    capacity: z.string().min(1),
+    event_type: z.string().min(1),
+    category: z.string().min(1),
+    tags: z.string().min(1),
+    event_date: z.date(),
+    start_at: z.string().min(1),
+    end_at: z.string().min(1),
     location: z.object({
-        school: z.string(),
-        name: z.string(),
-        description: z.string()
+        school: z.string().min(1),
+        name: z.string().min(1),
+        description: z.string().min(1)
     }),
-    banner: z.string()
+    banner: z.instanceof(File).refine(file => file.type.startsWith('image/'))
+            .or(z.string().min(1, "File cant be empty")).nullable()
 });
 
 export type NewEvent = z.infer<typeof FormSchema>;
@@ -58,7 +60,7 @@ export default function NewEventForm({onSubmitClick, organisation, className}:Ne
             event_type: '',
             category: '',
             tags: '',
-            event_date: '',
+            event_date: new Date(),
             start_at: '',
             end_at: '',
             location: {
@@ -66,16 +68,20 @@ export default function NewEventForm({onSubmitClick, organisation, className}:Ne
                 name: '',
                 description: ''
             },
-            banner: ''
+            banner: null
         }
     });
 
-    const {handleSubmit} = form;
+    const {trigger, handleSubmit} = form;
     const dummyOrgList = [
-        {id: "9897967-90878-85667-786868", label: "ACES"},
-        {id: "9897967-90878-85667-786868", label: "ACES"},
-        {id: "9897967-90878-85667-786868", label: "ACES"},
+        { label: "ACES", value: "9897967-90878-85667-786868"},
     ]
+    const eventTypeOptions = ["public", "private"];
+    const eventCategoryList = eventCategories.map(item => ({
+        label: item.charAt(0).toUpperCase() + item.slice(1),
+        value: item
+    }));
+    const schoolList = schools.map((item) => ({label: item, value: item}));
 
     function onSubmit(data: NewEvent) {
         toast.success("You submitted the following values:", {
@@ -86,8 +92,13 @@ export default function NewEventForm({onSubmitClick, organisation, className}:Ne
         if(onSubmitClick) onSubmitClick();
     };
 
-    const moveTo = (tab:TabProps) => {
-        setTab(tab)
+    const moveTo = async (tab:TabProps, fields?:any, isPrev=false) => {
+        const result = !isPrev ? await trigger(fields) : true;
+        
+        if(!result) 
+            return;
+        
+        setTab(tab);
     }
 
     // if organisation just pass organisation as select option and selected as default else
@@ -97,19 +108,20 @@ export default function NewEventForm({onSubmitClick, organisation, className}:Ne
         <Form {...form}>
             <Tabs value={tab} onValueChange={(value) => setTab(value as TabProps)} asChild>
                 <form onSubmit={handleSubmit(onSubmit)} className={cn("w-full flex flex-col", className)}>
-                    <CustomTabContent tabName="general" onNext={() => moveTo('about')}>
-                        <ComboInput name="organisation_id" label="Organisation" placeHolder="Select an organisation" list={dummyOrgList} />
+                    <CustomTabContent tabName="general" onNext={() => moveTo('about', ["organisation_id", "name", "headline", "banner"])}>
+                        <SelectInput name="organisation_id" label="Organisation" placeHolder="Select an organisation" list={dummyOrgList} />
                         <TextInput name="name" label="Name" placeHolder="What's the name of your event" />
                         <TextInput name="headline" label="Headline" placeHolder="Enter a memorable headline" />
+                        <ImageInput name="banner" label="Banner" />
                     </CustomTabContent>
-                    <CustomTabContent tabName="about" onNext={() => moveTo('schedule')} onPrevious={() => moveTo('general')}>
-                        <TextInput name="event_type" label="Event Type" placeHolder="Is the event private or public" />
-                        <TextInput name="category" label="Category" placeHolder="Category your event belongs in" />
-                        <TextInput name="capacity" label="Capacity" placeHolder="Total Capacity" />
-                        <TextInput name="tags" label="Tags" placeHolder="Tags Associated with your event" />
+                    <CustomTabContent tabName="about" onPrevious={() => moveTo('general', null, true)} onNext={() => moveTo('schedule', ["event_type", "category", "capacity", "tags"])}>
+                        <RadioGroupInput name="event_type" label="Event Type" options={eventTypeOptions} />
+                        <SelectInput name="category" label="Category" placeHolder="Select a category" list={eventCategoryList} />
+                        <NumberInput name="capacity" label="Capacity" placeHolder="Total Capacity" />
+                        <TextInput name="tags" label="Tags ( #cool, #free, #awesome )" placeHolder="Tags Associated with your event" />
                     </CustomTabContent>
-                    <CustomTabContent tabName="schedule" onNext={() => moveTo('banner')} onPrevious={() => moveTo('about')}>
-                        <TextInput name="event_date" label="Event Date" placeHolder="When is the event occuring" />
+                    <CustomTabContent tabName="schedule" onPrevious={() => moveTo('about', null, true)} submit nextLabel="Create Event">
+                        <DateInput name="event_date" label="Event Date" placeHolder="When is the event occuring" />
                         <div className="flex items-end gap-1.5">
                             <div className="flex-1 order-1">
                                 <TextInput name="start_at" label="Starting Time" placeHolder="When is the event starting" />
@@ -119,12 +131,9 @@ export default function NewEventForm({onSubmitClick, organisation, className}:Ne
                             </div>
                             <ArrowRight className="size-5 text-muted-foreground mb-2 order-2" />
                         </div>
-                        <TextInput name="location.school" label="School" placeHolder="Campus event is taking place" />
-                        <TextInput name="location.name" label="Location" placeHolder="Location of the event" />
-                        <TextareaInput name="location.description" label="Location Guide" placeHolder="Help Attendees find event" />
-                    </CustomTabContent>
-                    <CustomTabContent tabName="banner" nextLabel="Create Event" onPrevious={() => moveTo('about')} submit>
-                        <TextInput name="banner" label="Banner" placeHolder="A captivating banner" />
+                        <SelectInput name="location.school" label="School" placeHolder="Campus event is taking place" list={schoolList}/>
+                        <TextInput name="location.name" label="Location (ie. kumaplay auditorium)" placeHolder="Location of the event" />
+                        <TextareaInput name="location.description" label="Location Guide (ie. around engineering campus)" placeHolder="Help Attendees find event" />
                     </CustomTabContent>
                 </form>
             </Tabs>
@@ -145,7 +154,7 @@ const CustomTabContent = (props: CustomTabContentProps) => {
 
     return (
         <TabsContent value={tabName} className="w-full flex-1 flex-col gap-2 m-0 hidden data-[state=active]:flex">
-            <div className="space-y-3 flex-1">
+            <div className="space-y-4 flex-1">
                 {children}
             </div>
             <div className="w-full pt-4 flex flex-row-reverse justify-between">

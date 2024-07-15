@@ -22,7 +22,6 @@ export function NewEventModal({ isOpen=false }:{ isOpen?: boolean }) {
                 setOpen={setOpen}
                 title={title} 
                 description={description}
-                className="h-screen md:max-h-[720px] flex flex-col rounded-none border-t-8 border-secondary-foreground"
             >
                 <NewEventForm onSubmitClick={()=>setOpen(false)} className="flex-1" />
             </DialogFormWrapper>

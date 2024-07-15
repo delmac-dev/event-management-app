@@ -1,16 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useController, UseControllerProps, useForm, useFormContext } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { Form, FormControl, FormFieldContextProvider, FormItem, FormLabel } from "../ui/form";
+import { Form } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
-import { Slider } from "../ui/slider";
-import { Input } from "../ui/input";
-import { Check, Search } from "lucide-react";
-import { Checkbox } from "../ui/checkbox";
-import { categories as categoryList } from "@/lib/constants";
-import { Button } from "../ui/button";
+import { eventCategories } from "@/lib/constants";
+import { Button } from "@/components/ui/button";
 import { CheckListInput, SliderRangeInput, TextInput } from "@/components/common/custom-form-fields";
+import { useForm, useFormContext } from "react-hook-form";
+import { Search } from "lucide-react";
 
 const FormSchema = z.object({
     search: z.string(),
@@ -44,7 +41,7 @@ export default function ExploreEventsFilterForm({className}:{className?: string}
             <form onSubmit={handleSubmit(onSubmit)} className={cn("w-full space-y-8", className)}>
                 <TextInput name="search" placeHolder="Search" icon={Search} />
                 <SliderRangeInput name="ticketPrice" label="Ticket Price" max={1000} />
-                <CheckListInput name="categories" label="Categories" list={categoryList.slice(0,10)} />
+                <CheckListInput name="categories" label="Categories" list={eventCategories.slice(0,10)} />
                 <ActionButtons />
             </form>
         </Form>
