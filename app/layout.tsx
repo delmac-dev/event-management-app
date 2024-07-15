@@ -1,7 +1,7 @@
-import { ThemeProvider } from "@/components/common/theme-provider"
 import { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
+import { Providers } from "@/components/common/providers";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -18,10 +18,10 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
+        <Providers>
             {children}
             <Toaster />
-        </ThemeProvider>
+        </Providers>
       </body>
     </html>
   );
