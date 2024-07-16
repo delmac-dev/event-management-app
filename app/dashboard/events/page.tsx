@@ -15,7 +15,7 @@ export default async function DashboardEvents({ searchParams }: QueryProps) {
         <p className="text-xl font-medium">Events</p>
         <NewEventModal isOpen={isEventFormOpen} />
       </BodyHeader>
-      <BodyContent className="gap-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+      <BodyContent className="gap-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 pb-7">
         {events.map((event, _id) => (
           <EventCard key={_id} {...event} />
         ))}

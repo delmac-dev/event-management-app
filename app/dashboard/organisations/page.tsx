@@ -15,7 +15,7 @@ export default async function DashboardOrganisations({ searchParams }: QueryProp
           <h2 className="text-xl font-medium">Organisations</h2>
           <NewOrganisationModal isOpen={isOrgFormOpen} />
       </BodyHeader>
-      <BodyContent className="gap-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+      <BodyContent className="gap-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 pb-7">
           {organisations.map((org, _id) => (
             <OrganisationCard key={_id} {...org} />
           ))}

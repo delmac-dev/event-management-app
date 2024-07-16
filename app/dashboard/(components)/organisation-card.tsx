@@ -3,20 +3,23 @@
 import { OrgType } from '@/lib/constants';
 import { _dashboardOrgEvents } from '@/lib/routes';
 import { cn } from '@/lib/utils';
-import { ChevronLeft, ChevronRight, Image } from 'lucide-react';
+import { ChevronRight, Image } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react'
 
 const OrganisationCard = ({id, name, headline, about}: OrgType) => {
   return (
     <div className="w-full h-44 rounded-sm flex flex-col border gap-3">
-        {/* href={_dashboardOrgEvents(id)} */}
         <div className="w-full flex gap-2 px-4 pt-4">
-          <div className="size-10 rounded-full bg-muted flex_center">
+          <Link href={_dashboardOrgEvents(id)} className="size-10 rounded-full bg-muted flex_center">
             <Image className='size-5 text-muted-foreground/60' />
-          </div>
+          </Link>
           <div className="flex-1 h-full flex flex-col justify-center">
-            <h5 className="text-sm font-medium max-w-full overflow-hidden text-ellipsis text-nowrap">{name}</h5>
+            <h4 className="text-sm font-medium max-w-full overflow-hidden text-ellipsis text-nowrap">
+              <Link href={_dashboardOrgEvents(id)}>
+                {name}
+              </Link>
+            </h4>
             <p className="text-xs text-muted-foreground mt-1 5">{headline}</p>
           </div>
         </div>
