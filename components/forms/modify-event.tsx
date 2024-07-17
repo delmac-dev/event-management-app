@@ -11,15 +11,12 @@ const GeneralFormSchema = z.object({
     capacity: z.string(),
     category: z.string(),
     tags: z.string(),
+    banner: z.string(),
     is_published: z.string()
 });
 
 const AboutFormSchema = z.object({
     about: z.string(),
-});
-
-const BannerFormSchema = z.object({
-    banner: z.string(),
 });
 
 const ScheduleFormSchema = z.object({
@@ -51,7 +48,6 @@ const AgendaFormSchema = z.object({
 
 export type ModifyEventGeneral = z.infer<typeof GeneralFormSchema>;
 export type ModifyEventAbout = z.infer<typeof AboutFormSchema>;
-export type ModifyEventBanner = z.infer<typeof BannerFormSchema>;
 export type ModifyEventSchedule = z.infer<typeof ScheduleFormSchema>;
 export type ModifyEventFaq = z.infer<typeof FaqFormSchema>;
 export type ModifyEventAgenda = z.infer<typeof AgendaFormSchema>;
@@ -64,6 +60,7 @@ export function ModifyEventGeneralForm({event, className}:{event:any, className?
             headline: '',
             category: '',
             tags: '',
+            banner: '',
             is_published: ''
         }
     });
@@ -84,6 +81,7 @@ export function ModifyEventGeneralForm({event, className}:{event:any, className?
                 {/* headline input */}
                 {/* category select input */}
                 {/* tags input */}
+                {/* banner input */}
                 {/* is_published switch input */}
                 {/* submit button */}
             </form>
@@ -111,32 +109,6 @@ export function ModifyEventAboutForm({event, className}:{event:any, className?: 
         <Form {...form}>
             <form onSubmit={handleSubmit(onSubmit)} className={cn("w-full", className)}>
                 {/* about textarea */}
-                {/* submit button */}
-            </form>
-        </Form>
-    )
-}
-export function ModifyEventBannerForm({event, className}:{event:any, className?: string}) {
-    const form = useForm<ModifyEventBanner>({
-        resolver: zodResolver(BannerFormSchema),
-        defaultValues: {
-            banner: '',
-        }
-    });
-
-    const {handleSubmit} = form;
-
-    function onSubmit(data: ModifyEventBanner) {
-        toast.success("You submitted the following values:", {
-          description: JSON.stringify(data, null, 2),
-          position: "top-right"
-        })
-    };
-
-    return (
-        <Form {...form}>
-            <form onSubmit={handleSubmit(onSubmit)} className={cn("w-full", className)}>
-                {/* banner input */}
                 {/* submit button */}
             </form>
         </Form>
