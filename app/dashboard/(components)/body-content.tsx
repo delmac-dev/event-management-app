@@ -3,7 +3,7 @@ import React from 'react'
 
 const BodyContent = ({className, children}:{className?: string, children:React.ReactNode}) => {
   return (
-    <section className="main_container py-4">
+    <section className="main_container py-4 pb-10">
         <div className={cn("sub_container", className)}>
             {children}
         </div>
