@@ -24,10 +24,9 @@ const ScheduleFormSchema = z.object({
     start_at: z.string(),
     end_at: z.string(),
     location: z.object({
-        country: z.string(),
-        school: z.string(),
-        google_location: z.string(),
-        description: z.string()
+        school: z.string().min(1),
+        name: z.string().min(1),
+        description: z.string().min(1)
     }),
 });
 
@@ -122,9 +121,8 @@ export function ModifyEventScheduleForm({event, className}:{event:any, className
             start_at: '',
             end_at: '',
             location: {
-                country: '',
                 school: '',
-                google_location: '',
+                name: '',
                 description: ''
             },
         }
@@ -145,9 +143,8 @@ export function ModifyEventScheduleForm({event, className}:{event:any, className
                 {/* event_date date input */}
                 {/* start_at date input */}
                 {/* end_at time input */}
-                {/* location.country select input of countries */}
                 {/* location.school select input of schools */}
-                {/* location.google_location select input of actual place location */}
+                {/* location.name select input of actual place location */}
                 {/* location.description textarea input */}
                 {/* submit button */}
             </form>
