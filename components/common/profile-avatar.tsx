@@ -34,7 +34,7 @@ export default function ProfileAvatar({ user }: {user:User | null}) {
                     <ChevronDown size={16} />
                 </Button>
             </PopoverTrigger>
-            <PopoverContent sideOffset={14} className="w-64 flex flex-col mr-4">
+            <PopoverContent sideOffset={14} className="w-56 flex flex-col mr-4">
                 {linkList.map(({ name, link }, _id) => (
                     <PopoverClose key={_id} asChild>
                         <Link  

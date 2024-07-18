@@ -7,7 +7,8 @@ export default function SignOutButton() {
     <form>
       <Button 
         type="submit"  
-        className="mt-4 w-full" 
+        variant='secondary'
+        className="w-full mt-2" 
         formAction={async()=> await signOut()}
       >
         SignOut
