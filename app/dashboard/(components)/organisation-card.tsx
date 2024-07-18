@@ -3,6 +3,7 @@
 import { OrgType } from '@/lib/constants';
 import { _dashboardOrgEvents } from '@/lib/routes';
 import { cn } from '@/lib/utils';
+import NextImage from 'next/image';
 import { ChevronRight, Image } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react'
@@ -27,10 +28,12 @@ const OrganisationCard = ({id, name, headline, about}: OrgType) => {
           <p className="text-sm text-muted-foreground overflow-hidden text-ellipsis line-clamp-2">{about}</p>
         </div>
         <div className="w-full h-10 bg-muted/40 border-t px-4 flex items-center justify-between">
-          <div className="flex ">
-            <div className="flex items-center">
-              {Array(3).fill("").map((_, _id)=>(<div key={_id} className={cn("relative size-6 -ml-3 first:ml-0 rounded-full shadow-md bg-background")}></div>))}
-            </div>
+          <div className="flex h-full items-center">
+            {Array(4).fill("").map((_, _id)=>(
+              <div key={_id} className={cn("relative -ml-3 size-6 border-2 border-background aspect-square first:ml-0 rounded-full overflow-hidden")}>
+                <NextImage src="/dddepth-164.jpg" alt='profile-pic' fill /> 
+              </div>
+            ))}
           </div>
           <ChevronRight className='size-5 text-muted-foreground'/>
         </div>
