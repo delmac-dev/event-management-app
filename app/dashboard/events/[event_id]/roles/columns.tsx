@@ -3,27 +3,22 @@
 import { ColumnDef } from "@tanstack/react-table"
 
 export type Role = {
-  name: string,
-  email: string,
+  role: string,
   is_active: string,
-  role: string
+  permissions: string
 }
 
 export const columns: ColumnDef<Role>[] = [
   {
-    accessorKey: "full_name",
+    accessorKey: "role",
     header: "Full Name",
-  },
-  {
-    accessorKey: "email",
-    header: "Email",
   },
   {
     accessorKey: "is_active",
     header: "Status",
   },
   {
-    accessorKey: "role",
-    header: "Payment Status",
+    accessorKey: "permissions",
+    header: "Permissions",
   },
 ]

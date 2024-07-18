@@ -24,6 +24,6 @@ export const columns: ColumnDef<Moderator>[] = [
   },
   {
     accessorKey: "role",
-    header: "Payment Status",
+    header: "Role",
   },
 ]
