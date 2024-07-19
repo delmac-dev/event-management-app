@@ -11,7 +11,7 @@ export type Role = {
 export const columns: ColumnDef<Role>[] = [
   {
     accessorKey: "role",
-    header: "Full Name",
+    header: "Role",
   },
   {
     accessorKey: "is_active",

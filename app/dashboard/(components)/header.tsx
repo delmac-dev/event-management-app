@@ -10,7 +10,6 @@ import { createClient } from "@/lib/supabase/client";
 import { User } from "@supabase/supabase-js";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
 
 // const supabase = createClient();
 

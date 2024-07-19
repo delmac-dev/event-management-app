@@ -1,9 +1,9 @@
 import BodyContent from "@/app/dashboard/(components)/body-content";
 import BodyHeader from "@/app/dashboard/(components)/body-header";
-import { Button } from "@/components/ui/button";
 import { QueryProps } from "@/lib/types";
 import { DataTable } from "@/components/common/data-table";
 import { columns, Ticket } from "./columns";
+import TicketHandler from "@/app/dashboard/(form-handlers)/ticket-handler";
 
 const tickets: Ticket[] = [
   {
@@ -78,14 +78,19 @@ const tickets: Ticket[] = [
   }
 ];
 
-export default async function EventTickets({ params }: QueryProps) {
+export default async function EventTickets({ params, searchParams }: QueryProps) {
   const eventID = params.event_id;
+  const isTicketFormOpen = searchParams.new as unknown as boolean;
+  const ticketHandlerData = {
+    title: "Add a new ticket",
+    isOpen: isTicketFormOpen
+  }
   
   return (
     <>
       <BodyHeader>
         <h2 className="text-xl font-medium">Event Tickets</h2>
-        <Button size='xs'>Add a ticket</Button>
+        <TicketHandler { ...ticketHandlerData } />
       </BodyHeader>
       <BodyContent>
         <DataTable columns={columns} data={tickets} />

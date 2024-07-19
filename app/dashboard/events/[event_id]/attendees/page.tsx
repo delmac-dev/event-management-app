@@ -1,9 +1,9 @@
 import BodyContent from "@/app/dashboard/(components)/body-content";
 import BodyHeader from "@/app/dashboard/(components)/body-header";
-import { Button } from "@/components/ui/button";
 import { QueryProps } from "@/lib/types";
 import { Attendee, columns } from "./columns";
 import { DataTable } from "@/components/common/data-table";
+import AttendeeHandler from "@/app/dashboard/(form-handlers)/attendee-handler";
 
 const attendees: Attendee[] = [
   {
@@ -78,14 +78,19 @@ const attendees: Attendee[] = [
   }
 ];
 
-export default async function EventAttendees({ params }: QueryProps) {
+export default async function EventAttendees({ params, searchParams }: QueryProps) {
   const eventID = params.event_id;
+  const isAttendeeFormOpen = searchParams.new as unknown as boolean;
+  const attendeeHandlerData = {
+    title: "Add a new attendee",
+    isOpen: isAttendeeFormOpen
+  }
 
   return (
     <>
       <BodyHeader>
         <h2 className="text-xl font-medium">Event Attendees</h2>
-        <Button size='xs'>Add an attendee</Button>
+        <AttendeeHandler { ...attendeeHandlerData } />
       </BodyHeader>
       <BodyContent>
         <DataTable columns={columns} data={attendees} />

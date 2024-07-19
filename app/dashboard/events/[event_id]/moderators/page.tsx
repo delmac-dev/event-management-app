@@ -1,9 +1,9 @@
 import BodyContent from "@/app/dashboard/(components)/body-content";
 import BodyHeader from "@/app/dashboard/(components)/body-header";
 import { DataTable } from "@/components/common/data-table";
-import { Button } from "@/components/ui/button";
 import { QueryProps } from "@/lib/types";
 import { columns, Moderator } from "./columns";
+import ModeratorHandler from "@/app/dashboard/(form-handlers)/moderator-handler";
 
 const moderators: Moderator[] = [
   {
@@ -38,14 +38,19 @@ const moderators: Moderator[] = [
   }
 ];
 
-export default async function EventModerators({ params }: QueryProps) {
+export default async function EventModerators({ params, searchParams }: QueryProps) {
   const eventID = params.event_id;
+  const isModeratorFormOpen = searchParams.new as unknown as boolean;
+  const moderatorHandlerData = {
+    title: "Add a new moderator",
+    isOpen: isModeratorFormOpen
+  }
 
   return (
     <>
       <BodyHeader>
         <h2 className="text-xl font-medium">Event Moderators</h2>
-        <Button size='xs'>Add a moderator</Button>
+        <ModeratorHandler { ...moderatorHandlerData } />
       </BodyHeader>
       <BodyContent>
         <DataTable columns={columns} data={moderators} />
