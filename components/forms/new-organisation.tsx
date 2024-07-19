@@ -18,8 +18,12 @@ const FormSchema = z.object({
 });
 
 export type NewOrganisation = z.infer<typeof FormSchema>;
+type NewOrganisationFormProps = {
+    closeHandler: ()=>void, 
+    className?: string
+}
 
-export default function NewOrganisationForm({closeDialog = () => {}, className}:{closeDialog?: ()=>void, className?: string}) {
+export default function NewOrganisationForm({closeHandler, className}:NewOrganisationFormProps) {
     const form = useForm<NewOrganisation>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
@@ -38,7 +42,7 @@ export default function NewOrganisationForm({closeDialog = () => {}, className}:
           position: "top-right"
         });
 
-        closeDialog();
+        closeHandler();
     };
 
     return (

@@ -23,7 +23,7 @@ export default function NewOrganisationHandler({ isOpen }:{ isOpen: boolean }) {
                 title={title} 
                 description={description}
             >
-                <NewOrganisationForm closeDialog={()=> setOpen(false)} />
+                <NewOrganisationForm closeHandler={()=> setOpen(false)} />
             </DialogFormWrapper>
         </>
     )

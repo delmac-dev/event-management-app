@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FieldName, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { Form } from "@/components/ui/form";
@@ -33,7 +33,7 @@ const FormSchema = z.object({
 
 export type NewEvent = z.infer<typeof FormSchema>;
 export type NewEventFormProps = {
-    onSubmitClick?: () => void,
+    closeHandler: () => void,
     organisation?: any,
     className?: string
 }
@@ -48,7 +48,7 @@ type CustomTabContentProps = {
     children: React.ReactNode
 }
 
-export default function NewEventForm({onSubmitClick, organisation, className}:NewEventFormProps) {
+export default function NewEventForm({closeHandler, organisation, className}:NewEventFormProps) {
     const [tab, setTab] = useState<TabProps>("general");
     const form = useForm<NewEvent>({
         resolver: zodResolver(FormSchema),
@@ -89,7 +89,7 @@ export default function NewEventForm({onSubmitClick, organisation, className}:Ne
           position: "top-right"
         });
 
-        if(onSubmitClick) onSubmitClick();
+        closeHandler();
     };
 
     const moveTo = async (tab:TabProps, fields?:any, isPrev=false) => {

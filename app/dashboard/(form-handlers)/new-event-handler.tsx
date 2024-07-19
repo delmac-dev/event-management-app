@@ -23,7 +23,7 @@ export default function NewEventHandler({ isOpen=false }:{ isOpen?: boolean }) {
                 title={title} 
                 description={description}
             >
-                <NewEventForm onSubmitClick={()=>setOpen(false)} className="flex-1" />
+                <NewEventForm closeHandler={()=>setOpen(false)} className="flex-1" />
             </DialogFormWrapper>
         </>
     )
