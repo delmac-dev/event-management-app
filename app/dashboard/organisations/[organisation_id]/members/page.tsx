@@ -1,7 +1,6 @@
 import BodyContent from "@/app/dashboard/(components)/body-content";
 import BodyHeader from "@/app/dashboard/(components)/body-header";
 import { DataTable } from "@/components/common/data-table";
-import { Button } from "@/components/ui/button";
 import { QueryProps } from "@/lib/types";
 import { columns } from "./columns";
 import MemberHandler from "@/app/dashboard/(form-handlers)/member-handler";
