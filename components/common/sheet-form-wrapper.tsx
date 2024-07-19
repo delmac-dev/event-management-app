@@ -17,14 +17,12 @@ export default function SheetFormWrapper(props: SheetFormWrapperProps) {
     const { open, setOpen, title, description, className, children } = props;
     return (
         <Sheet open={open} onOpenChange={setOpen}>
-            <SheetContent className={cn("flex flex-col w-full sm:w-96", className)}>
+            <SheetContent className={cn("flex flex-col w-full sm:max-w-md", className)}>
                 <SheetHeader>
                     <SheetTitle>{title}</SheetTitle>
                     {description && (<SheetDescription>{description}</SheetDescription>)}
                 </SheetHeader>
-                <div className="w-full flex-1">
-                    {children}
-                </div>
+                {children}
             </SheetContent>
         </Sheet>
     )

@@ -6,6 +6,7 @@ import { Form } from "../ui/form";
 import { cn } from "@/lib/utils";
 
 const FormSchema = z.object({
+    event_id: z.string(),
     name: z.string(),
     availabilty: z.string(),
     ticket_code_prefix: z.string(),
@@ -28,6 +29,7 @@ export default function HandleTicketForm({variant='new', event, ticket, classNam
     const form = useForm<HandleTicket>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
+            event_id: event.id,
             name: '',
             availabilty: '',
             ticket_code_prefix: '',
