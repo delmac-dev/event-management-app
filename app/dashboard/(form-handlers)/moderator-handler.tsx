@@ -23,7 +23,7 @@ export default function ModeratorHandler(props: ModeratorHandlerProps){
 
     return(
         <>
-            <Button size="xs" onClick={() => setOpen(true)}>Add a moderator</Button>
+            <Button size="xs" onClick={() => setOpen(true)}>Invite a moderator</Button>
             <SheetFormWrapper { ...wrapperData } className="">
                 <HandleModeratorForm  eventID={eventID} closeHandler={()=>setOpen(false)} />
             </SheetFormWrapper>

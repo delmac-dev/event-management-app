@@ -35,7 +35,6 @@ export const _dashboardTickets = `${_dashboard}/tickets`;
 export const _dashboardProfile = `${_dashboard}/profile`;
 export const _dashboardProfileEdit = `${_dashboardProfile}/edit`;
 export const _dashboardNotifications = `${_dashboardProfile}/notifications`;
-export const _dashboardSettings = `${_dashboardProfile}/settings`;
 
 // company
 export const _company = '/company';

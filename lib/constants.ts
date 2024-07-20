@@ -488,6 +488,28 @@ export const eventCategories = [
     'campus tour', "open house", "fundraiser",
 ] as const;
 
+export const eventCategoryList = [
+    {label: "Seminar", value:"seminar"},
+    {label: "Workshop", value:"workshop"},
+    {label: "Conference", value:"conference"},
+    {label: "Cultural Event", value:"cultural event"},
+    {label: "Wellness Program", value:"wellness program"},
+    {label: "Concert", value:"concert"},
+    {label: "Exibition", value:"exibition"},
+    {label: "Film Screening", value:"film screening"},
+    {label: "Comedy Show", value:"comedy show"},
+    {label: "Tournament", value:"tournament"},
+    {label: "Fitness Class", value:"fitness class"},
+    {label: "Games", value:"games"},
+    {label: "Recreational", value:"recreational"},
+    {label: "Career Fair", value:"career fair"},
+    {label: "Charity", value:"charity"},
+    {label: "Orientation", value:"orientation"},
+    {label: "Campus Tour", value:'campus tour'},
+    {label: "Open House", value:"open house"},
+    {label: "Fundraiser", value:"fundraiser"},
+]
+
 export const orgCategories = [
     {label: "Personal", value: "personal"},
     {label: "Other", value: "other"},
@@ -502,5 +524,8 @@ export const orgCategories = [
 ];
 
 export const schools = [
-    "Kwame Nkrumah University of Science and Technology"
+    {
+        label: "Kwame Nkrumah University of Science and Technology", 
+        value: "Kwame Nkrumah University of Science and Technology"
+    },
 ]

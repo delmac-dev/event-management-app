@@ -1,42 +1,34 @@
 import BodyContent from "@/app/dashboard/(components)/body-content";
 import BodyHeader from "@/app/dashboard/(components)/body-header";
-import { Button } from "@/components/ui/button";
-import { events, EventType } from "@/lib/constants";
+import DeleteHandler from "@/app/dashboard/(components)/delete-handler";
+import { ModifyEventForm } from "@/components/forms/modify-event";
+import { _dashboardEvents } from "@/lib/routes";
 import { QueryProps } from "@/lib/types";
-import { findItem } from "@/lib/utils";
+
+const demo = async () => {
+  "use server";
+}
 
 export default async function OrganisationEdit({ params }: QueryProps) {
   const eventID = params.event_id;
-  const data = findItem(eventID, events) as EventType;
+  const deleteHandlerData = {
+    title: "Delete this event",
+    description: "All attendee and other data associated with this event will also be deleted along side the event",
+    buttonText: "Delete Event",
+    deleteAction: demo,
+    redirectTo: _dashboardEvents,
+    queryKey: []
+  }
 
   return (
     <>
       <BodyHeader>
         <h2 className="text-xl font-medium">Edit Event</h2>
       </BodyHeader>
-      <BodyContent>
-        <DemoContainer header="General" />
-        <DemoContainer header="About" />
-        <DemoContainer header="Banner" />
-        <DemoContainer header="Time & Location" />
-        <DemoContainer header="FAQ" />
-        <DemoContainer header="Agenda" />
-        <DemoContainer header="Others" />
-        <DemoContainer header="Danger" hasSave={false} />
+      <BodyContent className="space-y-4">
+        <ModifyEventForm eventID={eventID} />
+        <DeleteHandler { ...deleteHandlerData } />
       </BodyContent>
     </>
   );
 }
-
-const DemoContainer = ({header, hasSave = true}: {header: string, hasSave?: boolean}) => (
-  <div className="w-full h-64 rounded-lg border flex flex-col justify-between mb-7">
-      <div className="w-full flex_center justify-start h-12 p-3 border-b">
-          <h4 className="font-medium text-base">{header}</h4>
-      </div>
-      {hasSave && 
-          (<div className="w-full flex_center justify-end h-12 p-3 border-t">
-              <Button size='xs'>Save</Button>
-          </div>)
-      }
-  </div>
-)

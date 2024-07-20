@@ -23,7 +23,7 @@ export default function MemberHandler(props: MemberHandlerProps){
 
     return(
         <>
-            <Button size="xs" onClick={() => setOpen(true)}>Add a member</Button>
+            <Button size="xs" onClick={() => setOpen(true)}>Invite a member</Button>
             <SheetFormWrapper { ...wrapperData } className="">
                 <HandleMemberForm orgID={orgID} closeHandler={()=>setOpen(false)} />
             </SheetFormWrapper>

@@ -60,7 +60,7 @@ export default function HandleMemberForm(props:HandleMemberFormProps) {
                 </div>
                 <div className="sticky bottom-0 right-0 z-50 w-full p-4 bg-background flex gap-3 justify-end">
                     <Button size='xs' variant='secondary' type='button' disabled={isSubmitting} onClick={closeHandler}>Cancel</Button>
-                    <Button size='xs' disabled={isSubmitting}>Add Member</Button>
+                    <Button size='xs' disabled={isSubmitting}>Invite Member</Button>
                 </div>
             </form>
         </Form>

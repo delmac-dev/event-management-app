@@ -1,3 +1,5 @@
+"use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -8,8 +10,8 @@ import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { Button } from "../ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import React, { useState } from "react";
-import { DateInput, ImageInput, ImageListInput, NumberInput, RadioGroupInput, SelectInput, TextareaInput, TextInput } from "@/components/common/custom-form-fields";
-import { eventCategories, schools } from "@/lib/constants";
+import { DateInput, ImageInput, NumberInput, RadioGroupInput, SelectInput, TextareaInput, TextInput } from "@/components/common/custom-form-fields";
+import { eventCategoryList, schools } from "@/lib/constants";
 
 const FormSchema = z.object({
     organisation_id: z.string().min(1),
@@ -77,11 +79,6 @@ export default function NewEventForm({closeHandler, organisation, className}:New
         { label: "ACES", value: "9897967-90878-85667-786868"},
     ]
     const eventTypeOptions = ["public", "private"];
-    const eventCategoryList = eventCategories.map(item => ({
-        label: item.charAt(0).toUpperCase() + item.slice(1),
-        value: item
-    }));
-    const schoolList = schools.map((item) => ({label: item, value: item}));
 
     function onSubmit(data: NewEvent) {
         toast.success("You submitted the following values:", {
@@ -131,7 +128,7 @@ export default function NewEventForm({closeHandler, organisation, className}:New
                             </div>
                             <ArrowRight className="size-5 text-muted-foreground mb-2 order-2" />
                         </div>
-                        <SelectInput name="location.school" label="School" placeHolder="Campus event is taking place" list={schoolList}/>
+                        <SelectInput name="location.school" label="School" placeHolder="Campus event is taking place" list={schools}/>
                         <TextInput name="location.name" label="Location (ie. kumaplay auditorium)" placeHolder="Location of the event" />
                         <TextareaInput name="location.description" label="Location Guide (ie. around engineering campus)" placeHolder="Help Attendees find event" />
                     </CustomTabContent>

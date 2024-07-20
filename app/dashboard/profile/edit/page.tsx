@@ -1,30 +1,32 @@
-import { Button } from "@/components/ui/button";
-import BodyHeader from "../../(components)/body-header";
-import BodyContent from "../../(components)/body-content";
+import BodyHeader from "@/app/dashboard/(components)/body-header";
+import BodyContent from "@/app/dashboard/(components)/body-content";
+import { _home } from "@/lib/routes";
+import DeleteHandler from "@/app/dashboard/(components)/delete-handler";
+import HandleProfileForm from "@/components/forms/handle-profile";
+
+const demo = async () => {
+  "use server";
+}
 
 export default async function ProfileEdit() {
+  const deleteHandlerData = {
+    title: "Delete my profile",
+    description: "All the events and a data associated with this organisation will also be deleted along side the organisation",
+    buttonText: "Delete Profile",
+    deleteAction: demo,
+    redirectTo: _home,
+    queryKey: []
+  }
 
   return (
     <>
       <BodyHeader>
         <h2 className="text-xl font-medium">Edit Profile</h2>
       </BodyHeader>
-      <BodyContent>
-        <DemoContainer header="General" />
+      <BodyContent className="space-y-4">
+        <HandleProfileForm />
+        <DeleteHandler { ...deleteHandlerData } />
       </BodyContent>
     </>
   );
 }
-
-const DemoContainer = ({header, hasSave = true}: {header: string, hasSave?: boolean}) => (
-  <div className="w-full h-64 rounded-lg border flex flex-col justify-between mb-7">
-      <div className="w-full flex_center justify-start h-12 p-3 border-b">
-          <h4 className="font-medium text-base">{header}</h4>
-      </div>
-      {hasSave && 
-          (<div className="w-full flex_center justify-end h-12 p-3 border-t">
-              <Button size='xs'>Save</Button>
-          </div>)
-      }
-  </div>
-)

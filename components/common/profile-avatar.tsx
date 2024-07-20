@@ -5,14 +5,14 @@ import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from "../ui/pop
 import { Button } from "../ui/button";
 import Image from "next/image";
 import { ChevronDown } from "lucide-react";
-import { _dashboardProfile, _dashboardProfileEdit, _dashboardSettings, _dashboardTickets } from "@/lib/routes";
+import { _dashboardEvents, _dashboardProfile, _dashboardProfileEdit, _dashboardTickets } from "@/lib/routes";
 import Link from "next/link";
 import SignOutButton from "../auth/signout-button";
 
 const linkList = [
-    {name: "My Profile", link: _dashboardProfileEdit},
-    {name: "Settings", link: _dashboardSettings},
-    {name: "My Tickets", link: _dashboardTickets},
+    {name: "My profile", link: _dashboardProfileEdit},
+    {name: "Start an event", link: `${_dashboardEvents}/?new=true`},
+    {name: "My tickets", link: _dashboardTickets},
 ]
 
 export default function ProfileAvatar({ user }: {user:User | null}) {

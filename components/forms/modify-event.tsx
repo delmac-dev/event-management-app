@@ -1,25 +1,25 @@
+"use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { Form } from "../ui/form";
 import { cn } from "@/lib/utils";
+import { DateInput, SelectInput, TextareaInput, TextInput } from "../common/custom-form-fields";
+import { eventCategoryList, schools } from "@/lib/constants";
+import { Button } from "../ui/button";
 
-const GeneralFormSchema = z.object({
+const ModifyEventFormSchema = z.object({
+    organisation_id: z.string(),
     name: z.string(),
     headline: z.string(),
     capacity: z.string(),
     category: z.string(),
     tags: z.string(),
     banner: z.string(),
-    is_published: z.string()
-});
-
-const AboutFormSchema = z.object({
+    is_published: z.string(),
     about: z.string(),
-});
-
-const ScheduleFormSchema = z.object({
     event_date: z.string(),
     start_at: z.string(),
     end_at: z.string(),
@@ -28,16 +28,10 @@ const ScheduleFormSchema = z.object({
         name: z.string().min(1),
         description: z.string().min(1)
     }),
-});
-
-const FaqFormSchema = z.object({
     faq: z.array(z.object({
         question: z.string(),
         answer: z.string()
     })),
-});
-
-const AgendaFormSchema = z.object({
     agenda: z.array(z.object({
         time: z.string(),
         title: z.string(),
@@ -45,78 +39,20 @@ const AgendaFormSchema = z.object({
     })),
 });
 
-export type ModifyEventGeneral = z.infer<typeof GeneralFormSchema>;
-export type ModifyEventAbout = z.infer<typeof AboutFormSchema>;
-export type ModifyEventSchedule = z.infer<typeof ScheduleFormSchema>;
-export type ModifyEventFaq = z.infer<typeof FaqFormSchema>;
-export type ModifyEventAgenda = z.infer<typeof AgendaFormSchema>;
+export type ModifyEvent = z.infer<typeof ModifyEventFormSchema>;
 
-export function ModifyEventGeneralForm({event, className}:{event:any, className?: string}) {
-    const form = useForm<ModifyEventGeneral>({
-        resolver: zodResolver(GeneralFormSchema),
+export function ModifyEventForm({eventID, className}:{eventID:string, className?: string}) {
+    const form = useForm<ModifyEvent>({
+        resolver: zodResolver(ModifyEventFormSchema),
         defaultValues: {
+            organisation_id: '',
             name: '',
             headline: '',
             category: '',
             tags: '',
             banner: '',
-            is_published: ''
-        }
-    });
-
-    const {handleSubmit} = form;
-
-    function onSubmit(data: ModifyEventGeneral) {
-        toast.success("You submitted the following values:", {
-          description: JSON.stringify(data, null, 2),
-          position: "top-right"
-        })
-    };
-
-    return (
-        <Form {...form}>
-            <form onSubmit={handleSubmit(onSubmit)} className={cn("w-full", className)}>
-                {/* name input */}
-                {/* headline input */}
-                {/* category select input */}
-                {/* tags input */}
-                {/* banner input */}
-                {/* is_published switch input */}
-                {/* submit button */}
-            </form>
-        </Form>
-    )
-}
-export function ModifyEventAboutForm({event, className}:{event:any, className?: string}) {
-    const form = useForm<ModifyEventAbout>({
-        resolver: zodResolver(AboutFormSchema),
-        defaultValues: {
+            is_published: '',
             about: '',
-        }
-    });
-
-    const {handleSubmit} = form;
-
-    function onSubmit(data: ModifyEventAbout) {
-        toast.success("You submitted the following values:", {
-          description: JSON.stringify(data, null, 2),
-          position: "top-right"
-        })
-    };
-
-    return (
-        <Form {...form}>
-            <form onSubmit={handleSubmit(onSubmit)} className={cn("w-full", className)}>
-                {/* about textarea */}
-                {/* submit button */}
-            </form>
-        </Form>
-    )
-}
-export function ModifyEventScheduleForm({event, className}:{event:any, className?: string}) {
-    const form = useForm<ModifyEventSchedule>({
-        resolver: zodResolver(ScheduleFormSchema),
-        defaultValues: {
             event_date: '',
             start_at: '',
             end_at: '',
@@ -125,65 +61,10 @@ export function ModifyEventScheduleForm({event, className}:{event:any, className
                 name: '',
                 description: ''
             },
-        }
-    });
-
-    const {handleSubmit} = form;
-
-    function onSubmit(data: ModifyEventSchedule) {
-        toast.success("You submitted the following values:", {
-          description: JSON.stringify(data, null, 2),
-          position: "top-right"
-        })
-    };
-
-    return (
-        <Form {...form}>
-            <form onSubmit={handleSubmit(onSubmit)} className={cn("w-full", className)}>
-                {/* event_date date input */}
-                {/* start_at date input */}
-                {/* end_at time input */}
-                {/* location.school select input of schools */}
-                {/* location.name select input of actual place location */}
-                {/* location.description textarea input */}
-                {/* submit button */}
-            </form>
-        </Form>
-    )
-}
-export function ModifyEventFaqForm({event, className}:{event:any, className?: string}) {
-    const form = useForm<ModifyEventFaq>({
-        resolver: zodResolver(FaqFormSchema),
-        defaultValues: {
             faq: [{
                 question: '',
                 answer: ''
             }],
-        }
-    });
-
-    const {handleSubmit} = form;
-
-    function onSubmit(data: ModifyEventFaq) {
-        toast.success("You submitted the following values:", {
-          description: JSON.stringify(data, null, 2),
-          position: "top-right"
-        })
-    };
-
-    return (
-        <Form {...form}>
-            <form onSubmit={handleSubmit(onSubmit)} className={cn("w-full", className)}>
-                {/* faq object list input */}
-                {/* submit button */}
-            </form>
-        </Form>
-    )
-}
-export function ModifyEventAgendaForm({event, className}:{event:any, className?: string}) {
-    const form = useForm<ModifyEventAgenda>({
-        resolver: zodResolver(AgendaFormSchema),
-        defaultValues: {
             agenda: [{
                 time: '',
                 title: '',
@@ -192,9 +73,9 @@ export function ModifyEventAgendaForm({event, className}:{event:any, className?:
         }
     });
 
-    const {handleSubmit} = form;
+    const {handleSubmit, formState: { isSubmitting }} = form;
 
-    function onSubmit(data: ModifyEventAgenda) {
+    function onSubmit(data: ModifyEvent) {
         toast.success("You submitted the following values:", {
           description: JSON.stringify(data, null, 2),
           position: "top-right"
@@ -203,9 +84,26 @@ export function ModifyEventAgendaForm({event, className}:{event:any, className?:
 
     return (
         <Form {...form}>
-            <form onSubmit={handleSubmit(onSubmit)} className={cn("w-full", className)}>
+            <form onSubmit={handleSubmit(onSubmit)} className={cn("w-full p-4 space-y-4 rounded-sm border", className)}>
+                <TextInput name="organisation_id" label="Organisation" disabled />
+                <TextInput name="name" label="Name" />
+                <TextInput name="headline" label="Headline" />
+                <SelectInput name="category" label="Category" placeHolder="Select a category" list={eventCategoryList} />
+                <TextInput name="tags" label="Tags ( #cool, #free, #awesome )" />
+                {/* banner input */}
+                {/* is_published switch input */}
+                <TextareaInput name="about" label="About This Event" />
+                <DateInput name="event_date" label="Event Date" />
+                <TextInput name="start_at" label="Starting Time" />
+                <TextInput name="end_at" label="Ending Time" />
+                <SelectInput name="location.school" label="School" list={schools}/>
+                <TextInput name="location.name" label="Location (ie. kumaplay auditorium)" />
+                <TextareaInput name="location.description" label="Location Guide (ie. around engineering campus)" />
+                {/* faq object list input */}
                 {/* agenda object list */}
-                {/* submit button */}
+                <div className="w-full flex justify-end">
+                    <Button size='xs' disabled={isSubmitting}>Save Changes</Button>
+                </div>
             </form>
         </Form>
     )
