@@ -43,7 +43,8 @@ export default async function EventModerators({ params, searchParams }: QueryPro
   const isModeratorFormOpen = searchParams.new as unknown as boolean;
   const moderatorHandlerData = {
     title: "Add a new moderator",
-    isOpen: isModeratorFormOpen
+    isOpen: isModeratorFormOpen,
+    eventID
   }
 
   return (

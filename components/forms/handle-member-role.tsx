@@ -25,7 +25,7 @@ const FormSchema = z.object({
 
 export type HandleMemberRole = z.infer<typeof FormSchema>;
 export type HandleMemberRoleFormProps = {
-    variant: 'new' | 'modify',
+    variant?: 'new' | 'modify',
     orgID: string,
     role?: any,
     className?: string,

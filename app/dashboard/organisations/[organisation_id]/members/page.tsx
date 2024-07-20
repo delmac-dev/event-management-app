@@ -6,11 +6,12 @@ import { columns } from "./columns";
 import MemberHandler from "@/app/dashboard/(form-handlers)/member-handler";
 
 export default async function OrganisationMembers({ params, searchParams }: QueryProps) {
-  const organisationID = params.organisation_id;
+  const orgID = params.organisation_id;
   const isMemberFormOpen = searchParams.new as unknown as boolean;
   const memberHandlerData = {
     title: "Add a new member",
-    isOpen: isMemberFormOpen
+    isOpen: isMemberFormOpen,
+    orgID
   }
 
   return (

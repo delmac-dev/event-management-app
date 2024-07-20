@@ -10,7 +10,8 @@ export default async function EventRoles({ params, searchParams }: QueryProps) {
   const isRoleFormOpen = searchParams.new as unknown as boolean;
   const roleHandlerData = {
     title: "Add a new role",
-    isOpen: isRoleFormOpen
+    isOpen: isRoleFormOpen,
+    eventID
   }
 
   return (

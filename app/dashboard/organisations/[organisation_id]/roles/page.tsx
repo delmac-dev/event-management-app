@@ -6,11 +6,12 @@ import { DataTable } from "@/components/common/data-table";
 import MemberRoleHandler from "@/app/dashboard/(form-handlers)/member-role-handler";
 
 export default async function OrganisationRoles({ params, searchParams }: QueryProps) {
-  const organisationID = params.organisation_id;
+  const orgID = params.organisation_id;
   const isRoleFormOpen = searchParams.new as unknown as boolean;
   const roleHandlerData = {
     title: "Add a new role",
-    isOpen: isRoleFormOpen
+    isOpen: isRoleFormOpen,
+    orgID
   };
 
   return (
