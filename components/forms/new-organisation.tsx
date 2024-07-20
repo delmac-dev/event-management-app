@@ -54,7 +54,8 @@ export default function NewOrganisationForm({closeHandler, className}:NewOrganis
                     <SelectInput name="category" label="Category" placeHolder="Select a Category" list={orgCategories} />
                     <ImageInput name="avatar_url" label="Avatar" />
                 </div>
-                <div  className="sticky bottom-0 right-0 z-50 w-full p-4 bg-background flex flex-row-reverse justify-between">
+                <div  className="sticky bottom-0 right-0 z-50 w-full p-4 bg-background flex gap-3 justify-end">
+                    <Button size='xs' variant='secondary' type='button' disabled={isSubmitting} onClick={closeHandler}>Cancel</Button>
                     <Button size='xs' disabled={isSubmitting}>Create Organisation</Button>
                 </div>
             </form>

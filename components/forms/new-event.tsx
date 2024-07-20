@@ -100,7 +100,8 @@ export default function NewEventForm({closeHandler, organisation, className}:New
                     <TextareaInput name="location.description" label="Location Guide (ie. around engineering campus)" placeHolder="Help Attendees find event" />
                     <ImageInput name="banner" label="Banner" />
                 </div>
-                <div  className="sticky bottom-0 right-0 z-50 w-full p-4 bg-background flex flex-row-reverse justify-between">
+                <div  className="sticky bottom-0 right-0 z-50 w-full p-4 bg-background flex gap-3 justify-end">
+                    <Button size='xs' variant='secondary' type='button' disabled={isSubmitting} onClick={closeHandler}>Cancel</Button>
                     <Button size='xs' disabled={isSubmitting}>Create Event</Button>
                 </div>
             </form>
