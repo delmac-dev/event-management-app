@@ -7,11 +7,11 @@ import Link from "next/link";
 export default function MobileNavigation({ navLinks, children }:{ navLinks: any, children?: React.ReactNode }) {
 
     return (
-        <div className="block md:hidden pr-1.5">
+        <div className="block md:hidden px-3">
             <Sheet>
                 <SheetTrigger asChild>
-                    <Button variant={'ghost'} size='sm' className="p-1.5">
-                        <MenuIcon size={20} />
+                    <Button variant={'ghost'} size='sm' className="p-1">
+                        <MenuIcon className="size-7" />
                     </Button>
                 </SheetTrigger>
                 <SheetPortal>

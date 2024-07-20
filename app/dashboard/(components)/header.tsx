@@ -56,7 +56,7 @@ const HeaderOptions = () => {
     },[]); 
 
     return (
-        <div className="h-full flex gap-1.5 items-center">
+        <div className="h-full flex items-center">
             <div className="h-full flex items-center gap-2 px-3 max-lg:border-r">
                 <Notifications />
                 <ProfileAvatar user={user} />
