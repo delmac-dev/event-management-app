@@ -6,7 +6,7 @@ import { createClient } from "./supabase/server";
 const supabase = createClient();
 
 // ALL QUERIES RELATING TO PROFILE
-export const getProfile = async () => {
+export const getAuthProfile = async () => {
     const { data: { user: data }, error } = await supabase.auth.getUser();
 
     if(error) {
@@ -15,6 +15,22 @@ export const getProfile = async () => {
 
     return data;
 };
+
+export const getProfile = async () => {
+    const { data: { user }} = await supabase.auth.getUser();
+
+    if (!user) throw new Error('No user logged in');
+
+    const { data, error } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('id', user.id)
+    .single();
+
+    if(error) throw error;
+
+    return data;
+}
 
 export const modifyProfile = async(profileData: HandleProfile) => {
     const { data: { user }} = await supabase.auth.getUser();

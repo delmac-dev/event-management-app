@@ -11,6 +11,7 @@ export const publicKeys = {
 export const dashboardKeys = {
     all: ['dashboard'] as const,
     profile: ['profile'] as const,
+    authProfile: ['auth-profile'] as const,
 
     events: (filters: any) => [...dashboardKeys.all, 'event', filters] as const,
     event: (id: number) => [...dashboardKeys.all, 'event', id] as const,
