@@ -83,7 +83,8 @@ export default async function EventTickets({ params, searchParams }: QueryProps)
   const isTicketFormOpen = searchParams.new as unknown as boolean;
   const ticketHandlerData = {
     title: "Add a new ticket",
-    isOpen: isTicketFormOpen
+    isOpen: isTicketFormOpen,
+    eventID
   }
   
   return (

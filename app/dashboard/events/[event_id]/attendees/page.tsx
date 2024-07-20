@@ -83,7 +83,8 @@ export default async function EventAttendees({ params, searchParams }: QueryProp
   const isAttendeeFormOpen = searchParams.new as unknown as boolean;
   const attendeeHandlerData = {
     title: "Add a new attendee",
-    isOpen: isAttendeeFormOpen
+    isOpen: isAttendeeFormOpen,
+    eventID
   }
 
   return (
