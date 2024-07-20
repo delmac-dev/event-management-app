@@ -3,9 +3,9 @@ export const publicKeys = {
     all: ['public'] as const,
     events: (filters: any) => [...publicKeys.all, 'event', filters] as const,
     event: (id: number) => [...publicKeys.all, 'event', id] as const,
-    attendees: (filters: any) => [...publicKeys.all, 'attendee', filters] as const,
+    attendees: (filters: any) => [...publicKeys.all, 'attendees', filters] as const,
     attendee: (id: number) => [...publicKeys.all, 'attendee', id] as const,
-    tickets: (eventID: number) => [...publicKeys.all, 'ticket', eventID] as const,
+    tickets: (eventID: number) => [...publicKeys.all, 'tickets', eventID] as const,
 };
 
 export const dashboardKeys = {
@@ -30,4 +30,6 @@ export const dashboardKeys = {
     orgMember: (memberID: number, id: number) => [...dashboardKeys.org(id), 'org-member', memberID] as const,
     orgRoles: (filters: any, id: number) => [...dashboardKeys.org(id), 'org-roles', filters] as const,
     orgRole: (roleID: number, id: number) => [...dashboardKeys.org(id), 'org-role', roleID] as const,
+
+    tickets: (filters: any) => [...dashboardKeys.all, 'tickets', filters] as const,
 };
