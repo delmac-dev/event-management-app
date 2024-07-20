@@ -48,13 +48,13 @@ export default function NewOrganisationForm({closeHandler, className}:NewOrganis
     return (
         <Form {...form}>
             <form onSubmit={handleSubmit(onSubmit)} className={cn("w-full flex-1 flex flex-col", className)}>
-                <div className="flex-1 space-y-4">
+                <div className="relative z-0 flex-1 space-y-4 p-4">
                     <TextInput name="name" label="Name" placeHolder="Enter the organisation name" />
                     <TextInput name="headline" label="Headline" placeHolder="Enter headline" />
                     <SelectInput name="category" label="Category" placeHolder="Select a Category" list={orgCategories} />
                     <ImageInput name="avatar_url" label="Avatar" />
                 </div>
-                <div  className="w-full pt-4 flex flex-row-reverse justify-between">
+                <div  className="sticky bottom-0 right-0 z-50 w-full p-4 bg-background flex flex-row-reverse justify-between">
                     <Button size='xs' disabled={isSubmitting}>Create Organisation</Button>
                 </div>
             </form>
