@@ -15,8 +15,8 @@ const linkList = [
     {name: "My tickets", link: _dashboardTickets},
 ]
 
-export default function ProfileAvatar({ user }: {user:User | null}) {
-    const userData:UserMetadata|null = user?.user_metadata ?? null;
+export default function ProfileAvatar({ user }: {user:User}) {
+    const userData:UserMetadata = user.user_metadata;
 
     return (
         <Popover>

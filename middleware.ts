@@ -4,9 +4,9 @@ import { _dashboard,  _login } from "./lib/routes";
 import { offlineUser } from "./lib/constants";
 
 export async function middleware(request: NextRequest) {
-  const { response, supabase } = await updateSession(request);
+  const { response, user } = await updateSession(request);
   // const { data: user } = await supabase.auth.getUser();
-  const user = {user: offlineUser};
+  // const user = {user: offlineUser};
   const url = request.nextUrl.clone();
   const pathname = url.pathname;
   const params = url.searchParams;
@@ -17,11 +17,11 @@ export async function middleware(request: NextRequest) {
   const isPublic = /^\/(events|organisations|tickets|profile|api)|\/$/.test(pathname);
 
   // logged out users cant access protected pages
-  if(!user.user && isProtected && !isAuth)
+  if(!user && isProtected && !isAuth)
     return Response.redirect(new URL(`${_login}?redirectTo=${redirectTo}`, url.origin));
 
   // signed in users cant access login or join page
-  if(user.user&& isAuth)
+  if(user && isAuth)
     return Response.redirect(new URL(_dashboard, url.origin));
 
   return response;

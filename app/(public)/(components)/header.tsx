@@ -5,17 +5,12 @@ import MobileNavigation from "@/components/common/mobile-navigation";
 import Notifications from "@/components/common/notification-button";
 import ProfileAvatar from "@/components/common/profile-avatar";
 import { Button } from "@/components/ui/button";
-import { offlineUser } from "@/lib/constants";
+import { useGetProfile } from "@/lib/query-hooks";
 import { _dashboard, _dashboardEvents, _events, _home, _login, _tickets } from "@/lib/routes";
-import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
-import { User } from "@supabase/supabase-js";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 import { toast } from "sonner";
-
-// const supabase = createClient();
 
 const navLinks = [
     { name: "events",link: _events },
@@ -46,22 +41,9 @@ export default function Header () {
 }
 
 const HeaderOptions = () => {
-    const [user, setUser] = useState<User | null>(null);
+    const { data: user, isLoading, isError, error } = useGetProfile();
 
-    useEffect(() => {
-        // const fetchUser = async () => {
-        //     const { data, error } = await supabase.auth.getUser();
-        //     if (error) {
-        //         console.error('Error fetching user:', error.message);
-        //         toast("Error fetching user");
-        //         return;
-        //     }
-        //     setUser(data.user);
-        // };
-        
-        // fetchUser();
-        setUser(offlineUser);
-    },[]); 
+    if(isError) toast.error(error.message);
 
     return (
         <div className="flex gap-1.5 items-center">

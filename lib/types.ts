@@ -1,11 +1,12 @@
 import { Provider, SupabaseClient } from "@supabase/supabase-js"
+import { Database } from "./supabase/database.type"
 
 export type QueryProps = {
     params: {[key: string]: string}
     searchParams: { [key: string]: string }
 }
 
-// export TypedSupabaseClient = SuperbaseClient<>
+export type TypedSupabaseClient = {}
 
 export type OAuthProvider = {
     name: Provider,
@@ -16,4 +17,24 @@ export type NavigationProps = {
     name: string;
     link: string;
     active: boolean;
-}
+};
+
+export type ProfileProps = Database['public']['Tables']['profiles']['Row'];
+
+export type EventProps = Database['public']['Tables']['events']['Row'];
+
+export type EventModeratorProps = Database['public']['Tables']['event_moderators']['Row'];
+
+export type EventRoleProps = Database['public']['Tables']['event_roles']['Row'];
+
+export type OrgProps = Database['public']['Tables']['organisations']['Row'];
+
+export type OrgMemberProps = Database['public']['Tables']['organisation_members']['Row'];
+
+export type OrgRoleProps = Database['public']['Tables']['organisation_roles']['Row'];
+
+export type AttendeeProps = Database['public']['Tables']['attendees']['Row'];
+
+export type TicketProps = Database['public']['Tables']['tickets']['Row'];
+
+export type NotificationProps = Database['public']['Tables']['notifications']['Row'];
