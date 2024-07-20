@@ -10,6 +10,7 @@ import Link from "next/link";
 import SignOutButton from "../auth/signout-button";
 import { useQueryClient } from "@tanstack/react-query";
 import { dashboardKeys } from "@/lib/query-keys";
+import { useState } from "react";
 
 const linkList = [
     {name: "My profile", link: _dashboardProfileEdit},
@@ -18,11 +19,12 @@ const linkList = [
 ]
 
 export default function ProfileAvatar({ user }: {user:User}) {
+    const [ open, setOpen ] = useState<boolean>(false);
     const userData:UserMetadata | null = user?.user_metadata ?? null;
     const queryClient = useQueryClient();
 
     return (
-        <Popover>
+        <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
                 <Button variant="outline" size='sm' className="flex items-center gap-2 rounded-full p-1.5">
                     {userData && 
@@ -48,9 +50,7 @@ export default function ProfileAvatar({ user }: {user:User}) {
                         </Link>
                     </PopoverClose>
                 ))}
-                <PopoverClose>
-                    <SignOutButton />
-                </PopoverClose>
+                <SignOutButton extraAction={()=> setOpen(false)} />
             </PopoverContent>
         </Popover>
     )

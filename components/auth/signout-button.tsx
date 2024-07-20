@@ -2,9 +2,12 @@ import { _login } from "@/lib/routes";
 import { Button } from "../ui/button";
 import { signOut } from "@/lib/actions";
 
-export default function SignOutButton() {
+export default function SignOutButton({extraAction}: { extraAction: ()=>void}) {
 
-  const handleSignOut = async () => await signOut()
+  const handleSignOut = async () => {
+    extraAction();
+    await signOut();
+  }
 
   return (
     <form>
