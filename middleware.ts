@@ -1,12 +1,10 @@
 import { type NextRequest } from "next/server";
 import { updateSession } from "./lib/supabase/middleware";
-import { _dashboard,  _login } from "./lib/routes";
-import { offlineUser } from "./lib/constants";
+import { _dashboard,  _dashboardOrgs,  _login } from "./lib/routes";
 
 export async function middleware(request: NextRequest) {
   const { response, user } = await updateSession(request);
-  // const { data: user } = await supabase.auth.getUser();
-  // const user = {user: offlineUser};
+
   const url = request.nextUrl.clone();
   const pathname = url.pathname;
   const params = url.searchParams;
@@ -19,6 +17,10 @@ export async function middleware(request: NextRequest) {
   // logged out users cant access protected pages
   if(!user && isProtected && !isAuth)
     return Response.redirect(new URL(`${_login}?redirectTo=${redirectTo}`, url.origin));
+
+  // _dashboard is not accessible
+  if(pathname === _dashboard)
+    return Response.redirect(new URL(_dashboardOrgs, url.origin)); 
 
   // signed in users cant access login or join page
   if(user && isAuth)

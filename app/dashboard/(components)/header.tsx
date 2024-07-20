@@ -4,14 +4,10 @@ import Logo from "@/components/common/logo";
 import MobileNavigation from "@/components/common/mobile-navigation";
 import Notifications from "@/components/common/notification-button";
 import ProfileAvatar from "@/components/common/profile-avatar";
-import { offlineUser } from "@/lib/constants";
-import { _dashboardEvents, _dashboardOrgs, _dashboardTickets, _home } from "@/lib/routes";
-import { createClient } from "@/lib/supabase/client";
-import { User } from "@supabase/supabase-js";
+import SpinnerIcon from "@/components/icons/spinner-icon";
+import { useGetProfile } from "@/lib/query-hooks";
+import { _dashboardEvents, _dashboardOrgs, _dashboardTickets, _home, _login } from "@/lib/routes";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-
-// const supabase = createClient();
 
 const navLinks = [
     { name: "organisations",link: _dashboardOrgs },
@@ -37,29 +33,16 @@ export default function Header () {
 }
 
 const HeaderOptions = () => {
-    const [user, setUser] = useState<User | null>(null);
-
-    useEffect(() => {
-        // const fetchUser = async () => {
-        //     const { data, error } = await supabase.auth.getUser();
-        //     if (error) {
-        //         console.error('Error fetching user:', error.message);
-        //         toast("Error fetching user");
-        //         return;
-        //     }
-        //     setUser(data.user);
-        // };
-        
-        // fetchUser();
-        setUser(offlineUser);
-
-    },[]); 
+    const { data: user, isLoading, isError, error } = useGetProfile();
 
     return (
         <div className="h-full flex items-center">
             <div className="h-full flex items-center gap-2 px-3 max-lg:border-r">
                 <Notifications />
-                <ProfileAvatar user={user} />
+                {user ? 
+                    (<ProfileAvatar user={user} />) : 
+                    (<SpinnerIcon className="text-secondary-foreground size-7" />)
+                }
             </div>
             <MobileNavigation navLinks={navLinks} />
         </div>

@@ -3,13 +3,16 @@ import { Button } from "../ui/button";
 import { signOut } from "@/lib/actions";
 
 export default function SignOutButton() {
+
+  const handleSignOut = async () => await signOut()
+
   return (
     <form>
       <Button 
         type="submit"  
         variant='secondary'
         className="w-full mt-2" 
-        formAction={async()=> await signOut()}
+        formAction={handleSignOut}
       >
         SignOut
       </Button>

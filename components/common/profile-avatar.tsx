@@ -8,6 +8,8 @@ import { ChevronDown } from "lucide-react";
 import { _dashboardEvents, _dashboardProfile, _dashboardProfileEdit, _dashboardTickets } from "@/lib/routes";
 import Link from "next/link";
 import SignOutButton from "../auth/signout-button";
+import { useQueryClient } from "@tanstack/react-query";
+import { dashboardKeys } from "@/lib/query-keys";
 
 const linkList = [
     {name: "My profile", link: _dashboardProfileEdit},
@@ -16,7 +18,8 @@ const linkList = [
 ]
 
 export default function ProfileAvatar({ user }: {user:User}) {
-    const userData:UserMetadata = user.user_metadata;
+    const userData:UserMetadata | null = user?.user_metadata ?? null;
+    const queryClient = useQueryClient();
 
     return (
         <Popover>
@@ -45,7 +48,9 @@ export default function ProfileAvatar({ user }: {user:User}) {
                         </Link>
                     </PopoverClose>
                 ))}
-                <SignOutButton />
+                <PopoverClose>
+                    <SignOutButton />
+                </PopoverClose>
             </PopoverContent>
         </Popover>
     )
