@@ -5,7 +5,7 @@ import MobileNavigation from "@/components/common/mobile-navigation";
 import Notifications from "@/components/common/notification-button";
 import ProfileAvatar from "@/components/common/profile-avatar";
 import SpinnerIcon from "@/components/icons/spinner-icon";
-import { useGetProfile } from "@/lib/query-hooks";
+import { useGetAuthProfile } from "@/lib/query-hooks";
 import { _dashboardEvents, _dashboardOrgs, _dashboardTickets, _home, _login } from "@/lib/routes";
 import Link from "next/link";
 
@@ -33,7 +33,7 @@ export default function Header () {
 }
 
 const HeaderOptions = () => {
-    const { data: user, isLoading, isError, error } = useGetProfile();
+    const { data: user, isLoading, isError, error } = useGetAuthProfile();
 
     return (
         <div className="h-full flex items-center">
