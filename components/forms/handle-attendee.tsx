@@ -26,7 +26,7 @@ export type HandleAttendeeFormProps = {
 }
 
 export default function HandleAttendeeForm(props:HandleAttendeeFormProps) {
-    const { variant, closeHandler, eventID, attendee, className} = props;
+    const { variant = 'new', closeHandler, eventID, attendee, className} = props;
     const form = useForm<HandleAttendee>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
@@ -68,7 +68,7 @@ export default function HandleAttendeeForm(props:HandleAttendeeFormProps) {
                 </div>
                 <div className="sticky bottom-0 right-0 z-50 w-full p-4 bg-background flex gap-3 justify-end">
                     <Button size='xs' variant='secondary' type='button' disabled={isSubmitting} onClick={closeHandler}>Cancel</Button>
-                    <Button size='xs' disabled={isSubmitting}>Add Ticket</Button>
+                    <Button size='xs' disabled={isSubmitting}>Add Attendee</Button>
                 </div>
             </form>
         </Form>

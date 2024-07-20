@@ -1,13 +1,18 @@
+"use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { Form } from "../ui/form";
 import { cn } from "@/lib/utils";
+import { Button } from "../ui/button";
+import { TextInput } from "../common/custom-form-fields";
 
 const FormSchema = z.object({
     name: z.string(),
     headline: z.string(),
+    event_id: z.string(),
     permissions: z.object({
         can_modify_event: z.boolean(),
         can_add_new_moderator: z.boolean(),
@@ -27,17 +32,20 @@ const FormSchema = z.object({
 
 export type HandleModeratorRole = z.infer<typeof FormSchema>;
 export type HandleModeratorRoleFormProps = {
-    variant: 'new' | 'modify',
-    event: any,
+    variant?: 'new' | 'modify',
+    eventID: string,
     role?: any,
-    className?: string
+    className?: string,
+    closeHandler: ()=>void
 }
 
-export default function HandleModeratorRoleForm({variant='new', className}:HandleModeratorRoleFormProps) {
+export default function HandleModeratorRoleForm(props:HandleModeratorRoleFormProps) {
+    const {variant='new', eventID, closeHandler, className} = props;
     const form = useForm<HandleModeratorRole>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
             name: '',
+            event_id: eventID,
             headline: '',
             permissions: {
                 can_modify_event: false,
@@ -57,37 +65,41 @@ export default function HandleModeratorRoleForm({variant='new', className}:Handl
         }
     });
 
-    const {handleSubmit} = form;
-    // fetch users in organisation
-    // if searched user, fetch user by name or email that matches query and pass to select 
-    // fetch roles in with this event_id
+    const {handleSubmit, formState: { isSubmitting }} = form;
 
     function onSubmit(data: HandleModeratorRole) {
         toast.success("You submitted the following values:", {
           description: JSON.stringify(data, null, 2),
           position: "top-right"
-        })
+        });
+
+        closeHandler();
     };
 
     return (
         <Form {...form}>
-            <form onSubmit={handleSubmit(onSubmit)} className={cn("w-full", className)}>\
-                {/* name string input */}
-                {/* headline string input */}
-                {/* permissions.can_modify_event switch input */}
-                {/* permissions.can_add_new_moderator switch input */}
-                {/* permissions.can_modify_moderator switch input */}
-                {/* permissions.can_remove_moderator switch input */}
-                {/* permissions.can_add_new_role switch input */}
-                {/* permissions.can_modify_role switch input */}
-                {/* permissions.can_remove_role switch input */}
-                {/* permissions.can_add_new_ticket switch input */}
-                {/* permissions.can_modify_ticket switch input */}
-                {/* permissions.can_remove_ticket switch input */}
-                {/* permissions.can_add_new_attendee switch input */}
-                {/* permissions.can_modify_attendee switch input */}
-                {/* permissions.can_remove_attendee switch input */}
-                {/* submit button */}
+            <form onSubmit={handleSubmit(onSubmit)} className={cn("w-full flex-1 flex flex-col", className)}>
+                <div className="relative z-0 flex-1 space-y-4 overflow-auto p-4">
+                    <TextInput name="name" label="Role Name" placeHolder="Enter a role name" />
+                    <TextInput name="headline" label="Headline" placeHolder="What describes this role" />
+                    {/* permissions.can_modify_event switch input */}
+                    {/* permissions.can_add_new_moderator switch input */}
+                    {/* permissions.can_modify_moderator switch input */}
+                    {/* permissions.can_remove_moderator switch input */}
+                    {/* permissions.can_add_new_role switch input */}
+                    {/* permissions.can_modify_role switch input */}
+                    {/* permissions.can_remove_role switch input */}
+                    {/* permissions.can_add_new_ticket switch input */}
+                    {/* permissions.can_modify_ticket switch input */}
+                    {/* permissions.can_remove_ticket switch input */}
+                    {/* permissions.can_add_new_attendee switch input */}
+                    {/* permissions.can_modify_attendee switch input */}
+                    {/* permissions.can_remove_attendee switch input */}
+                </div>
+                <div className="sticky bottom-0 right-0 z-50 w-full p-4 bg-background flex gap-3 justify-end">
+                    <Button size='xs' variant='secondary' type='button' disabled={isSubmitting} onClick={closeHandler}>Cancel</Button>
+                    <Button size='xs' disabled={isSubmitting}>Add Role</Button>
+                </div>
             </form>
         </Form>
     )
