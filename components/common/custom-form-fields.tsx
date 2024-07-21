@@ -4,7 +4,7 @@ import { Input } from "../ui/input";
 import { useController, useFieldArray, useFormContext } from "react-hook-form";
 import { Slider } from "../ui/slider";
 import { Checkbox } from "../ui/checkbox";
-import { CalendarIcon, Check, CheckIcon, ChevronsUpDown, PlusCircle, Trash, UploadCloud } from "lucide-react";
+import { Check, PlusCircle, Trash, UploadCloud } from "lucide-react";
 import { Label } from "../ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { useRef } from "react";
@@ -14,8 +14,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "../ui/command";
 import { Textarea } from "../ui/textarea";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
-import { format } from "date-fns";
-import { Calendar } from "../ui/calendar";
+
 
 type CommonProps = {
     name: string,
@@ -388,7 +387,7 @@ export const DateInput = (props: DateInputProps) => {
         <CustomFieldWrapper {...wrapperProps}>
         <div className="relative space-y-0 z-0">
             <FormControl>
-                <Input {...field} disabled={disabled} type="date"/>
+                <Input {...field} onChange={(e) => field.onChange(String(e.target.value))} disabled={disabled} type="date"/>
             </FormControl>
         </div>
         </CustomFieldWrapper>
@@ -404,7 +403,7 @@ export const NumberInput = (props: NumberInputProps) => {
         disabled=false,
         description, 
         showError, 
-        placeHolder="Text Here"
+        placeHolder
     } = props;
 
     const wrapperProps = {name, label, description, showError};
@@ -413,7 +412,7 @@ export const NumberInput = (props: NumberInputProps) => {
     return (
         <CustomFieldWrapper {...wrapperProps}>
             <FormControl>
-                <Input {...field} type="number" placeholder={placeHolder} disabled={disabled} min={min} max={max}/>
+                <Input {...field} onChange={(e) => field.onChange(Number(e.target.value))} type="number" placeholder={placeHolder} disabled={disabled} min={min} max={max}/>
             </FormControl>
         </CustomFieldWrapper>
     )

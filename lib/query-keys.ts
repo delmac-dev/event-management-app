@@ -15,8 +15,8 @@ export const dashboardKeys = {
 
     userOrgSelectList: () => [...dashboardKeys.all, 'org', 'select', 'list'] as const, 
 
-    events: (filters: any) => [...dashboardKeys.all, 'event', filters] as const,
-    event: (id: number) => [...dashboardKeys.all, 'event', id] as const,
+    events: () => [...dashboardKeys.all, 'events'] as const,
+    event: (id: number) => [...dashboardKeys.all, 'events', id] as const,
     eventTickets: (filters: any, id: number) => [...dashboardKeys.event(id), 'event-tickets', filters] as const,
     eventTicket: (eventID: number, id: number) => [...dashboardKeys.event(id), 'event-ticket', eventID] as const,
     eventAttendees: (filters: any, id: number) => [...dashboardKeys.event(id), 'event-attendees', filters] as const,

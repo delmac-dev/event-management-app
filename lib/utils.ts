@@ -42,3 +42,21 @@ export function extractFilenameFromURL(url: string) {
   
   return segments[segments.length - 1];
 }
+
+export function stringToList(str: string) {
+  if (!str) return [];
+  return str.split(',').map(item => item.trim());
+}
+
+export const convertTo12HourFormat = (time24: string) => {
+  let [hours, minutes] = time24.split(':');
+  const suffix = +hours >= 12 ? 'PM' : 'AM';
+  hours = (hours === '00' ? '12' : (+hours % 12 || 12)).toString();
+  return `${hours}:${minutes} ${suffix}`;
+};
+
+export const timeToDate = (time24: string): Date => {
+  const [hours, minutes] = time24.split(':').map(Number);
+  
+  return new Date(1970, 0, 1, hours, minutes);
+};

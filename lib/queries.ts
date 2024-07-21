@@ -6,7 +6,9 @@ import { createAdmin } from "./supabase/admin";
 import { NewOrganisation } from "@/components/forms/new-organisation";
 import { ModifyOrganisation } from "@/components/forms/modify-organisation";
 import { FetchedOrganisationProps } from "./types";
-import { extractFilenameFromURL } from "./utils";
+import { extractFilenameFromURL, stringToList } from "./utils";
+import { NewEvent } from "@/components/forms/new-event";
+import { Database } from "./supabase/database.type";
 
 const supabase = createClient();
 
@@ -66,7 +68,28 @@ export const getEvents = () => {
 };
 
 export const getEventByID = () => {};
-export const setEvent = () => {};
+
+type Events = Database['public']['Tables']['events']
+
+export const setEvent = async ({eventData}:{eventData: NewEvent}) => {
+    const { data: { user }} = await supabase.auth.getUser();
+    let {organisation_id, name, headline, capacity, event_type, category, tags, event_date, start_at, end_at, location, banner} = eventData;
+    if (!user) throw new Error('No user logged in');
+
+    const { error } = await supabase
+    .from('events')
+    .insert({ 
+        name, organisation_id, capacity, category, headline, event_type, 
+        organiser: user.id, 
+        tags: stringToList(tags), 
+        event_date, start_at, end_at, location, banner
+    })
+
+    if (error) throw error;
+
+    return null;
+};
+
 export const updateEvent = () => {};
 
 export const getEventTickets = () => {};

@@ -553,4 +553,4 @@ export const ACCEPTED_IMAGE_TYPES = [
 
 export const EVENT_TYPE_OPTIONS = ["public", "private"];
 
-export const TIME_REGEX = /^(0[1-9]|1[0-2]):([0-5][0-9]) ?([AaPp][Mm])$/;
+export const TIME_REGEX = /^(?:[01]\d|2[0-3]):[0-5]\d$/;
