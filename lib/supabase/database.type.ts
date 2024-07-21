@@ -69,105 +69,6 @@ export type Database = {
           },
         ]
       }
-      event_moderators: {
-        Row: {
-          created_at: string | null
-          event_id: string
-          has_accepted: boolean
-          id: string
-          is_active: boolean
-          role_id: string
-          updated_at: string | null
-          user_id: string
-        }
-        Insert: {
-          created_at?: string | null
-          event_id: string
-          has_accepted?: boolean
-          id?: string
-          is_active?: boolean
-          role_id: string
-          updated_at?: string | null
-          user_id: string
-        }
-        Update: {
-          created_at?: string | null
-          event_id?: string
-          has_accepted?: boolean
-          id?: string
-          is_active?: boolean
-          role_id?: string
-          updated_at?: string | null
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "event_moderators_event_id_fkey"
-            columns: ["event_id"]
-            isOneToOne: false
-            referencedRelation: "events"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "event_moderators_role_id_fkey"
-            columns: ["role_id"]
-            isOneToOne: false
-            referencedRelation: "event_roles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "event_moderators_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      event_roles: {
-        Row: {
-          created_at: string | null
-          event_id: string | null
-          headline: string | null
-          id: string
-          is_active: boolean
-          is_general: boolean | null
-          name: string
-          permissions: Json
-          updated_at: string | null
-        }
-        Insert: {
-          created_at?: string | null
-          event_id?: string | null
-          headline?: string | null
-          id?: string
-          is_active?: boolean
-          is_general?: boolean | null
-          name: string
-          permissions: Json
-          updated_at?: string | null
-        }
-        Update: {
-          created_at?: string | null
-          event_id?: string | null
-          headline?: string | null
-          id?: string
-          is_active?: boolean
-          is_general?: boolean | null
-          name?: string
-          permissions?: Json
-          updated_at?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "event_roles_event_id_fkey"
-            columns: ["event_id"]
-            isOneToOne: false
-            referencedRelation: "events"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       events: {
         Row: {
           about: string | null
@@ -303,7 +204,6 @@ export type Database = {
           id: string
           is_active: boolean | null
           organisation_id: string
-          role_id: string
           updated_at: string | null
           user_id: string
         }
@@ -313,7 +213,6 @@ export type Database = {
           id?: string
           is_active?: boolean | null
           organisation_id: string
-          role_id: string
           updated_at?: string | null
           user_id: string
         }
@@ -323,7 +222,6 @@ export type Database = {
           id?: string
           is_active?: boolean | null
           organisation_id?: string
-          role_id?: string
           updated_at?: string | null
           user_id?: string
         }
@@ -336,61 +234,10 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "organisation_members_role_id_fkey"
-            columns: ["role_id"]
-            isOneToOne: false
-            referencedRelation: "organisation_roles"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "organisation_members_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      organisation_roles: {
-        Row: {
-          created_at: string | null
-          headline: string | null
-          id: string
-          is_active: boolean
-          is_general: boolean | null
-          name: string
-          organisation_id: string | null
-          permissions: Json
-          updated_at: string | null
-        }
-        Insert: {
-          created_at?: string | null
-          headline?: string | null
-          id?: string
-          is_active?: boolean
-          is_general?: boolean | null
-          name: string
-          organisation_id?: string | null
-          permissions: Json
-          updated_at?: string | null
-        }
-        Update: {
-          created_at?: string | null
-          headline?: string | null
-          id?: string
-          is_active?: boolean
-          is_general?: boolean | null
-          name?: string
-          organisation_id?: string | null
-          permissions?: Json
-          updated_at?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "organisation_roles_organisation_id_fkey"
-            columns: ["organisation_id"]
-            isOneToOne: false
-            referencedRelation: "organisations"
             referencedColumns: ["id"]
           },
         ]
