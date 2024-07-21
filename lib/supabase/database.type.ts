@@ -397,6 +397,7 @@ export type Database = {
       }
       organisations: {
         Row: {
+          about: string | null
           avatar_url: string
           category: string
           created_at: string | null
@@ -408,6 +409,7 @@ export type Database = {
           updated_at: string | null
         }
         Insert: {
+          about?: string | null
           avatar_url: string
           category: string
           created_at?: string | null
@@ -419,6 +421,7 @@ export type Database = {
           updated_at?: string | null
         }
         Update: {
+          about?: string | null
           avatar_url?: string
           category?: string
           created_at?: string | null
