@@ -53,5 +53,11 @@ export const useGetOrganisationByID = (id: string) => {
 }
 
 export const useModifyOrganisation = ( id: string ) => {
-    return useMutation({ mutationFn: modifyOrganisation})
+    const queryClient = useQueryClient();
+
+    const queryKey = dashboardKeys.org(id);
+    return useMutation({ 
+        mutationFn: modifyOrganisation,
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKey })
+    })
 }
