@@ -15,7 +15,6 @@ import DeleteHandler from "@/app/dashboard/(components)/delete-handler";
 import { _home } from "@/lib/routes";
 import { deleteProfile } from "@/lib/queries";
 import { signOut } from "@/lib/actions";
-import { dashboardKeys } from "@/lib/query-keys";
 
 const FormSchema = z.object({
     username: z.string().nullable(),
