@@ -153,7 +153,16 @@ export const deleteOrganisation = async({ id }: { id: string }) => {
 }
 
 export const getOrganisationEvents = async({ id }: { id: string }) => {
-    
+    const { data, error } = await supabase
+    .from('events')
+    .select(`
+        *
+    `)
+    .eq('organisation_id', id);
+
+    if(error) throw error;
+
+    return data;
 }
 
 export const getOrganisationOwner = async({ id }: { id: string }) => {
@@ -178,3 +187,21 @@ export const unbookTicket = () => {};
 
 export const getNotifications = () => {};
 export const updateNotification = () => {};
+
+// FORM NECCESSARY QUERIES
+export const getUserOrgSelect = async () => {
+    const { data: { user }} = await supabase.auth.getUser();
+
+    if (!user) throw new Error('No user logged in');
+
+    const { data, error } = await supabase
+    .from('organisation_members')
+    .select('organisation_id:organisations(value:id, label:name)')
+    .eq('user_id', user.id);
+
+    if (error) throw error;
+
+    const organisations = data.map(member => member.organisation_id)
+
+    return organisations as { value: string; label: string }[];
+}

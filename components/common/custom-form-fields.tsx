@@ -25,7 +25,7 @@ type CommonProps = {
     showError?: boolean,
 }
 
-type CommonObjectProps = {
+export type CommonObjectProps = {
     label: string,
     value: string
 }
@@ -86,9 +86,9 @@ type RadioGroupInputProps = CommonProps & {
     options: string[],
 }
 
-type DateInputProps = CommonProps & {
-    placeHolder?: string
-}
+type DateInputProps = CommonProps & {}
+
+type TimeInputProps = CommonProps & {}
 
 const CustomFieldWrapper = (props:CustomFieldWrapperProps) => {
     const {name, label, className, description, showError = false, children } = props;
@@ -109,16 +109,7 @@ const CustomFieldWrapper = (props:CustomFieldWrapperProps) => {
 };
 
 export const TextInput = (props: TextInputProps) => {
-    const {
-        icon,
-        name, 
-        label, 
-        disabled=false,
-        description, 
-        showError, 
-        placeHolder="Text Here"
-    } = props;
-
+    const { icon, name,  label,  disabled=false, description,  showError,  placeHolder } = props;
     const wrapperProps = {name, label, description, showError};
     const { field } = useController({name});
     const IconComponent = icon;
@@ -217,22 +208,14 @@ export const CheckListInput = (props: CheckListInputProps) => {
 };
 
 export const SelectInput = (props: SelectInputProps) => {
-    const {
-        list,
-        name, 
-        label, 
-        disabled=false,
-        description, 
-        showError, 
-        placeHolder="Select Something"
-    } = props;
+    const { list, name,  label,  disabled=false, description, showError, placeHolder } = props;
 
     const wrapperProps = {name, label, description, showError};
     const { field } = useController({name});
 
     return (
         <CustomFieldWrapper {...wrapperProps}>
-            <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value} disabled={disabled}>
+            <Select onValueChange={(value) => field.onChange(value)} defaultValue={field.value} value={field.value} disabled={disabled}>
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder={placeHolder} />
@@ -397,43 +380,17 @@ export const RadioGroupInput = (props: RadioGroupInputProps) => {
 };
 
 export const DateInput = (props: DateInputProps) => {
-    const {
-        name, 
-        label,
-        placeHolder = "Pick a date",
-        disabled=false,
-        description, 
-        showError, 
-    } = props;
-
+    const { name,  label,  disabled=false, description,  showError } = props;
     const wrapperProps = {name, label, description, showError};
     const { field } = useController({name});
 
     return (
         <CustomFieldWrapper {...wrapperProps}>
-            <Popover>
-                <PopoverTrigger asChild>
-                    <FormControl>
-                        <Button
-                            variant={"outline"}
-                            disabled={disabled}
-                            className={cn("w-full pl-3 text-left font-normal text-muted-foreground")}
-                        >
-                            {field.value ? ( format(field.value, "PPP") ) : ( <span>{placeHolder}</span> )}
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                    </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                        disabled={(date) => date < new Date()}
-                        initialFocus
-                    />
-                </PopoverContent>
-            </Popover>
+        <div className="relative space-y-0 z-0">
+            <FormControl>
+                <Input {...field} disabled={disabled} type="date"/>
+            </FormControl>
+        </div>
         </CustomFieldWrapper>
     )
 };
@@ -500,7 +457,21 @@ export const ImageListInput = (props: ImageListInputProps) => {
     )
 };
 
-export const TimeInput = () => {};
+export const TimeInput = (props: TimeInputProps) => {
+    const { name,  label,  disabled=false, description,  showError } = props;
+    const wrapperProps = {name, label, description, showError};
+    const { field } = useController({name});
+
+    return (
+        <CustomFieldWrapper {...wrapperProps}>
+        <div className="relative space-y-0 z-0">
+            <FormControl>
+                <Input {...field} disabled={disabled} type="time"/>
+            </FormControl>
+        </div>
+        </CustomFieldWrapper>
+    )
+};
 
 export const SwitchInput = () => {};
 

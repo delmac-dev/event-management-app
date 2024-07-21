@@ -13,6 +13,8 @@ export const dashboardKeys = {
     profile: ['profile'] as const,
     authProfile: ['auth-profile'] as const,
 
+    userOrgSelectList: () => [...dashboardKeys.all, 'org', 'select', 'list'] as const, 
+
     events: (filters: any) => [...dashboardKeys.all, 'event', filters] as const,
     event: (id: number) => [...dashboardKeys.all, 'event', id] as const,
     eventTickets: (filters: any, id: number) => [...dashboardKeys.event(id), 'event-tickets', filters] as const,
@@ -22,9 +24,9 @@ export const dashboardKeys = {
 
     orgs: () => [...dashboardKeys.all, 'orgs'] as const,
     org: (id: string) => [...dashboardKeys.all, 'org', id] as const,
-    orgEvents: (filters: any, id: string) => [...dashboardKeys.org(id), 'org-events', filters] as const,
-    orgMembers: (filters: any, id: string) => [...dashboardKeys.org(id), 'org-members', filters] as const,
+    orgEvents: ( id: string) => [...dashboardKeys.org(id), 'org-events'] as const,
+    orgMembers: ( id: string) => [...dashboardKeys.org(id), 'org-members'] as const,
     orgMember: (memberID: number, id: string) => [...dashboardKeys.org(id), 'org-member', memberID] as const,
 
-    tickets: (filters: any) => [...dashboardKeys.all, 'tickets', filters] as const,
+    tickets: () => [...dashboardKeys.all, 'tickets'] as const,
 };

@@ -6,24 +6,28 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { Form } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
-import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { Button } from "../ui/button";
-import { ArrowLeft, ArrowRight } from "lucide-react";
 import React, { useState } from "react";
-import { DateInput, ImageInput, NumberInput, RadioGroupInput, SelectInput, TextareaInput, TextInput } from "@/components/common/custom-form-fields";
-import { eventCategoryList, schools } from "@/lib/constants";
+import { DateInput, ImageInput, NumberInput, RadioGroupInput, SelectInput, TextareaInput, TextInput, TimeInput } from "@/components/common/custom-form-fields";
+import { EVENT_TYPE_OPTIONS, eventCategoryList, schools, TIME_REGEX } from "@/lib/constants";
+import { useGetUserOrgSelect } from "@/lib/query-hooks";
+import SpinnerIcon from "../icons/spinner-icon";
+import { Input } from "../ui/input";
+
+const today = new Date();
+today.setHours(0, 0, 0, 0);
 
 const FormSchema = z.object({
-    organisation_id: z.string().min(1),
+    organisation_id: z.string().min(1, "An organisation must be created"),
     name: z.string().min(1),
     headline: z.string().min(1),
     capacity: z.string().min(1),
     event_type: z.string().min(1),
     category: z.string().min(1),
     tags: z.string().min(1),
-    event_date: z.date(),
-    start_at: z.string().min(1),
-    end_at: z.string().min(1),
+    event_date: z.date().refine((date) => date <= today),
+    start_at: z.string().regex(TIME_REGEX, "Invalid time format (hh:mm AM/PM)"),
+    end_at: z.string().regex(TIME_REGEX, "Invalid time format (hh:mm AM/PM)"),
     location: z.object({
         school: z.string().min(1),
         name: z.string().min(1),
@@ -36,65 +40,69 @@ const FormSchema = z.object({
 export type NewEvent = z.infer<typeof FormSchema>;
 export type NewEventFormProps = {
     closeHandler: () => void,
-    organisation?: any,
+    organisationID?: string,
     className?: string
 }
 
-export default function NewEventForm({closeHandler, organisation, className}:NewEventFormProps) {
+export default function NewEventForm({closeHandler, organisationID, className}:NewEventFormProps) {
+    const { data: selectOrganisations, isLoading } = useGetUserOrgSelect();
+    
+    const defaultValues =  {
+        organisation_id: organisationID as string,
+        name: '',
+        headline: '',
+        capacity: '',
+        event_type: '',
+        category: '',
+        tags: '',
+        event_date: new Date(),
+        start_at: '',
+        end_at: '',
+        location: {
+            school: '',
+            name: '',
+            description: ''
+        },
+        banner: null
+    }
+
     const form = useForm<NewEvent>({
         resolver: zodResolver(FormSchema),
-        defaultValues: {
-            organisation_id: organisation?.id ?? '' as string,
-            name: '',
-            headline: '',
-            capacity: '',
-            event_type: '',
-            category: '',
-            tags: '',
-            event_date: new Date(),
-            start_at: '',
-            end_at: '',
-            location: {
-                school: '',
-                name: '',
-                description: ''
-            },
-            banner: null
-        }
+        defaultValues
     });
 
-    const {trigger, handleSubmit, formState: { isSubmitting }} = form;
-    const dummyOrgList = [
-        { label: "ACES", value: "9897967-90878-85667-786868"},
-    ]
-    const eventTypeOptions = ["public", "private"];
+    const {handleSubmit, reset, formState: { isSubmitting }} = form;
 
     function onSubmit(data: NewEvent) {
-        toast.success("You submitted the following values:", {
-          description: JSON.stringify(data, null, 2),
-          position: "top-right"
-        });
+        toast.success("You submitted the following values:");
 
         closeHandler();
     };
 
     // if organisation just pass organisation as select option and selected as default else
     // fetch organisations where the user_id has permission to create event and pass to select input
+    if(isLoading) {
+        return (
+            <div className="w-full py-14 flex_center">
+                <SpinnerIcon className="size-10 text-secondary-foreground" />
+            </div>
+        )
+    }
 
     return (
         <Form {...form}>
             <form onSubmit={handleSubmit(onSubmit)} className={cn("w-full flex-1 flex flex-col", className)}>
                 <div className="relative z-0 flex-1 space-y-4 p-4">
-                    <SelectInput name="organisation_id" label="Organisation" placeHolder="Select an organisation" list={dummyOrgList} />
+                    <SelectInput name="organisation_id" label="Organisation" placeHolder="Select an organisation" list={selectOrganisations ?? []} disabled={!!organisationID}/>
                     <TextInput name="name" label="Name" placeHolder="What's the name of your event" />
                     <TextInput name="headline" label="Headline" placeHolder="Enter a memorable headline" />
-                    <RadioGroupInput name="event_type" label="Event Type" options={eventTypeOptions} />
+                    <RadioGroupInput name="event_type" label="Event Type" options={EVENT_TYPE_OPTIONS} />
                     <SelectInput name="category" label="Category" placeHolder="Select a category" list={eventCategoryList} />
                     <NumberInput name="capacity" label="Capacity" placeHolder="Total Capacity" />
                     <TextInput name="tags" label="Tags ( #cool, #free, #awesome )" placeHolder="Tags Associated with your event" />
-                    <DateInput name="event_date" label="Event Date" placeHolder="When is the event occuring" />
-                    <TextInput name="start_at" label="Starting Time" placeHolder="When is the event starting" />
-                    <TextInput name="end_at" label="Ending Time" placeHolder="When is the event ending" />
+                    <DateInput name="event_date" label="Event Date" />
+                    <TimeInput name="start_at" label="Starting Time" />
+                    <TimeInput name="end_at" label="Ending Time" />
                     <SelectInput name="location.school" label="School" placeHolder="Campus event is taking place" list={schools}/>
                     <TextInput name="location.name" label="Location (ie. kumaplay auditorium)" placeHolder="Location of the event" />
                     <TextareaInput name="location.description" label="Location Guide (ie. around engineering campus)" placeHolder="Help Attendees find event" />

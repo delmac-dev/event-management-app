@@ -5,7 +5,12 @@ import NewEventForm from "@/components/forms/new-event";
 import { Button } from "@/components/ui/button"
 import { useEffect, useState } from "react";
 
-export default function NewEventHandler({ isOpen=false }:{ isOpen?: boolean }) {
+type NewEventHandlerProps = { 
+    isOpen?: boolean, 
+    organisationID?: string 
+};
+
+export default function NewEventHandler({ isOpen=false, organisationID }: NewEventHandlerProps) {
     const [open, setOpen] = useState(false);
     const title = "New Event";
     const description = "Start Your New Event";
@@ -23,7 +28,7 @@ export default function NewEventHandler({ isOpen=false }:{ isOpen?: boolean }) {
                 title={title} 
                 description={description}
             >
-                <NewEventForm closeHandler={()=>setOpen(false)} />
+                <NewEventForm closeHandler={()=>setOpen(false)} organisationID={organisationID} />
             </DialogFormWrapper>
         </>
     )
