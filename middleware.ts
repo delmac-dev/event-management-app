@@ -1,6 +1,6 @@
 import { type NextRequest } from "next/server";
 import { updateSession } from "./lib/supabase/middleware";
-import { _dashboard,  _dashboardOrgs,  _login } from "./lib/routes";
+import { _dashboard,  _dashboardOrgs,  _dashboardProfile,  _dashboardProfileEdit,  _login } from "./lib/routes";
 
 export async function middleware(request: NextRequest) {
   const { response, user } = await updateSession(request);
@@ -21,6 +21,10 @@ export async function middleware(request: NextRequest) {
   // _dashboard is not accessible
   if(pathname === _dashboard)
     return Response.redirect(new URL(_dashboardOrgs, url.origin)); 
+
+  // _dashboardProfile is not accessible
+  if(pathname === _dashboardProfile)
+    return Response.redirect(new URL(_dashboardProfileEdit, url.origin)); 
 
   // signed in users cant access login or join page
   if(user && isAuth)

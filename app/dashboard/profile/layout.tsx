@@ -17,7 +17,7 @@ export default function Layout({children}:LayoutProps) {
   return (
     <>
       <BodyNavigation navigationList={navigationList} />
-        {children}
+      {children}
     </>
   );
 }

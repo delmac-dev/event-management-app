@@ -75,18 +75,8 @@ export const getEventTicketByID = () => {};
 
 export const getEventAttendees = () => {};
 export const setEventAttendee = () => {};
-export const updateEventAttendee = () => {}; // for checking an attendee in 
+export const updateEventAttendee = () => {};
 export const deleteEventAttendee = () => {};
-
-export const getEventModerators = () => {};
-export const setEventModerator = () => {};
-export const updateEventModerator = () => {};
-export const removeEventModerator = () => {};
-
-export const getEventRoles = () => {};
-export const setEventRole = () => {};
-export const updateEventRole = () => {};
-export const removeEventRole = () => {};
 
 // ALL QUERIES RELATING TO ORGANIZATIONS
 export const getUserOrganisations = async() => {
@@ -175,11 +165,6 @@ export const getOrganisationOwner = async({ id }: { id: string }) => {
     return data
 }
 
-export const getOrganisationRoles = () => {};
-export const setOrganisationRole = () => {};
-export const updateOrganisationRole = () => {};
-export const removeOrganisationRole = () => {};
-
 export const getOrgansationMembers = () => {};
 export const setOrganisationMember = () => {};
 export const updateOrganisationMember = () => {};
@@ -192,6 +177,3 @@ export const unbookTicket = () => {};
 
 export const getNotifications = () => {};
 export const updateNotification = () => {};
-
-export const getSettings = () => {};
-export const updateSettings = () => {};
