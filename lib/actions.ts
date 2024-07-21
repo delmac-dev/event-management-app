@@ -25,8 +25,8 @@ export const signInWithOAuth = async (provider: Provider) =>  {
     redirect(data.url);
 }
 
-export const signOut = async () => {
+export const signOut = async (shouldRedirect: boolean = true) => {
   const supabase = createClient();
   const { error } =  await supabase.auth.signOut();
-  if(!error) redirect(_login);
+  if(!error && shouldRedirect) redirect(_login);
 }

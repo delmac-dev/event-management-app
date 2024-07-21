@@ -2,8 +2,11 @@
 
 import { HandleProfile } from "@/components/forms/handle-profile";
 import { createClient } from "./supabase/server";
+import { createAdmin } from "./supabase/admin";
 
 const supabase = createClient();
+
+const admin = createAdmin().auth.admin;
 
 // ALL QUERIES RELATING TO PROFILE
 export const getAuthProfile = async () => {
@@ -32,22 +35,24 @@ export const getProfile = async () => {
     return data;
 }
 
-export const modifyProfile = async(profileData: HandleProfile) => {
-    const { data: { user }} = await supabase.auth.getUser();
-
-    if (!user) throw new Error('No user logged in');
-
-    const { email, full_name, avatar_url, username } = profileData
+export const modifyProfile = async({ profileData, id }:{ profileData: HandleProfile, id: string }) => {
+    const { email, full_name, avatar_url, username } = profileData;
 
     const { data, error } = await supabase
         .from('profiles')
         .update({ email, full_name, avatar_url, username })
-        .eq('id', user.id);
+        .eq('id', id);
 
     if (error) throw error;
 
     return data;
 };
+
+export const deleteProfile = async({ id }: { id: string }) => {
+    const { data, error } = await admin.deleteUser(id);
+
+    return data;
+}
 
 // ALL QUERIES RELATING TO EVENTS
 export const getEvents = () => {
@@ -55,6 +60,7 @@ export const getEvents = () => {
     // for user specific event pass in user_events to the transaction
     // also pass in filter object to the transaction
 };
+
 export const getEventByID = () => {};
 export const setEvent = () => {};
 export const updateEvent = () => {};

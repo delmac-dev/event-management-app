@@ -1,24 +1,29 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useQueryClient } from "@tanstack/react-query";
 import { TriangleAlert } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 type DeleteHandlerProps = {
     title: string,
     description: string,
     buttonText: string,
     deleteAction: () => any,
+    toastMessage: string,
     redirectTo: string,
-    queryKey: string[]
 }
 
 export default function DeleteHandler (props: DeleteHandlerProps) {
-    const { title, description, buttonText, deleteAction, queryKey } = props;
+    const { title, description, buttonText, deleteAction, redirectTo, toastMessage } = props;
+    const router = useRouter();
+    const queryClient = useQueryClient();
 
     const handleClick = async () => {
-        // delete function
-        // show toast
-        // redirect to redirectTo
+        await deleteAction();
+        toast.success(toastMessage, { position: 'top-right' });
+        router.push(redirectTo);
     }
 
     return (
