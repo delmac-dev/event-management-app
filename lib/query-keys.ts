@@ -24,8 +24,8 @@ export const dashboardKeys = {
     eventRoles: (filters: any, id: number) => [...dashboardKeys.event(id), 'event-roles', filters] as const,
     eventRole: (roleID: number, id: number) => [...dashboardKeys.event(id), 'event-role', roleID] as const,
 
-    orgs: (filters: any) => [...dashboardKeys.all, 'orgs', filters] as const,
-    org: (id: number) => [...dashboardKeys.all, 'orgs', id] as const,
+    orgs: () => [...dashboardKeys.all, 'orgs'] as const,
+    org: (id: number) => [...dashboardKeys.all, 'org', id] as const,
     orgEvents: (filters: any, id: number) => [...dashboardKeys.org(id), 'org-events', filters] as const,
     orgMembers: (filters: any, id: number) => [...dashboardKeys.org(id), 'org-members', filters] as const,
     orgMember: (memberID: number, id: number) => [...dashboardKeys.org(id), 'org-member', memberID] as const,

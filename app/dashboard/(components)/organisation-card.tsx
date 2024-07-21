@@ -1,14 +1,15 @@
 "use client";
 
-import { OrgType } from '@/lib/constants';
 import { _dashboardOrgEvents } from '@/lib/routes';
 import { cn } from '@/lib/utils';
 import NextImage from 'next/image';
 import { ChevronRight, Image } from 'lucide-react';
 import Link from 'next/link';
-import React from 'react'
+import React from 'react';
 
-const OrganisationCard = ({id, name, headline, about}: OrgType) => {
+const OrganisationCard = (props: any) => {
+  const {id, name, headline, about} = props;
+  
   return (
     <div className="w-full h-44 rounded-sm flex flex-col border gap-3">
         <div className="w-full flex gap-2 px-4 pt-4">

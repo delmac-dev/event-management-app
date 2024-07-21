@@ -3,6 +3,7 @@
 import { HandleProfile } from "@/components/forms/handle-profile";
 import { createClient } from "./supabase/server";
 import { createAdmin } from "./supabase/admin";
+import { NewOrganisation } from "@/components/forms/new-organisation";
 
 const supabase = createClient();
 
@@ -86,9 +87,40 @@ export const updateEventRole = () => {};
 export const removeEventRole = () => {};
 
 // ALL QUERIES RELATING TO ORGANIZATIONS
-export const getOrganisations = () => {};
+export const getUserOrganisations = async() => {
+    const { data: { user }} = await supabase.auth.getUser();
+
+    if (!user) throw new Error('No user logged in');
+
+    const { data, error } = await supabase
+        .from('organisations')
+        .select(`
+            *,
+            organisation_members (
+                profiles ( avatar_url )
+            )
+        `)
+        .eq('organisation_members.user_id', user.id);
+
+    if (error) throw error;
+
+    return data;
+};
+
 export const getOrganisationByID = () => {};
-export const setOrganisation = () => {};
+
+export const setOrganisation = async({orgData}:{orgData: NewOrganisation}) => {
+    const { data: { user }} = await supabase.auth.getUser();
+    let { name, headline, about, avatar_url, category } = orgData;
+    if (!user) throw new Error('No user logged in');
+
+    const { error } = await supabase
+        .from('organisations')
+        .insert({ name, owner: user.id, headline, about, avatar_url, category })
+
+    if (error) throw error;
+};
+
 export const updateOganisation = () => {};
 
 export const getOrganisationRoles = () => {};

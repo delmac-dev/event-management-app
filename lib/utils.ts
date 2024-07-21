@@ -24,3 +24,13 @@ export const parseNavigation = (pathname: string, navigation: NavigationProps[])
 export const findItem = (id: string, data: any[]) => {
   return data.find(item => item.id === id);
 }
+
+export function slugify(text: string): string {
+  return text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
+}
