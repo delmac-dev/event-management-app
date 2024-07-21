@@ -529,3 +529,24 @@ export const schools = [
         value: "Kwame Nkrumah University of Science and Technology"
     },
 ]
+
+const member_role_json = {
+    "can_modify_organisation": true,
+    "can_add_new_member": true,
+    "can_modify_member": true,
+    "can_remove_member": true,
+    "can_add_new_role": true,
+    "can_modify_role": true,
+    "can_remove_role": true,
+    "can_add_new_event": true
+}
+
+
+export const MAX_FILE_SIZE = 5000000;
+
+export const ACCEPTED_IMAGE_TYPES = [
+  "image/jpeg",
+  "image/jpg",
+  "image/png",
+  "image/webp",
+];

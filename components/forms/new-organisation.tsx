@@ -6,20 +6,11 @@ import { Form } from "../ui/form";
 import { cn } from "@/lib/utils";
 import { ImageInput, SelectInput, TextareaInput, TextInput } from "@/components/common/custom-form-fields";
 import { Button } from "../ui/button";
-import { orgCategories } from "@/lib/constants";
+import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE, orgCategories } from "@/lib/constants";
 import { useSetOrganisation } from "@/lib/query-hooks";
 import { useEffect } from "react";
 import SpinnerIcon from "../icons/spinner-icon";
 import { uploadFile } from "@/lib/supabase/upload-file";
-
-const MAX_FILE_SIZE = 5000000;
-
-const ACCEPTED_IMAGE_TYPES = [
-  "image/jpeg",
-  "image/jpg",
-  "image/png",
-  "image/webp",
-];
 
 const FormSchema = z.object({
     name: z.string().min(1, "Must enter erganisation name"),
