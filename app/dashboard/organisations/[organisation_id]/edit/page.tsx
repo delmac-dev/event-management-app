@@ -11,14 +11,6 @@ const demo = async () => {
 
 export default async function OrganisationEdit({ params }: QueryProps) {
   const orgID = params.organisation_id;
-  const deleteHandlerData = {
-    title: "Delete this organisation",
-    description: "All the events and a data associated with this organisation will also be deleted along side the organisation",
-    buttonText: "Delete Organisation",
-    deleteAction: demo,
-    redirectTo: _dashboardOrgs,
-    queryKey: []
-  }
 
   return (
     <>
@@ -27,7 +19,6 @@ export default async function OrganisationEdit({ params }: QueryProps) {
       </BodyHeader>
       <BodyContent className="space-y-4">
         <ModifyOrganisationForm orgID={orgID} />
-        <DeleteHandler { ...deleteHandlerData } />
       </BodyContent>
     </>
   );

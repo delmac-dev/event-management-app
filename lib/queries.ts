@@ -4,6 +4,8 @@ import { HandleProfile } from "@/components/forms/handle-profile";
 import { createClient } from "./supabase/server";
 import { createAdmin } from "./supabase/admin";
 import { NewOrganisation } from "@/components/forms/new-organisation";
+import { ModifyOrganisation } from "@/components/forms/modify-organisation";
+import { FetchedOrganisationProps } from "./types";
 
 const supabase = createClient();
 
@@ -107,7 +109,20 @@ export const getUserOrganisations = async() => {
     return data;
 };
 
-export const getOrganisationByID = () => {};
+export const getOrganisationByID = async({ id }: { id: string }) => {
+    const { data, error } = await supabase
+    .from('organisations')
+    .select(`
+        *,
+        owner(full_name)
+    `)
+    .eq("id", id)
+    .single()
+
+    if(error) throw error;
+
+    return data as unknown as FetchedOrganisationProps;
+};
 
 export const setOrganisation = async({orgData}:{orgData: NewOrganisation}) => {
     const { data: { user }} = await supabase.auth.getUser();
@@ -119,9 +134,46 @@ export const setOrganisation = async({orgData}:{orgData: NewOrganisation}) => {
         .insert({ name, owner: user.id, headline, about, avatar_url, category })
 
     if (error) throw error;
+
+    return null;
 };
 
-export const updateOganisation = () => {};
+export const modifyOrganisation = async({ orgData, id }: { orgData: ModifyOrganisation, id: string }) => {
+    const { name, headline, avatar_url, about, owner, category } = orgData;
+    console.log({ name, headline, avatar_url, about, owner, category });
+
+    const { data, error } = await supabase
+    .from('organisations')
+    .update({ name, headline, avatar_url, about, owner, category })
+    .eq('id', id);
+
+    if(error) throw error;
+
+    return data;
+};
+
+export const deleteOrganisation = async({ id }: { id: string }) => {
+    const { data } = await supabase
+    .from('organisations')
+    .delete()
+    .eq('id', id);
+
+    return data;
+}
+
+export const getOrganisationEvents = async({ id }: { id: string }) => {
+    
+}
+
+export const getOrganisationOwner = async({ id }: { id: string }) => {
+    const { data, error } = await supabase
+    .from('profiles')
+    .select('full_name')
+    .eq('id', id)
+    .single();
+
+    return data
+}
 
 export const getOrganisationRoles = () => {};
 export const setOrganisationRole = () => {};

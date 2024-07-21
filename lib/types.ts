@@ -38,3 +38,18 @@ export type AttendeeProps = Database['public']['Tables']['attendees']['Row'];
 export type TicketProps = Database['public']['Tables']['tickets']['Row'];
 
 export type NotificationProps = Database['public']['Tables']['notifications']['Row'];
+
+export type FetchedOrganisationProps = {
+    about: string,
+    avatar_url: string,
+    category: string,
+    created_at: string,
+    headline: string
+    id: string
+    is_verified: boolean
+    name: string
+    owner: {
+        full_name: string
+    },
+    updated_at: string
+}
