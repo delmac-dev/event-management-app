@@ -20,7 +20,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
       <body>
         <Providers>
           {children}
-          <Toaster position="top-center" />
+          <Toaster position="top-right" />
         </Providers>
       </body>
     </html>
