@@ -89,7 +89,7 @@ export default function NewOrganisationForm({closeHandler, className}:NewOrganis
                     <SelectInput name="category" label="Category" placeHolder="Select a Category" list={orgCategories} />
                     <ImageInput name="avatar_url" label="Avatar" />
                 </div>
-                <div  className="sticky bottom-0 right-0 z-50 w-full p-4 bg-background flex gap-3 justify-end">
+                <div className="sticky bottom-0 right-0 z-50 w-full p-4 bg-background flex gap-3 justify-end">
                     <Button size='xs' variant='secondary' type='button' disabled={isSubmitting || isPending} onClick={closeHandler}>Cancel</Button>
                     <Button size='xs' disabled={!isDirty || isSubmitting || isPending}>
                         {(isSubmitting || isPending) && (<SpinnerIcon className="size-8 text-primary-foreground" />)}
