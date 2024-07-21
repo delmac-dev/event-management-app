@@ -23,15 +23,9 @@ export type ProfileProps = Database['public']['Tables']['profiles']['Row'];
 
 export type EventProps = Database['public']['Tables']['events']['Row'];
 
-export type EventModeratorProps = Database['public']['Tables']['event_moderators']['Row'];
-
-export type EventRoleProps = Database['public']['Tables']['event_roles']['Row'];
-
 export type OrgProps = Database['public']['Tables']['organisations']['Row'];
 
 export type OrgMemberProps = Database['public']['Tables']['organisation_members']['Row'];
-
-export type OrgRoleProps = Database['public']['Tables']['organisation_roles']['Row'];
 
 export type AttendeeProps = Database['public']['Tables']['attendees']['Row'];
 
@@ -49,6 +43,7 @@ export type FetchedOrganisationProps = {
     is_verified: boolean
     name: string
     owner: {
+        id: string,
         full_name: string
     },
     updated_at: string

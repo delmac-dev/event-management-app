@@ -6,6 +6,7 @@ import { createAdmin } from "./supabase/admin";
 import { NewOrganisation } from "@/components/forms/new-organisation";
 import { ModifyOrganisation } from "@/components/forms/modify-organisation";
 import { FetchedOrganisationProps } from "./types";
+import { extractFilenameFromURL } from "./utils";
 
 const supabase = createClient();
 
@@ -104,7 +105,7 @@ export const getOrganisationByID = async({ id }: { id: string }) => {
     .from('organisations')
     .select(`
         *,
-        owner(full_name)
+        owner(id, full_name)
     `)
     .eq("id", id)
     .single()
@@ -130,7 +131,6 @@ export const setOrganisation = async({orgData}:{orgData: NewOrganisation}) => {
 
 export const modifyOrganisation = async({ orgData, id }: { orgData: ModifyOrganisation, id: string }) => {
     const { name, headline, avatar_url, about, owner, category } = orgData;
-    console.log({ name, headline, avatar_url, about, owner, category });
 
     const { data, error } = await supabase
     .from('organisations')
@@ -143,6 +143,7 @@ export const modifyOrganisation = async({ orgData, id }: { orgData: ModifyOrgani
 };
 
 export const deleteOrganisation = async({ id }: { id: string }) => {
+
     const { data } = await supabase
     .from('organisations')
     .delete()

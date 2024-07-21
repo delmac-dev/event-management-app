@@ -34,3 +34,11 @@ export function slugify(text: string): string {
     .replace(/\s+/g, '-')
     .replace(/-+/g, '-');
 }
+
+export function extractFilenameFromURL(url: string) {
+  const parsedURL = new URL(url);
+  const pathname = parsedURL.pathname;
+  const segments = pathname.split('/');
+  
+  return segments[segments.length - 1];
+}

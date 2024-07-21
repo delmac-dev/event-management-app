@@ -232,7 +232,7 @@ export const SelectInput = (props: SelectInputProps) => {
 
     return (
         <CustomFieldWrapper {...wrapperProps}>
-            <Select onValueChange={field.onChange} defaultValue={field.value} disabled={disabled}>
+            <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value} disabled={disabled}>
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder={placeHolder} />

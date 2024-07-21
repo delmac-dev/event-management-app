@@ -11,7 +11,7 @@ import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE, orgCategories } from "@/lib/consta
 import { Button } from "../ui/button";
 import { useGetOrganisationByID, useModifyOrganisation } from "@/lib/query-hooks";
 import DeleteHandler from "@/app/dashboard/(components)/delete-handler";
-import { _dashboardOrgEvents } from "@/lib/routes";
+import { _dashboardOrgs } from "@/lib/routes";
 import { deleteOrganisation, getOrganisationOwner } from "@/lib/queries";
 import { useEffect } from "react";
 import { uploadFile } from "@/lib/supabase/upload-file";
@@ -44,7 +44,7 @@ export function ModifyOrganisationForm({orgID, className}:{orgID: string, classN
         description: "All the events and a data associated with this organisation will also be deleted along side the organisation",
         buttonText: "Delete Organisation",
         toastMessage: "Organisation deleted successfully",
-        redirectTo: _dashboardOrgEvents(orgID),
+        redirectTo: _dashboardOrgs,
       }
 
     const form = useForm<ModifyOrganisation>({
@@ -67,7 +67,7 @@ export function ModifyOrganisationForm({orgID, className}:{orgID: string, classN
         if (avatarUrl instanceof File) 
             avatarUrl = await uploadFile(avatarUrl, 'organisation.avatars', data.name);
 
-        const plainData = {...data, avatar_url: avatarUrl };
+        const plainData = {...data, avatar_url: avatarUrl, owner: organisation?.owner.id as string};
 
         modifyOrganisation({ orgData: plainData, id: orgID});
     };
@@ -112,7 +112,6 @@ export function ModifyOrganisationForm({orgID, className}:{orgID: string, classN
                     <TextInput name="name" label="Name" />
                     <TextInput name="headline" label="Headline" />
                     <SelectInput name="category" label="Category" placeHolder="Select a Category" list={orgCategories} />
-                    {/* image select input */}
                     <TextInput name="owner" label="Organisation Owner" disabled />
                     <TextInput name="avatar_url" label="Image" />
                     <div className="w-full flex justify-end">
