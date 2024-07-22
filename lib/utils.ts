@@ -72,3 +72,9 @@ export const formatDate = (dateString: string) => {
   
   return formatter.format(date);
 };
+
+export function listToString(list: string[]) {
+  if (!list || list.length === 0) return '';
+  
+  return list.join(',');
+}

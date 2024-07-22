@@ -7,7 +7,7 @@ import { Checkbox } from "../ui/checkbox";
 import { Check, PlusCircle, Trash, UploadCloud } from "lucide-react";
 import { Label } from "../ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
@@ -54,7 +54,8 @@ type CheckListInputProps = CommonProps & {
 
 type SelectInputProps = CommonProps & {
     list: CommonObjectProps[],
-    placeHolder?: string
+    placeHolder?: string,
+    defaultvalue?: string
 }
 
 type ImageInputProps = CommonProps & {
@@ -83,6 +84,7 @@ type TextareaInputProps = CommonProps & {
 
 type RadioGroupInputProps = CommonProps & {
     options: string[],
+    defaultValue?: string,
 }
 
 type DateInputProps = CommonProps & {}
@@ -207,14 +209,18 @@ export const CheckListInput = (props: CheckListInputProps) => {
 };
 
 export const SelectInput = (props: SelectInputProps) => {
-    const { list, name,  label,  disabled=false, description, showError, placeHolder } = props;
+    const { list, name,  label,  disabled=false, description, showError, placeHolder, defaultvalue = '' } = props;
 
     const wrapperProps = {name, label, description, showError};
     const { field } = useController({name});
 
+    useEffect(() => {
+        if(field.value === '') field.onChange(defaultvalue);
+    }, [field])
+
     return (
         <CustomFieldWrapper {...wrapperProps}>
-            <Select onValueChange={(value) => field.onChange(value)} defaultValue={field.value} value={field.value} disabled={disabled}>
+            <Select onValueChange={(value) => field.onChange(value)} defaultValue={defaultvalue} value={field.value} disabled={disabled}>
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder={placeHolder} />
@@ -341,17 +347,14 @@ export const TextareaInput = (props: TextareaInputProps) => {
 };
 
 export const RadioGroupInput = (props: RadioGroupInputProps) => {
-    const {
-        name, 
-        label, 
-        options,
-        disabled=false,
-        description, 
-        showError, 
-    } = props;
+    const { name,  label,  options, disabled=false, description,  showError, defaultValue = "" } = props;
 
     const wrapperProps = {name, label, description, showError};
     const { field } = useController({name});
+
+    useEffect(() => {
+        if(field.value === "") field.value = defaultValue;
+    }, [field]);
 
     return (
         <CustomFieldWrapper {...wrapperProps}>
@@ -359,6 +362,7 @@ export const RadioGroupInput = (props: RadioGroupInputProps) => {
                 <RadioGroup
                   onValueChange={field.onChange}
                   defaultValue={field.value}
+                  value={field.value}
                   disabled={disabled}
                   className="flex space-y-0 space-x-1"
                 >  

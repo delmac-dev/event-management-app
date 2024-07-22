@@ -5,10 +5,11 @@ import { createClient } from "./supabase/server";
 import { createAdmin } from "./supabase/admin";
 import { NewOrganisation } from "@/components/forms/new-organisation";
 import { ModifyOrganisation } from "@/components/forms/modify-organisation";
-import { FetchedEventProps, FetchedOrganisationProps } from "./types";
+import { FetchedEventProps, FetchedModifiableEventProps, FetchedOrganisationProps } from "./types";
 import { stringToList } from "./utils";
 import { NewEvent } from "@/components/forms/new-event";
 import { Database } from "./supabase/database.type";
+import { ModifyEvent } from "@/components/forms/modify-event";
 
 const supabase = createClient();
 
@@ -88,7 +89,21 @@ export const getMemberEvents = async () => {
     return data as FetchedEventProps[];
 };
 
-export const getEventByID = () => {};
+export const getEventByID = async ({id}:{id:string}) => {
+    const { data, error } = await supabase
+    .from('events')
+    .select(`
+        *,
+        organisation_id(value:id, label:name),
+        organiser(value:id, label:full_name)
+    `)
+    .eq("id", id)
+    .single()
+
+    if(error) throw error;
+
+    return data as unknown as FetchedModifiableEventProps;
+};
 
 export const setEvent = async ({eventData}:{eventData: NewEvent}) => {
     const { data: { user }} = await supabase.auth.getUser();
@@ -109,7 +124,31 @@ export const setEvent = async ({eventData}:{eventData: NewEvent}) => {
     return null;
 };
 
-export const updateEvent = () => {};
+export const modifyEvent = async ({ eventData, id }: { eventData: ModifyEvent, id: string }) => {
+    const {name, headline, category, capacity, tags, 
+        event_type, banner, is_published, about, event_date, start_at, end_at, 
+        location, faq, agenda
+    } = eventData;
+
+    const { data, error } = await supabase
+    .from('events')
+    .update({ name, headline, category, capacity, event_type, banner, is_published, 
+                about, event_date, start_at, end_at, location, faq, agenda, tags: stringToList(tags) })
+    .eq('id', id);
+
+    if(error) throw error;
+
+    return data;
+};
+
+export const deleteEvent = async ({id}:{id: string}) => {
+    const { data } = await supabase
+    .from('events')
+    .delete()
+    .eq('id', id);
+
+    return data;
+}
 
 export const getEventTickets = () => {};
 export const setEventTicket = () => {};

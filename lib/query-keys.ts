@@ -16,17 +16,17 @@ export const dashboardKeys = {
     userOrgSelectList: () => [...dashboardKeys.all, 'org', 'select', 'list'] as const, 
 
     events: () => [...dashboardKeys.all, 'events'] as const,
-    event: (id: number) => [...dashboardKeys.all, 'events', id] as const,
-    eventTickets: (filters: any, id: number) => [...dashboardKeys.event(id), 'event-tickets', filters] as const,
-    eventTicket: (eventID: number, id: number) => [...dashboardKeys.event(id), 'event-ticket', eventID] as const,
-    eventAttendees: (filters: any, id: number) => [...dashboardKeys.event(id), 'event-attendees', filters] as const,
-    eventAttendee: (attendeeID: number, id: number) => [...dashboardKeys.event(id), 'event-attendee', attendeeID] as const,
+    event: (id: string) => [...dashboardKeys.all, 'events', id] as const,
+    eventTickets: (filters: any, id: string) => [...dashboardKeys.event(id), 'event-tickets', filters] as const,
+    eventTicket: (eventID: string, id: string) => [...dashboardKeys.event(id), 'event-ticket', eventID] as const,
+    eventAttendees: (filters: any, id: string) => [...dashboardKeys.event(id), 'event-attendees', filters] as const,
+    eventAttendee: (attendeeID: string, id: string) => [...dashboardKeys.event(id), 'event-attendee', attendeeID] as const,
 
     orgs: () => [...dashboardKeys.all, 'orgs'] as const,
     org: (id: string) => [...dashboardKeys.all, 'org', id] as const,
     orgEvents: ( id: string) => [...dashboardKeys.org(id), 'org-events'] as const,
     orgMembers: ( id: string) => [...dashboardKeys.org(id), 'org-members'] as const,
-    orgMember: (memberID: number, id: string) => [...dashboardKeys.org(id), 'org-member', memberID] as const,
+    orgMember: (memberID: string, id: string) => [...dashboardKeys.org(id), 'org-member', memberID] as const,
 
     tickets: () => [...dashboardKeys.all, 'tickets'] as const,
 };

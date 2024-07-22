@@ -59,3 +59,27 @@ export type FetchedEventProps = {
     faq: { question: string, answer: string }[] | null,
     location: { name: string, school: string, description: string }[] | null,
 }
+
+export type FetchedModifiableEventProps = {
+    id: string,
+    name: string,
+    about: string | null,
+    banner: string,
+    capacity: number,
+    category: string,
+    created_at: string,
+    end_at: string,
+    event_date: string,
+    event_status: string,
+    event_type: 'public'| "private",
+    start_at: string,
+    tags: string[]
+    updated_at: string,
+    headline: string,
+    is_published: boolean,
+    location: {name: string, school: string, description: string}
+    agenda: { time: string, title: string, description: string } [] | null,
+    faq: { question: string, answer: string }[] | null,
+    organisation_id: {value: string, label: string}
+    organiser: {value: string, label: string}
+}
