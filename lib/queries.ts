@@ -5,8 +5,8 @@ import { createClient } from "./supabase/server";
 import { createAdmin } from "./supabase/admin";
 import { NewOrganisation } from "@/components/forms/new-organisation";
 import { ModifyOrganisation } from "@/components/forms/modify-organisation";
-import { FetchedOrganisationProps } from "./types";
-import { extractFilenameFromURL, stringToList } from "./utils";
+import { FetchedEventProps, FetchedOrganisationProps } from "./types";
+import { stringToList } from "./utils";
 import { NewEvent } from "@/components/forms/new-event";
 import { Database } from "./supabase/database.type";
 
@@ -185,7 +185,7 @@ export const getOrganisationEvents = async({ id }: { id: string }) => {
 
     if(error) throw error;
 
-    return data;
+    return data as FetchedEventProps[];
 }
 
 export const getOrganisationOwner = async({ id }: { id: string }) => {

@@ -60,3 +60,15 @@ export const timeToDate = (time24: string): Date => {
   
   return new Date(1970, 0, 1, hours, minutes);
 };
+
+export const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  const formatter = new Intl.DateTimeFormat('en-GB', {
+    weekday: 'short',
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric'
+  });
+  
+  return formatter.format(date);
+};

@@ -76,10 +76,10 @@ export const useGetUserOrgSelect = () => {
     return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
 }
 
-export const useSetEvent = () => {
+export const useSetEvent = (id?: string) => {
     const queryClient = useQueryClient();
 
-    const queryKey = dashboardKeys.events();
+    const queryKey = id? dashboardKeys.orgEvents(id):dashboardKeys.events();
     return useMutation({
       mutationFn: setEvent,
       onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKey })

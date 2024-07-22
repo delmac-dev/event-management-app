@@ -34,3 +34,27 @@ export type FetchedOrganisationProps = {
     },
     updated_at: string
 }
+
+export type FetchedEventProps = {
+    id: string,
+    capacity: number,
+    category: string,
+    end_at: string,
+    event_date: string,
+    event_status: string,
+    event_type: 'public'| "private",
+    headline: string,
+    is_published: boolean,
+    name: string,
+    organisation_id: string
+    organiser: string,
+    start_at: string,
+    about: string | null,
+    tags: string[],
+    banner: string,
+    created_at: string,
+    updated_at: string
+    agenda: { time: string, title: string, description: string } [] | null,
+    faq: { question: string, answer: string }[] | null,
+    location: { name: string, school: string, description: string }[] | null,
+}
