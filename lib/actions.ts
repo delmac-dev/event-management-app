@@ -7,16 +7,18 @@ import { _login } from "./routes";
 
 
 export const signInWithOAuth = async (provider: Provider) =>  {
-  const origin = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
+  const origin = process.env.NEXT_PUBLIC_VERCEL_URL
+  ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
   : "http://localhost:3000";
+
+  const redirectTo = `${origin}/auth/callback`
   
   const supabase = createClient();
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,
     options: {
-      redirectTo: `${origin}/auth/callback`,
+      redirectTo,
     },
   });
 
