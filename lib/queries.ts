@@ -23,6 +23,9 @@ export const getAuthProfile = async () => {
         console.log(error.message);
     }
 
+    console.log( data );
+    
+
     return data;
 };
 
@@ -166,21 +169,40 @@ export const getUserOrganisations = async() => {
 
     if (!user) throw new Error('No user logged in');
 
-    const { data, error } = await supabase
-        .from('organisations')
-        .select(`
-            *,
-            organisation_members (
-                profiles ( avatar_url )
-            )
-        `)
-        .eq('organisation_members.user_id', user.id);
+    const { data: organisationsData, error: orgError } = await supabase
+    .from('organisation_members')
+    .select('organisations(*)')
+    .eq('user_id', user.id);
 
-    if (!data || error) throw new Error(error?.message || "Error fetching organisations");
+    if (!organisationsData || orgError) throw new Error(orgError?.message || "Error fetching organisations");
 
-    const filteredData = data.map(org => ({...org , organisation_members: org.organisation_members?.map(member => member.profiles?.avatar_url)})) 
+    const organisations = organisationsData.map((data) => data.organisations)
+
+    const fetchOrganisationMembers = async (organisationId: string) => {
+        const { data: members, error: memberError } = await supabase
+            .from('organisation_members')
+            .select('profiles (avatar_url)')
+            .eq('organisation_id', organisationId);
     
-    return filteredData as unknown as FetchedOrganisationProps[];
+        if (!members || memberError) throw new Error(memberError?.message || "Error fetching organisations");
+
+        return members.map(member => member?.profiles?.avatar_url) as string[];
+    };
+
+    const filteredOrganisations = await Promise.all(
+        organisations.map(async (organisation) => {
+            const avatars = organisation && await fetchOrganisationMembers(organisation.id);
+            return {
+                ...organisation,
+                organisation_members: avatars
+            };
+        })
+    );
+
+    console.log(filteredOrganisations);
+    
+    
+    return filteredOrganisations as unknown as FetchedOrganisationProps[];
 };
 
 export const getOrganisationByID = async({ id }: { id: string }) => {
