@@ -5,8 +5,6 @@ import { getAuthProfile, getEventByID, getMemberEvents, getOrganisationByID, get
 import { dashboardKeys, publicKeys } from "./query-keys";
 
 export function useGetAuthProfile() {
-    const queryClient = useQueryClient();
-    queryClient.invalidateQueries({ queryKey: ["dashboard"] })
     const queryKey = dashboardKeys.authProfile;
     const queryFn = async () => await getAuthProfile();
 
