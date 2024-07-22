@@ -34,7 +34,7 @@ export default function HandleMemberForm(props:HandleMemberFormProps) {
     const defaultValues = {
         is_active: member?.is_active || false,
         organisation_id: orgID,
-        user_id: member?.user.value || "",
+        user_id: member?.user?.value || "",
     }
 
     const form = useForm<HandleMember>({
