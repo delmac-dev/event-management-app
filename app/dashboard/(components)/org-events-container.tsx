@@ -5,6 +5,7 @@ import BodyContent from "./body-content";
 import SpinnerIcon from "@/components/icons/spinner-icon";
 import { ArchiveX } from "lucide-react";
 import EventCard from "./event-card";
+import { FetchedEventProps } from "@/lib/types";
 
 export default function OrgEventContainer({organisationID}:{organisationID: string}) {
     const { data: events, isLoading } = useGetOrganisationEvents(organisationID);
@@ -29,7 +30,7 @@ export default function OrgEventContainer({organisationID}:{organisationID: stri
     return (
         <BodyContent className="gap-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 pb-7">
             {events?.map((event, _id) => (
-                <EventCard key={_id} {...event} />
+                <EventCard key={_id} {...event as unknown as FetchedEventProps} />
             ))}
         </BodyContent>
     )

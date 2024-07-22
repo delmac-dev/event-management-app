@@ -5,6 +5,7 @@ import BodyContent from "./body-content";
 import OrganisationCard from "./organisation-card";
 import SpinnerIcon from "@/components/icons/spinner-icon";
 import { ArchiveX } from "lucide-react";
+import { FetchedOrganisationProps } from "@/lib/types";
 
 export default function OrganisationsContainer() {
     const { data: organisations, isLoading, isError } = useGetUserOrganisations();
@@ -29,7 +30,7 @@ export default function OrganisationsContainer() {
     return (
         <BodyContent className="gap-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 pb-7">
           {organisations?.map((org, _id) => (
-            <OrganisationCard key={_id} {...org} />
+            <OrganisationCard key={_id} {...org as unknown as FetchedOrganisationProps} />
           ))}
       </BodyContent>
     )

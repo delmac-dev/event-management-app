@@ -6,7 +6,7 @@ import { dashboardKeys, publicKeys } from "./query-keys";
 
 export function useGetAuthProfile() {
     const queryKey = dashboardKeys.authProfile;
-    const queryFn = async () => await getAuthProfile();
+    const queryFn = getAuthProfile;
 
     return useQuery({ queryKey, queryFn, refetchOnWindowFocus: false });
 }

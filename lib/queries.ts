@@ -21,7 +21,7 @@ export const getAuthProfile = async () => {
 
     if(error) throw error;
     
-    return data;
+    return data ?? null;
 };
 
 export const getProfile = async () => {
@@ -37,7 +37,7 @@ export const getProfile = async () => {
 
     if(error) throw error;
 
-    return data;
+    return data ?? null;
 }
 
 export const modifyProfile = async({ profileData, id }:{ profileData: HandleProfile, id: string }) => {
@@ -50,13 +50,13 @@ export const modifyProfile = async({ profileData, id }:{ profileData: HandleProf
 
     if (error) throw error;
 
-    return data;
+    return data ?? null;
 };
 
 export const deleteProfile = async({ id }: { id: string }) => {
     const { data, error } = await admin.deleteUser(id);
 
-    return data;
+    return data ?? null;
 }
 
 // ALL QUERIES RELATING TO EVENTS
@@ -84,7 +84,7 @@ export const getMemberEvents = async () => {
 
     if(error) throw error;
 
-    return data as FetchedEventProps[];
+    return data ?? [] as FetchedEventProps[];
 };
 
 export const getEventByID = async ({id}:{id:string}) => {
@@ -100,7 +100,7 @@ export const getEventByID = async ({id}:{id:string}) => {
 
     if(error) throw error;
 
-    return data as unknown as FetchedModifiableEventProps;
+    return data ?? null as unknown as FetchedModifiableEventProps;
 };
 
 export const setEvent = async ({eventData}:{eventData: NewEvent}) => {
@@ -136,7 +136,7 @@ export const modifyEvent = async ({ eventData, id }: { eventData: ModifyEvent, i
 
     if(error) throw error;
 
-    return data;
+    return data ?? null;
 };
 
 export const deleteEvent = async ({id}:{id: string}) => {
@@ -145,7 +145,7 @@ export const deleteEvent = async ({id}:{id: string}) => {
     .delete()
     .eq('id', id);
 
-    return data;
+    return data ?? null;
 }
 
 export const getEventTickets = () => {};
@@ -194,7 +194,7 @@ export const getUserOrganisations = async() => {
         })
     );
     
-    return filteredOrganisations as unknown as FetchedOrganisationProps[];
+    return filteredOrganisations ?? null as unknown as FetchedOrganisationProps[];
 };
 
 export const getOrganisationByID = async({ id }: { id: string }) => {
@@ -209,7 +209,7 @@ export const getOrganisationByID = async({ id }: { id: string }) => {
 
     if(error) throw error;
 
-    return data as unknown as FetchedOrganisationProps;
+    return data ?? null as unknown as FetchedOrganisationProps;
 };
 
 export const setOrganisation = async({orgData}:{orgData: NewOrganisation}) => {
@@ -236,7 +236,7 @@ export const modifyOrganisation = async({ orgData, id }: { orgData: ModifyOrgani
 
     if(error) throw error;
 
-    return data;
+    return data ?? null;
 };
 
 export const deleteOrganisation = async({ id }: { id: string }) => {
@@ -246,7 +246,7 @@ export const deleteOrganisation = async({ id }: { id: string }) => {
     .delete()
     .eq('id', id);
 
-    return data;
+    return data ?? null;
 }
 
 export const getOrganisationEvents = async({ id }: { id: string }) => {
@@ -259,7 +259,7 @@ export const getOrganisationEvents = async({ id }: { id: string }) => {
 
     if(error) throw error;
 
-    return data as FetchedEventProps[];
+    return data ?? null as FetchedEventProps[] | null;
 }
 
 export const getOrganisationOwner = async({ id }: { id: string }) => {
@@ -269,7 +269,7 @@ export const getOrganisationOwner = async({ id }: { id: string }) => {
     .eq('id', id)
     .single();
 
-    return data
+    return data ?? null
 }
 
 export const getMembers = async ({id}:{id: string}) => {
@@ -283,7 +283,7 @@ export const getMembers = async ({id}:{id: string}) => {
 
     if(error) throw error;
 
-    return data as FetchedMembersProps[];
+    return data ?? null as FetchedMembersProps[] | null;
 };
 
 export const getMemberByID = async ({id}:{id: string}) => {
@@ -295,7 +295,7 @@ export const getMemberByID = async ({id}:{id: string}) => {
 
     if(error) throw error;
 
-    return data as FetchedModifiableMemberProps;
+    return data ?? null as FetchedModifiableMemberProps | null;
 }
 
 export const setMember = async ({memberData}:{memberData: HandleMember}) => {
@@ -306,6 +306,8 @@ export const setMember = async ({memberData}:{memberData: HandleMember}) => {
         .insert({ organisation_id, user_id, is_active });
 
     if (error) throw error;
+
+    return null;
 };
 
 export const modifyMember = async ({memberData, id}: { memberData: HandleMember, id: string}) => {
@@ -318,7 +320,7 @@ export const modifyMember = async ({memberData, id}: { memberData: HandleMember,
 
     if(error) throw error;
 
-    return data;
+    return data ?? null;
 };
 
 export const deleteMember = async ({ id }: { id: string }) => {
@@ -327,7 +329,7 @@ export const deleteMember = async ({ id }: { id: string }) => {
     .delete()
     .eq('id', id);
 
-    return data;
+    return data ?? null;
 };
 
 export const acceptMembership = async ({ memberID }: { memberID: string }) => {
