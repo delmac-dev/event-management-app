@@ -8,7 +8,10 @@ import { headers } from "next/headers";
 
 
 export const signInWithOAuth = async (provider: Provider) =>  {
-  const origin = headers().get("origin");
+  const origin = process.env.VERCEL_URL
+  ? `https://${process.env.VERCEL_URL}`
+  : "http://localhost:3000";
+  
   const supabase = createClient();
 
   const { data, error } = await supabase.auth.signInWithOAuth({
