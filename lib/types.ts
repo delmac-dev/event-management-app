@@ -20,7 +20,7 @@ export type NavigationProps = {
 };
 
 export type FetchedOrganisationProps = {
-    about: string,
+    about: string | null,
     avatar_url: string,
     category: string,
     created_at: string,

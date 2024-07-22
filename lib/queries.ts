@@ -176,10 +176,11 @@ export const getUserOrganisations = async() => {
         `)
         .eq('organisation_members.user_id', user.id);
 
-    if (!data || error) throw new Error(error.message ?? "Error fetching organisations");
+    if (!data || error) throw new Error(error?.message || "Error fetching organisations");
 
-    return data.map(org => ({...org , organisation_members: org.organisation_members?.map(member => member.profiles?.avatar_url)}))
-
+    const filteredData = data.map(org => ({...org , organisation_members: org.organisation_members?.map(member => member.profiles?.avatar_url)})) 
+    
+    return filteredData as unknown as FetchedOrganisationProps[];
 };
 
 export const getOrganisationByID = async({ id }: { id: string }) => {
