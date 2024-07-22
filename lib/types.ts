@@ -32,7 +32,8 @@ export type FetchedOrganisationProps = {
         id: string,
         full_name: string
     },
-    updated_at: string
+    updated_at: string,
+    organisation_members: string[]
 }
 
 export type FetchedEventProps = {

@@ -61,15 +61,34 @@ export const deleteProfile = async({ id }: { id: string }) => {
 }
 
 // ALL QUERIES RELATING TO EVENTS
-export const getEvents = () => {
-    // get all general events or user specific event;
-    // for user specific event pass in user_events to the transaction
-    // also pass in filter object to the transaction
+export const getMemberEvents = async () => {
+    const { data: { user }} = await supabase.auth.getUser();
+
+    if (!user) throw new Error('No user logged in');
+
+    const { data: dataList, error:orgListError} = await supabase
+        .from('organisation_members')
+        .select('organisation_id')
+        .eq('user_id', user.id)
+        .eq('is_active', true)
+
+    if ( orgListError || !dataList) throw new Error("Error fetching events");
+
+    const orgList = dataList.map(item => item.organisation_id)
+ 
+    const { data, error } = await supabase
+        .from('events')
+        .select(`
+            *
+        `)
+        .in('organisation_id', orgList);
+
+    if(error) throw error;
+
+    return data as FetchedEventProps[];
 };
 
 export const getEventByID = () => {};
-
-type Events = Database['public']['Tables']['events']
 
 export const setEvent = async ({eventData}:{eventData: NewEvent}) => {
     const { data: { user }} = await supabase.auth.getUser();
@@ -118,9 +137,10 @@ export const getUserOrganisations = async() => {
         `)
         .eq('organisation_members.user_id', user.id);
 
-    if (error) throw error;
+    if (!data || error) throw new Error(error.message ?? "Error fetching organisations");
 
-    return data;
+    return data.map(org => ({...org , organisation_members: org.organisation_members?.map(member => member.profiles?.avatar_url)}))
+
 };
 
 export const getOrganisationByID = async({ id }: { id: string }) => {

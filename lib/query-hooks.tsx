@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getAuthProfile, getOrganisationByID, getOrganisationEvents, getProfile, getUserOrganisations, getUserOrgSelect, modifyOrganisation, modifyProfile, setEvent, setOrganisation } from "./queries";
+import { getAuthProfile, getMemberEvents, getOrganisationByID, getOrganisationEvents, getProfile, getUserOrganisations, getUserOrgSelect, modifyOrganisation, modifyProfile, setEvent, setOrganisation } from "./queries";
 import { dashboardKeys, publicKeys } from "./query-keys";
 
 export function useGetAuthProfile() {
@@ -84,4 +84,11 @@ export const useSetEvent = (id?: string) => {
       mutationFn: setEvent,
       onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKey })
     })
+}
+
+export const useGetMemberEvents = () => {
+    const queryKey = dashboardKeys.events();
+    const queryFn = async () => await getMemberEvents();
+
+    return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
 }

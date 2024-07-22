@@ -6,15 +6,18 @@ import NextImage from 'next/image';
 import { ChevronRight, Image } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
+import { FetchedOrganisationProps } from '@/lib/types';
 
-const OrganisationCard = (props: any) => {
-  const {id, name, headline, about} = props;
+const OrganisationCard = (props: FetchedOrganisationProps) => {
+  const {id, name, headline, about, avatar_url, organisation_members} = props;
   
   return (
     <div className="w-full h-44 rounded-sm flex flex-col border gap-3">
         <div className="w-full flex gap-2 px-4 pt-4">
-          <Link href={_dashboardOrgEvents(id)} className="size-10 rounded-full bg-muted flex_center">
-            <Image className='size-5 text-muted-foreground/60' />
+          <Link href={_dashboardOrgEvents(id)} className="relative z-0 overflow-hidden size-10 rounded-full bg-muted flex_center">
+            {avatar_url? 
+              (<NextImage src={avatar_url} alt={name} fill sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" className='object-cover' />):
+              (<Image className='size-5 text-muted-foreground/60' />)           }
           </Link>
           <div className="flex-1 h-full flex flex-col justify-center">
             <h4 className="text-sm font-medium max-w-full overflow-hidden text-ellipsis text-nowrap">
@@ -30,9 +33,9 @@ const OrganisationCard = (props: any) => {
         </div>
         <div className="w-full h-10 bg-muted/40 border-t px-4 flex items-center justify-between">
           <div className="flex h-full items-center">
-            {Array(4).fill("").map((_, _id)=>(
+            {organisation_members?.map((image_url, _id)=>(
               <div key={_id} className={cn("relative -ml-3 size-6 border-2 border-background aspect-square first:ml-0 rounded-full overflow-hidden")}>
-                <NextImage src="/dddepth-164.jpg" alt='profile-pic' fill /> 
+                <NextImage src={image_url} alt='profile-pic' fill /> 
               </div>
             ))}
           </div>

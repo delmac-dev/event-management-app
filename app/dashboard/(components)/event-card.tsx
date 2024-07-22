@@ -9,7 +9,6 @@ import React from 'react';
 import { FetchedEventProps } from '@/lib/types';
 
 const EventCard = ({id, name, headline, banner, event_date, start_at, about}: FetchedEventProps) => {
-  console.log(event_date);
   
   return (
     <div className="w-full border h-[360px] flex flex-col">
@@ -17,7 +16,7 @@ const EventCard = ({id, name, headline, banner, event_date, start_at, about}: Fe
         <div className="relative z-0 w-full h-full overflow-hidden">
           <Link href={_dashboardEventTickets(id)} className='w-full h-full overflow-hidden flex_center bg-muted'>
             {banner ? 
-              (<NextImage src={banner} alt={name} fill className='object-fill' />):
+              (<NextImage src={banner} alt={name} fill className='object-fill' sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" />):
               (<Image className='size-7 text-muted-foreground' />)
             }
           </Link>
