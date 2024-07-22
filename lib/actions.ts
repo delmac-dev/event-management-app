@@ -4,7 +4,6 @@ import { Provider } from "@supabase/supabase-js";
 import { createClient } from "./supabase/server";
 import { redirect } from "next/navigation";
 import { _login } from "./routes";
-import { headers } from "next/headers";
 
 
 export const signInWithOAuth = async (provider: Provider) =>  {
