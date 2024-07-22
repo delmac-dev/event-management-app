@@ -10,6 +10,7 @@ import { _dashboard, _dashboardEvents, _events, _home, _login, _tickets } from "
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 const navLinks = [
@@ -42,8 +43,12 @@ export default function Header () {
 
 const HeaderOptions = () => {
     const { data: user, isLoading, isError, error } = useGetAuthProfile();
+    const [open, setOpen] = useState(false);
 
-    if(isError) toast.error(error.message);
+    useEffect(()=> {
+        if(isError)
+            toast(`[PUBLIC AVATAR] : ${error.message}`)
+    }, [isError]);
 
     return (
         <div className="flex gap-1.5 items-center">
@@ -57,18 +62,21 @@ const HeaderOptions = () => {
                     <ActionButtons />
                 </div>
             )}
-            <MobileNavigation navLinks={navLinks}>
+            <MobileNavigation navLinks={navLinks} open={open} setOpen={setOpen}> 
                 <div className={cn(user? "hidden" : "absolute w-full bottom-4 left-0 flex flex-col gap-2 px-4")}>
-                    <ActionButtons isMobile />
+                    <ActionButtons isMobile onClick={() => setOpen(false)} />
                 </div>
             </MobileNavigation>
         </div>
     )
 }
 
-const ActionButtons = ({isMobile = false} : {isMobile?: boolean}) => {
+const ActionButtons = ({isMobile = false, onClick = () => null} : {isMobile?: boolean, onClick?: () => void}) => {
     const router = useRouter();
-
+    const handleClick = (link: string) => {
+        router.push(link);
+        onClick();
+    }
     return (
         <>
             {actionLinks.map(({ name, variant, link }, _id)=> (
@@ -77,7 +85,7 @@ const ActionButtons = ({isMobile = false} : {isMobile?: boolean}) => {
                     variant={variant as "outline" | "default"} 
                     size='sm'
                     className={cn( !isMobile && "rounded-full" )} 
-                    onClick={() => router.push(link)}
+                    onClick={() => handleClick(link)}
                 >
                     {name}
                 </Button>

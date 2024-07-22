@@ -21,7 +21,7 @@ export const getAuthProfile = async () => {
 
     if(error) throw error;
     
-    return data ?? null;
+    return data;
 };
 
 export const getProfile = async () => {
@@ -148,9 +148,24 @@ export const deleteEvent = async ({id}:{id: string}) => {
     return data ?? null;
 }
 
-export const getEventTickets = () => {};
+export const getEventTickets = async ({id}:{id: string}) => {
+    const { data, error } = await supabase
+    .from('tickets')
+    .select(`
+            id, is_active, has_accepted, 
+            profiles(full_name, email, avatar_url)
+        `)
+    .eq("event_id", id)
+
+    if(error) throw error;
+
+    return data
+};
+
 export const setEventTicket = () => {};
+
 export const updateEventTicket = () => {};
+
 export const getEventTicketByID = () => {};
 
 export const getEventAttendees = () => {};
