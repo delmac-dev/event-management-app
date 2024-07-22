@@ -8,9 +8,8 @@ import { Button } from "../ui/button";
 import { SelectInput } from "../common/custom-form-fields";
 
 const FormSchema = z.object({
-    user_id: z.string(),
-    organisation_id: z.string(),
-    role_id: z.string(),
+    user_id: z.string().min(1),
+    organisation_id: z.string().min(1),
     is_active: z.string(),
 });
 
@@ -30,7 +29,6 @@ export default function HandleMemberForm(props:HandleMemberFormProps) {
         defaultValues: {
             user_id: '',
             organisation_id: orgID,
-            role_id: '',
             is_active: '',
         }
     });
@@ -38,9 +36,6 @@ export default function HandleMemberForm(props:HandleMemberFormProps) {
     const {handleSubmit, formState: { isSubmitting }} = form;
     const dummyUserList = [
         { label: "brian.lee@example.com", value: "9897967-90878-85667-786868"},
-    ]
-    const dummyRoleList = [
-        { label: "Admin", value: "9897967-90878-85667-786868"},
     ]
 
     function onSubmit(data: HandleMember) {
@@ -55,7 +50,6 @@ export default function HandleMemberForm(props:HandleMemberFormProps) {
             <form onSubmit={handleSubmit(onSubmit)} className={cn("w-full flex-1 flex flex-col", className)}>
                 <div className="relative z-0 flex-1 space-y-4 overflow-auto p-4">
                     <SelectInput name="user_id" label="User" placeHolder="Select a user" list={dummyUserList} />
-                    <SelectInput name="role_id" label="Role" placeHolder="Select a role" list={dummyRoleList} />
                     {/* is_active switch input */}
                 </div>
                 <div className="sticky bottom-0 right-0 z-50 w-full p-4 bg-background flex gap-3 justify-end">

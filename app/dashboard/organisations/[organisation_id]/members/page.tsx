@@ -1,9 +1,7 @@
-import BodyContent from "@/app/dashboard/(components)/body-content";
 import BodyHeader from "@/app/dashboard/(components)/body-header";
-import { DataTable } from "@/components/common/data-table";
 import { QueryProps } from "@/lib/types";
-import { columns } from "./columns";
 import MemberHandler from "@/app/dashboard/(form-handlers)/member-handler";
+import MembersContainer from "@/app/dashboard/(components)/members-container";
 
 export default async function OrganisationMembers({ params, searchParams }: QueryProps) {
   const orgID = params.organisation_id;
@@ -20,9 +18,7 @@ export default async function OrganisationMembers({ params, searchParams }: Quer
         <h2 className="text-xl font-medium">Organisation Members</h2>
         <MemberHandler { ...memberHandlerData } />
       </BodyHeader>
-      <BodyContent>
-        <DataTable columns={columns} data={[]} />
-      </BodyContent>
+      <MembersContainer organisationID={orgID} />
     </>
   );
 }

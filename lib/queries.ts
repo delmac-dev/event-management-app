@@ -5,7 +5,7 @@ import { createClient } from "./supabase/server";
 import { createAdmin } from "./supabase/admin";
 import { NewOrganisation } from "@/components/forms/new-organisation";
 import { ModifyOrganisation } from "@/components/forms/modify-organisation";
-import { FetchedEventProps, FetchedModifiableEventProps, FetchedOrganisationProps } from "./types";
+import { FetchedEventProps, fetchedMembersProps, FetchedModifiableEventProps, FetchedOrganisationProps } from "./types";
 import { stringToList } from "./utils";
 import { NewEvent } from "@/components/forms/new-event";
 import { ModifyEvent } from "@/components/forms/modify-event";
@@ -271,7 +271,19 @@ export const getOrganisationOwner = async({ id }: { id: string }) => {
     return data
 }
 
-export const getOrgansationMembers = () => {};
+export const getOrgansationMembers = async ({id}:{id: string}) => {
+    const { data, error } = await supabase
+    .from('organisation_members')
+    .select(`
+            id, is_active, has_accepted, 
+            profiles(full_name, email, avatar_url)
+        `)
+    .eq("organisation_id", id)
+
+    if(error) throw error;
+
+    return data as fetchedMembersProps[];
+};
 export const setOrganisationMember = () => {};
 export const updateOrganisationMember = () => {};
 export const removeOrganisationMember = () => {};

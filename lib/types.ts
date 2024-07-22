@@ -1,5 +1,4 @@
 import { Provider, SupabaseClient } from "@supabase/supabase-js"
-import { Database } from "./supabase/database.type"
 
 export type QueryProps = {
     params: {[key: string]: string}
@@ -82,4 +81,11 @@ export type FetchedModifiableEventProps = {
     faq: { question: string, answer: string }[] | null,
     organisation_id: {value: string, label: string}
     organiser: {value: string, label: string}
+}
+
+export type fetchedMembersProps = {
+    has_accepted: boolean,
+    id: string,
+    is_active: boolean,
+    profiles: { email: string, full_name: string, avatar_url: string }
 }

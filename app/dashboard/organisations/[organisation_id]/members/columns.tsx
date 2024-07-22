@@ -21,9 +21,5 @@ export const columns: ColumnDef<Moderator>[] = [
   {
     accessorKey: "is_active",
     header: "Status",
-  },
-  {
-    accessorKey: "role",
-    header: "Role",
-  },
+  }
 ]
