@@ -5,10 +5,11 @@ import { createClient } from "./supabase/server";
 import { createAdmin } from "./supabase/admin";
 import { NewOrganisation } from "@/components/forms/new-organisation";
 import { ModifyOrganisation } from "@/components/forms/modify-organisation";
-import { FetchedEventProps, fetchedMembersProps, FetchedModifiableEventProps, FetchedOrganisationProps } from "./types";
+import { FetchedEventProps, FetchedMembersProps, FetchedModifiableEventProps, FetchedModifiableMemberProps, FetchedOrganisationProps } from "./types";
 import { stringToList } from "./utils";
 import { NewEvent } from "@/components/forms/new-event";
 import { ModifyEvent } from "@/components/forms/modify-event";
+import { HandleMember } from "@/components/forms/handle-member";
 
 const supabase = createClient();
 
@@ -271,7 +272,7 @@ export const getOrganisationOwner = async({ id }: { id: string }) => {
     return data
 }
 
-export const getOrgansationMembers = async ({id}:{id: string}) => {
+export const getMembers = async ({id}:{id: string}) => {
     const { data, error } = await supabase
     .from('organisation_members')
     .select(`
@@ -282,11 +283,60 @@ export const getOrgansationMembers = async ({id}:{id: string}) => {
 
     if(error) throw error;
 
-    return data as fetchedMembersProps[];
+    return data as FetchedMembersProps[];
 };
-export const setOrganisationMember = () => {};
-export const updateOrganisationMember = () => {};
-export const removeOrganisationMember = () => {};
+
+export const getMemberByID = async ({id}:{id: string}) => {
+    const { data, error } = await supabase
+    .from('organisation_members')
+    .select('is_active, user: profiles(value: id, label: full_name)')
+    .eq("id", id)
+    .single()
+
+    if(error) throw error;
+
+    return data as FetchedModifiableMemberProps;
+}
+
+export const setMember = async ({memberData}:{memberData: HandleMember}) => {
+    const { organisation_id, user_id, is_active } = memberData;
+
+    const { error } = await supabase
+        .from('organisation_members')
+        .insert({ organisation_id, user_id, is_active });
+
+    if (error) throw error;
+};
+
+export const modifyMember = async ({memberData, id}: { memberData: HandleMember, id: string}) => {
+    const { organisation_id, user_id, is_active } = memberData;
+
+    const { data, error } = await supabase
+    .from('organisation_members')
+    .update({ organisation_id, user_id, is_active })
+    .eq('id', id);
+
+    if(error) throw error;
+
+    return data;
+};
+
+export const deleteMember = async ({ id }: { id: string }) => {
+    const { data } = await supabase
+    .from('organisation_members')
+    .delete()
+    .eq('id', id);
+
+    return data;
+};
+
+export const acceptMembership = async ({ memberID }: { memberID: string }) => {
+
+}
+
+export const declineMembership = async ({ memberID }: { memberID: string }) => {
+
+}
 
 // ALL QUERIES RELATING TO TICKETS
 export const getTicketByCode = () => {};

@@ -4,17 +4,19 @@ import { Input } from "../ui/input";
 import { useController, useFieldArray, useFormContext } from "react-hook-form";
 import { Slider } from "../ui/slider";
 import { Checkbox } from "../ui/checkbox";
-import { Check, PlusCircle, Trash, UploadCloud } from "lucide-react";
+import { Check, ChevronsUpDown, PlusCircle, Trash, UploadCloud } from "lucide-react";
 import { Label } from "../ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "../ui/command";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "../ui/command";
 import { Textarea } from "../ui/textarea";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
-
+import { Switch } from "../ui/switch";
+import { debounce } from 'lodash';
+import { createClient } from "@/lib/supabase/client";
 
 type CommonProps = {
     name: string,
@@ -90,6 +92,10 @@ type RadioGroupInputProps = CommonProps & {
 type DateInputProps = CommonProps & {}
 
 type TimeInputProps = CommonProps & {}
+
+type SwitchInputProps = CommonProps & {}
+
+type SelectUserInputProps = CommonProps & {}
 
 const CustomFieldWrapper = (props:CustomFieldWrapperProps) => {
     const {name, label, className, description, showError = false, children } = props;
@@ -476,7 +482,99 @@ export const TimeInput = (props: TimeInputProps) => {
     )
 };
 
-export const SwitchInput = () => {};
+export const SwitchInput = (props: SwitchInputProps) => {
+    const { name, label, disabled=false, description, showError } = props;
+    const wrapperProps = {name, label, description, showError};
+    const { field } = useController({name});
+
+    return (
+        <CustomFieldWrapper { ...wrapperProps} className="w-full flex justify-between items-center px-4 py-2 rounded-md border">
+            <FormControl>
+                <Switch checked={field.value} onCheckedChange={field.onChange} disabled={disabled} />
+            </FormControl>
+        </CustomFieldWrapper>
+    )
+        
+};
+
+export const SelectUserInput = (props: SelectUserInputProps) => {
+    const { name, label, description, showError, disabled = false } = props;
+    const wrapperProps = { name, label, description, showError };
+    const { field } = useController({ name });
+    const [search, setSearch] = useState('');
+    const [users, setUsers] = useState<{ id: string; full_name: string; email: string; }[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const supabase = createClient();
+
+    const fetchUsers = useCallback(
+        debounce(async (query) => {
+            setIsLoading(true);
+            const { data, error } = await supabase
+                .from('profiles')
+                .select('id, full_name, email')
+                .ilike('full_name', `%${query}%`)
+                .or(`email.ilike.%${query}%`);
+            
+            if (error) {
+                console.error(error);
+                setUsers([]);
+            } else {
+                setUsers(data);
+            }
+            setIsLoading(false);
+        }, 300), []
+    );
+
+    useEffect(() => {
+        if (search.length > 2) {
+            fetchUsers(search);
+        } else {
+            setUsers([]);
+        }
+    }, [search, fetchUsers]);
+
+    const handleSelect = (value: string) => {
+        const selectedUser = users.find(user => user.id === value);
+        if (selectedUser) {
+            field.onChange(value);
+        }
+    };
+
+    return (
+        <CustomFieldWrapper { ...wrapperProps }>
+            <Popover>
+                <PopoverTrigger asChild>
+                    <FormControl>
+                        <Button variant="outline" role="combobox" className={cn("w-full justify-between", !field.value && "text-muted-foreground")} disabled={disabled}>
+                            {field.value ? users.find(user => user.id === field.value)?.full_name || "Select user" : "Select user"}
+                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                        </Button>
+                    </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-full max-w-96 min-w-80 p-0">
+                    <Command shouldFilter={false}>
+                        <CommandInput placeholder="Search by name or email..." value={search} onValueChange={(value) => setSearch(value)} />
+                        <CommandList>
+                            {isLoading && <CommandEmpty>Loading...</CommandEmpty>}
+                            {!isLoading && users.length === 0 && <CommandEmpty>No Users Found</CommandEmpty>}
+                            {!isLoading && users.length > 0 && (
+                                <CommandGroup>
+                                    {users.map(user => (
+                                        <CommandItem key={user.id} value={user.id} onSelect={() => handleSelect(user.id)}>
+                                            <Check className={cn("mr-2 h-4 w-4", user.id === field.value ? "opacity-100" : "opacity-0")} />
+                                            {user.email}
+                                        </CommandItem>
+                                    ))}
+                                </CommandGroup>
+                            )}
+                        </CommandList>
+                    </Command>
+                </PopoverContent>
+            </Popover>
+        </CustomFieldWrapper>
+    );
+};
 
 export const RadioSelectInput = () => {};
 

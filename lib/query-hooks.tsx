@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getAuthProfile, getEventByID, getMemberEvents, getOrganisationByID, getOrganisationEvents, getOrgansationMembers, getProfile, getUserOrganisations, getUserOrgSelect, modifyEvent, modifyOrganisation, modifyProfile, setEvent, setOrganisation } from "./queries";
+import { deleteMember, getAuthProfile, getEventByID, getMemberByID, getMemberEvents, getMembers, getOrganisationByID, getOrganisationEvents, getProfile, getUserOrganisations, getUserOrgSelect, modifyEvent, modifyMember, modifyOrganisation, modifyProfile, setEvent, setMember, setOrganisation } from "./queries";
 import { dashboardKeys, publicKeys } from "./query-keys";
 
 export function useGetAuthProfile() {
@@ -100,7 +100,6 @@ export const useGetEventByID = (id: string) => {
     return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
 }
 
-
 export const useModifyEvent = ( id: string ) => {
     const queryClient = useQueryClient();
 
@@ -111,9 +110,46 @@ export const useModifyEvent = ( id: string ) => {
     })
 };
 
-export const useGetOrgansationMembers = ( id: string ) => {
+export const useGetMembers = ( id: string ) => {
     const queryKey = dashboardKeys.orgMembers(id);
-    const queryFn = async () => await getOrgansationMembers({id});
+    const queryFn = async () => await getMembers({id});
 
     return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
 } 
+
+export const useSetMember = (id: string) => {
+    const queryClient = useQueryClient();
+
+    const queryKey = dashboardKeys.orgMembers(id);
+    return useMutation({
+      mutationFn: setMember,
+      onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKey })
+    }) 
+}
+
+export const useModifyMember = (id: string) => {
+    const queryClient = useQueryClient();
+
+    const queryKey = dashboardKeys.orgMembers(id);
+    return useMutation({ 
+        mutationFn: modifyMember,
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKey })
+    })
+}
+
+export const useDeleteMember = (id: string) => {
+    const queryClient = useQueryClient();
+
+    const queryKey = dashboardKeys.orgMembers(id);
+    return useMutation({ 
+        mutationFn: deleteMember,
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKey })
+    })
+}
+
+export const useGetMemberByID = (memberID: string, id: string) => {
+    const queryKey = dashboardKeys.orgMember(memberID, id);
+    const queryFn = async() => await getMemberByID({id: memberID});
+
+    return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
+}

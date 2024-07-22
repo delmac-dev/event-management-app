@@ -83,9 +83,17 @@ export type FetchedModifiableEventProps = {
     organiser: {value: string, label: string}
 }
 
-export type fetchedMembersProps = {
+export type FetchedMembersProps = {
     has_accepted: boolean,
     id: string,
     is_active: boolean,
     profiles: { email: string, full_name: string, avatar_url: string }
+}
+
+export type FetchedModifiableMemberProps = {
+    is_active: boolean;
+    user: {
+        value: string;
+        label: string;
+    } 
 }
