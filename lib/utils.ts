@@ -7,11 +7,16 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function getUrl(link: string = '') {
-  const origin = process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : "http://localhost:3000";
+  let url =
+    process?.env?.NEXT_PUBLIC_SITE_URL ?? 
+    process?.env?.NEXT_PUBLIC_VERCEL_URL ??
+    'http://localhost:3000/'
 
-    return `${origin}${link}`;
+  url = url.startsWith('http') ? url : `https://${url}`
+
+  url = url.endsWith('/') ? url : `${url}/`
+  
+  return url + link
 }
 
 export const parseNavigation = (pathname: string, navigation: NavigationProps[]) => {
