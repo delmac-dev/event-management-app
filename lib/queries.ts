@@ -10,6 +10,7 @@ import { stringToList } from "./utils";
 import { NewEvent } from "@/components/forms/new-event";
 import { ModifyEvent } from "@/components/forms/modify-event";
 import { HandleMember } from "@/components/forms/handle-member";
+import { HandleTicket } from "@/components/forms/handle-ticket";
 
 const supabase = createClient();
 
@@ -21,7 +22,7 @@ export const getAuthProfile = async () => {
 
     if(error) throw error;
     
-    return data;
+    return data ?? null;
 };
 
 export const getProfile = async () => {
@@ -149,24 +150,74 @@ export const deleteEvent = async ({id}:{id: string}) => {
 }
 
 export const getEventTickets = async ({id}:{id: string}) => {
+    // const { data, error } = await supabase
+    // .from('tickets')
+    // .select(`
+    //         id, is_active, has_accepted, 
+    //         profiles(full_name, email, avatar_url)
+    //     `)
+    // .eq("event_id", id)
+
+    // if(error) throw error;
+
+    // return data
+
+    return null;
+};
+
+export const setEventTicket = async ({ticketData}:{ticketData: HandleTicket}) => {
+    const {event_id, name, availability, ticket_code_prefix: tcp, total_tickets, ticket_type, price, is_active} = ticketData;
+    const { error } = await supabase
+        .from('tickets')
+        .insert({event_id, name, availability, ticket_type, price, is_active,
+            total_tickets: total_tickets,
+            available_tickets: total_tickets,
+            ticket_code_prefix: tcp !== "" ? tcp : "TCX" 
+        });
+
+    if (error) throw error;
+
+    return null;
+
+};
+
+export const modifyEventTicket = async ({ticketData, id}: { ticketData: HandleTicket, id: string}) => {
+    const { name, availability, ticket_code_prefix: tcp, total_tickets, ticket_type, price, is_active } = ticketData;
+
     const { data, error } = await supabase
     .from('tickets')
-    .select(`
-            id, is_active, has_accepted, 
-            profiles(full_name, email, avatar_url)
-        `)
-    .eq("event_id", id)
+    .update({ name, availability, ticket_type, price, is_active,
+        total_tickets: total_tickets,
+        available_tickets: total_tickets,
+        ticket_code_prefix: tcp !== "" ? tcp : "TCX" 
+    })
+    .eq('id', id);
 
     if(error) throw error;
 
-    return data
+    return data ?? null;
 };
 
-export const setEventTicket = () => {};
+export const getEventTicketByID = async ({id}:{id: string}) => {
+    const { data, error } = await supabase
+    .from('tickets')
+    .select('event_id, name, availability, ticket_code_prefix, total_tickets, ticket_type, price, is_active')
+    .eq("id", id)
+    .single()
 
-export const updateEventTicket = () => {};
+    if(error) throw error;
 
-export const getEventTicketByID = () => {};
+    return data ?? null;
+};
+
+export const deleteEventTicket = async ({ id }: { id: string }) => {
+    const { data } = await supabase
+    .from('tickets')
+    .delete()
+    .eq('id', id);
+
+    return data ?? null;
+}
 
 export const getEventAttendees = () => {};
 export const setEventAttendee = () => {};

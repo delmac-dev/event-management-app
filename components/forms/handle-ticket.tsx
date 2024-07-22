@@ -4,15 +4,22 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { Form } from "../ui/form";
 import { cn } from "@/lib/utils";
-import { NumberInput, RadioGroupInput, TextInput } from "../common/custom-form-fields";
+import { NumberInput, RadioGroupInput, SwitchInput, TextInput } from "../common/custom-form-fields";
 import { Button } from "../ui/button";
+import { AVAILABILITY_OPTIONS, TICKET_TYPE_OPTIONS } from "@/lib/constants";
+import { useEffect, useState } from "react";
+import { useGetEventTicketByID, useSetEventTicket } from "@/lib/query-hooks";
+import SpinnerIcon from "../icons/spinner-icon";
 
 const FormSchema = z.object({
     event_id: z.string(),
     name: z.string(),
-    availabilty: z.string(),
-    ticket_code_prefix: z.string(),
-    total_tickets: z.string(),
+    availability: z.string(),
+    ticket_code_prefix: z.union([
+        z.string().length(0),
+        z.string().length(3)
+    ]),
+    total_tickets: z.number(),
     ticket_type: z.string(),
     price: z.string(),
     is_active: z.boolean(),
@@ -20,59 +27,90 @@ const FormSchema = z.object({
 
 export type HandleTicket = z.infer<typeof FormSchema>;
 export type HandleTicketFormProps = {
-    variant?: 'new' | 'modify',
     closeHandler: () => void,
     eventID: string,
-    ticket?: any,
+    ticketID?: string,
     className?: string
 }
 
 export default function HandleTicketForm(props:HandleTicketFormProps) {
-    const {variant='new', eventID, ticket, className, closeHandler} = props;
+    const {eventID, ticketID, className, closeHandler} = props;
+    const [shouldFetch, setShouldFetch] = useState(false);
+
+    const { data: ticket, isLoading } = shouldFetch ? useGetEventTicketByID(ticketID as string, eventID) : { data: null, isLoading: false };
+    const { mutate: setEventTicket, isError, isSuccess, isPending } = useSetEventTicket(eventID);
+
+    // get total attendee from the event with the eventID
+    const defaultValues = {
+        event_id: eventID,
+        name: ticket?.name || '',
+        availability: ticket?.availability || 'available',
+        ticket_code_prefix: ticket?.ticket_code_prefix || '',
+        total_tickets: ticket?.total_tickets || 25,
+        ticket_type: ticket?.ticket_type || 'free',
+        price: ticket?.price || '0',
+        is_active: ticket?.is_active || true,
+    }
+
     const form = useForm<HandleTicket>({
         resolver: zodResolver(FormSchema),
-        defaultValues: {
-            event_id: eventID,
-            name: '',
-            availabilty: 'available',
-            ticket_code_prefix: 'TIX',
-            total_tickets: '25',
-            ticket_type: 'free',
-            price: '0',
-            is_active: true,
-        }
+        defaultValues: defaultValues
     });
 
-    const {handleSubmit, formState: { isSubmitting }} = form;
-    const availabilityOptions = ["available", "unavailable"];
-    const ticketTypeOptions = ["free", "priced"];
+    const {handleSubmit, reset, formState: { isDirty, isSubmitting }} = form;
 
     function onSubmit(data: HandleTicket) {
-        // get the ticket id from the ticket if variant is modify
-        // check if the capacity is less than total_tickets and return an error
-        toast.success("You submitted the following values:", {
-          description: JSON.stringify(data, null, 2),
-          position: "top-right"
-        });
-
-        closeHandler();
+        setEventTicket({ ticketData: data });
     };
+
+    useEffect(() => {
+        if (ticketID)
+          setShouldFetch(true);
+      }, [ticketID]);
+
+      useEffect(() => {
+        if (isError) {
+            toast.error("Error occurred adding a ticket");
+        };
+
+        if (isSuccess) {
+            toast.success("Ticket added successfully");
+            closeHandler();
+        }
+
+    }, [isError, isSuccess]);
+
+    useEffect(() => {
+        if (ticket) reset(defaultValues);
+    }, [ticket, reset]);
+
+    if(isLoading) {
+        return (
+            <div className="w-full py-14 flex_center">
+                <SpinnerIcon className="size-10 text-secondary-foreground" />
+            </div>
+        )
+    }
 
     return (
         <Form {...form}>
             <form onSubmit={handleSubmit(onSubmit)} className={cn("w-full flex-1 flex flex-col", className)}>
                 <div className="relative z-0 flex-1 space-y-4 overflow-auto p-4">
                     <TextInput name="name" label="Ticket Name" placeHolder="Enter the ticket name" />
-                    <RadioGroupInput name="availabilty" label="Availability" options={availabilityOptions} />
+                    <RadioGroupInput name="availability" label="Availability" options={AVAILABILITY_OPTIONS} />
                     <TextInput name="ticket_code_prefix" label="Ticket Code Prefix" placeHolder="Enter ticket code prefix" />
-                    <NumberInput name="total_tickets" label="Total Tickets" placeHolder="25" />
-                    <RadioGroupInput name="ticket_type" label="Ticket Type" disabled options={ticketTypeOptions} />
+                    <NumberInput name="total_tickets" label="Total Tickets" />
+                    <RadioGroupInput name="ticket_type" label="Ticket Type" disabled options={TICKET_TYPE_OPTIONS} />
                     <NumberInput name="price" label="Price" placeHolder="25" disabled={form.getValues('ticket_type') === 'free'} />
                     {/* is_active switch input */}
+                    <SwitchInput name="is_active" label="Active Status" />
                 </div>
                 <div className="sticky bottom-0 right-0 z-50 w-full p-4 bg-background flex gap-3 justify-end">
-                    <Button size='xs' variant='secondary' type='button' disabled={isSubmitting} onClick={closeHandler}>Cancel</Button>
-                    <Button size='xs' disabled={isSubmitting}>Add Ticket</Button>
+                    <Button size='xs' variant='secondary' type='button' disabled={isSubmitting || isPending} onClick={closeHandler}>Cancel</Button>
+                    <Button size='xs' disabled={!isDirty || isSubmitting || isPending}>
+                        {(isSubmitting || isPending) && (<SpinnerIcon className="size-8 text-primary-foreground" />)}
+                        Add Ticket
+                    </Button>
                 </div>
             </form>
         </Form>

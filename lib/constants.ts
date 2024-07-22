@@ -302,18 +302,6 @@ export const schools = [
     },
 ]
 
-const member_role_json = {
-    "can_modify_organisation": true,
-    "can_add_new_member": true,
-    "can_modify_member": true,
-    "can_remove_member": true,
-    "can_add_new_role": true,
-    "can_modify_role": true,
-    "can_remove_role": true,
-    "can_add_new_event": true
-}
-
-
 export const MAX_FILE_SIZE = 5000000;
 
 export const ACCEPTED_IMAGE_TYPES = [
@@ -326,3 +314,7 @@ export const ACCEPTED_IMAGE_TYPES = [
 export const EVENT_TYPE_OPTIONS = ["public", "private"];
 
 export const TIME_REGEX = /^(?:[01]\d|2[0-3]):[0-5]\d$/;
+
+export const AVAILABILITY_OPTIONS = ["available", "unavailable"];
+
+export const TICKET_TYPE_OPTIONS = ["free", "priced"];

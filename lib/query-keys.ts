@@ -17,7 +17,7 @@ export const dashboardKeys = {
 
     events: () => [...dashboardKeys.all, 'events'] as const,
     event: (id: string) => [...dashboardKeys.all, 'events', id] as const,
-    eventTickets: (filters: any, id: string) => [...dashboardKeys.event(id), 'event-tickets', filters] as const,
+    eventTickets: (id: string) => [...dashboardKeys.event(id), 'event-tickets'] as const,
     eventTicket: (eventID: string, id: string) => [...dashboardKeys.event(id), 'event-ticket', eventID] as const,
     eventAttendees: (filters: any, id: string) => [...dashboardKeys.event(id), 'event-attendees', filters] as const,
     eventAttendee: (attendeeID: string, id: string) => [...dashboardKeys.event(id), 'event-attendee', attendeeID] as const,

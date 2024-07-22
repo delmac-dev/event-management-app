@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { deleteMember, getAuthProfile, getEventByID, getMemberByID, getMemberEvents, getMembers, getOrganisationByID, getOrganisationEvents, getProfile, getUserOrganisations, getUserOrgSelect, modifyEvent, modifyMember, modifyOrganisation, modifyProfile, setEvent, setMember, setOrganisation } from "./queries";
+import { deleteEventTicket, deleteMember, getAuthProfile, getEventByID, getEventTicketByID, getEventTickets, getMemberByID, getMemberEvents, getMembers, getOrganisationByID, getOrganisationEvents, getProfile, getUserOrganisations, getUserOrgSelect, modifyEvent, modifyMember, modifyOrganisation, modifyProfile, setEvent, setEventTicket, setMember, setOrganisation } from "./queries";
 import { dashboardKeys, publicKeys } from "./query-keys";
 
 export function useGetAuthProfile() {
@@ -152,4 +152,38 @@ export const useGetMemberByID = (memberID: string, id: string) => {
     const queryFn = async() => await getMemberByID({id: memberID});
 
     return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
+}
+
+export const useGetEventTickets = ( id: string) => {
+    const queryKey = dashboardKeys.eventTickets(id);
+    const queryFn = async () => await getEventTickets({id});
+
+    return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
+}
+
+export const useGetEventTicketByID = (ticketID: string, id: string) => {
+    const queryKey = dashboardKeys.eventTicket(ticketID, id);
+    const queryFn = async() => await getEventTicketByID({id: ticketID});
+
+    return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
+}
+
+export const useSetEventTicket = (id: string) => {
+    const queryClient = useQueryClient();
+
+    const queryKey = dashboardKeys.eventTickets(id);
+    return useMutation({
+      mutationFn: setEventTicket,
+      onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKey })
+    }) 
+}
+
+export const useDeleteEventTicket = (id: string) => {
+    const queryClient = useQueryClient();
+
+    const queryKey = dashboardKeys.eventTickets(id);
+    return useMutation({ 
+        mutationFn: deleteEventTicket,
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKey })
+    })
 }
