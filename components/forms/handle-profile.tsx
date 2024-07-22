@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { Form } from "../ui/form";
 import { cn } from "@/lib/utils";
-import { TextInput } from "../common/custom-form-fields";
+import { ImageInput, TextInput } from "../common/custom-form-fields";
 import { Button } from "../ui/button";
 import { useGetProfile, useModifyProfile } from "@/lib/query-hooks";
 import SpinnerIcon from "../icons/spinner-icon";
@@ -15,12 +15,21 @@ import DeleteHandler from "@/app/dashboard/(components)/delete-handler";
 import { _home } from "@/lib/routes";
 import { deleteProfile } from "@/lib/queries";
 import { signOut } from "@/lib/actions";
+import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from "@/lib/constants";
+import { uploadFile } from "@/lib/supabase/upload-file";
 
 const FormSchema = z.object({
     username: z.string().nullable(),
     full_name: z.string(),
     email: z.string().email(),
-    avatar_url: z.string().nullable()
+    avatar_url: z.any()
+    .refine((file) => {
+      if (file.size === 0 || file.name === undefined) return false;
+      else return true;
+    }, "Please update or add new image.")
+    .refine((file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),".jpg, .jpeg, .png and .webp files are accepted.")
+    .refine((file) => file.size <= MAX_FILE_SIZE, `Max file size is 5MB.`)
+    .or(z.string().min(1, "Field can't be an empty string"))
 });
 
 export type HandleProfile = z.infer<typeof FormSchema>;
@@ -48,8 +57,15 @@ export default function HandleProfileForm({className}:{className?: string}) {
 
     const {handleSubmit, reset, formState: { isDirty }} = form;
 
-    function onSubmit(data: HandleProfile) {
-        modifyProfile({ profileData: data, id: profile?.id as string});
+    async function onSubmit(data: HandleProfile) {
+        let avatarUrl = data.avatar_url;
+
+        if (avatarUrl instanceof File) 
+            avatarUrl = await uploadFile(avatarUrl, 'organisation.avatars', profile?.id as string);
+
+        const plainData = { ...data, avatar_url: avatarUrl };
+
+        modifyProfile({ profileData: plainData, id: profile?.id as string});
     };
 
     const handleProfileDelete = async () => {
@@ -92,7 +108,7 @@ export default function HandleProfileForm({className}:{className?: string}) {
                     <TextInput name="username" label="Username" />
                     <TextInput name="full_name" label="Full Name" />
                     <TextInput name="email" label="Email" disabled />
-                    <TextInput name="avatar_url" label="Profile Picture" />
+                    <ImageInput name="avatar_url" label="Profile Picture" />
                     <div className="w-full flex justify-end gap-3">
                         <Button size='xs' disabled={isPending || !isDirty}>
                             {isPending && (<SpinnerIcon className="size-8 text-primary-foreground" />)}

@@ -8,7 +8,6 @@ import { ModifyOrganisation } from "@/components/forms/modify-organisation";
 import { FetchedEventProps, FetchedModifiableEventProps, FetchedOrganisationProps } from "./types";
 import { stringToList } from "./utils";
 import { NewEvent } from "@/components/forms/new-event";
-import { Database } from "./supabase/database.type";
 import { ModifyEvent } from "@/components/forms/modify-event";
 
 const supabase = createClient();
@@ -19,13 +18,8 @@ const admin = createAdmin().auth.admin;
 export const getAuthProfile = async () => {
     const { data: { user: data }, error } = await supabase.auth.getUser();
 
-    if(error) {
-        console.log(error.message);
-    }
-
-    console.log( data );
+    if(error) throw error;
     
-
     return data;
 };
 
@@ -198,9 +192,6 @@ export const getUserOrganisations = async() => {
             };
         })
     );
-
-    console.log(filteredOrganisations);
-    
     
     return filteredOrganisations as unknown as FetchedOrganisationProps[];
 };
