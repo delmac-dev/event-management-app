@@ -4,17 +4,19 @@ import { Provider } from "@supabase/supabase-js";
 import { createClient } from "./supabase/server";
 import { redirect } from "next/navigation";
 import { _login } from "./routes";
-import { getUrl } from "./utils";
 
 
 export const signInWithOAuth = async (provider: Provider) =>  {
-  
+  const origin = process.env.NEXT_PUBLIC_VERCEL_URL
+  ? `https://campusevents.vercel.app`
+  : "http://localhost:3000";
+
   const supabase = createClient();
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,
     options: {
-      redirectTo: getUrl("/auth/callback"),
+      redirectTo: `${origin}/auth/callback`,
     },
   });
 
