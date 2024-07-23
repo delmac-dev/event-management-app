@@ -280,7 +280,8 @@ export const getUserOrganisations = async() => {
         const { data: members, error: memberError } = await supabase
             .from('organisation_members')
             .select('profiles (avatar_url)')
-            .eq('organisation_id', organisationId);
+            .eq('organisation_id', organisationId)
+            .neq('is_active', false)
     
         if (!members || memberError) throw new Error(memberError?.message || "Error fetching organisations");
 
@@ -375,6 +376,7 @@ export const getOrganisationOwner = async({ id }: { id: string }) => {
     return data ?? null
 }
 
+// :::::::::::::::::::::::::::::: ORGANISATION MEMBERS QUERIES :::::::::::::::::::::::::::::::::::::::
 export const getMembers = async ({id}:{id: string}) => {
     const { data, error } = await supabase
     .from('organisation_members')
