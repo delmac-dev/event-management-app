@@ -305,7 +305,7 @@ export const getOrganisationByID = async({ id }: { id: string }) => {
     .from('organisations')
     .select(`
         *,
-        owner(id, full_name)
+        profiles(id, full_name)
     `)
     .eq("id", id)
     .single()

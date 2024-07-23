@@ -27,7 +27,7 @@ export type FetchedOrganisationProps = {
     id: string
     is_verified: boolean
     name: string
-    owner: {
+    profiles: {
         id: string,
         full_name: string
     },
