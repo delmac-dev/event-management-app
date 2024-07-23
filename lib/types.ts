@@ -130,3 +130,7 @@ export type FetchedTicketsProps = {
     created_at: string,
     wait_on: string | null;
 }
+
+export type fetchedPublicEvents = {
+    
+}

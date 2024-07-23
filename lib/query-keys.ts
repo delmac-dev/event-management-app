@@ -1,7 +1,7 @@
 
 export const publicKeys = {
     all: ['public'] as const,
-    events: (filters: any) => [...publicKeys.all, 'event', filters] as const,
+    events: () => [...publicKeys.all, 'event'] as const,
     event: (id: number) => [...publicKeys.all, 'event', id] as const,
     attendees: (filters: any) => [...publicKeys.all, 'attendees', filters] as const,
     attendee: (id: number) => [...publicKeys.all, 'attendee', id] as const,

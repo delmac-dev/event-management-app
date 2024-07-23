@@ -482,3 +482,14 @@ export const getEventTicketSelect = async ({id}:{id: string}) => {
 
     return data ?? null;
 }
+
+export const getPublicEvents = async () => {
+    const { data, error} = await supabase
+    .from('events')
+    .select('*')
+    .eq('is_published', true);
+
+    if(error) throw error;
+
+    return data;
+}

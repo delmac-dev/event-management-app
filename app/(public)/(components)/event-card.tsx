@@ -1,13 +1,12 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { EventType } from "@/lib/constants";
 import { _attendEvent, _event } from "@/lib/routes";
 import { TicketPlus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function EventCard ({ id , name , headline , about , images , capacity , event_type }:EventType) {
+export default function EventCard ({ id , name , headline , about , images , capacity , event_type }: any) {
     return (
         <div className="w-full flex flex-col rounded-sm p-3 border">
             <Link href={_event(id)} className="overflow-hidden w-full aspect-video flex_center">
