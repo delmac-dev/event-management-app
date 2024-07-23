@@ -115,5 +115,17 @@ export type FetchedAttendeeProps = {
 }
 
 export type FetchedTicketsProps = {
-    
+    availability: string,
+    available_tickets: number;
+    event_id: string,
+    id: string,
+    is_active: boolean,
+    name: string,
+    price: string,
+    ticket_code_prefix: string,
+    ticket_type: string,
+    total_tickets: number,
+    updated_at: string,
+    created_at: string,
+    wait_on: string | null;
 }

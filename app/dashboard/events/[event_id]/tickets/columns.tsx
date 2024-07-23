@@ -1,16 +1,10 @@
 "use client"
 
+import { FetchedTicketsProps } from "@/lib/types"
 import { ColumnDef } from "@tanstack/react-table"
+import { TableCell } from "./table-cells"
 
-export type Ticket = {
-    name: string,
-    availability: string,
-    total_tickets: string,
-    ticket_type: string,
-    price: string
-}
-
-export const columns: ColumnDef<Ticket>[] = [
+export const columns: ColumnDef<FetchedTicketsProps>[] = [
   {
     accessorKey: "name",
     header: "Name",
@@ -30,5 +24,12 @@ export const columns: ColumnDef<Ticket>[] = [
   {
     accessorKey: "price",
     header: "Price",
+  },
+  {
+    id: "actions",
+    enableHiding: false,
+    cell: ({ row: { original }}) => (
+      <TableCell type="action" data={original} />
+    )
   },
 ]

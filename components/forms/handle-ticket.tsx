@@ -8,8 +8,9 @@ import { NumberInput, RadioGroupInput, SwitchInput, TextInput } from "../common/
 import { Button } from "../ui/button";
 import { AVAILABILITY_OPTIONS, TICKET_TYPE_OPTIONS } from "@/lib/constants";
 import { useEffect, useState } from "react";
-import { useGetEventTicketByID, useSetEventTicket } from "@/lib/query-hooks";
+import { useModifyEventTicket, useSetEventTicket } from "@/lib/query-hooks";
 import SpinnerIcon from "../icons/spinner-icon";
+import { FetchedTicketsProps } from "@/lib/types";
 
 const FormSchema = z.object({
     event_id: z.string(),
@@ -29,16 +30,15 @@ export type HandleTicket = z.infer<typeof FormSchema>;
 export type HandleTicketFormProps = {
     closeHandler: () => void,
     eventID: string,
-    ticketID?: string,
+    ticket?: FetchedTicketsProps,
     className?: string
 }
 
 export default function HandleTicketForm(props:HandleTicketFormProps) {
-    const {eventID, ticketID, className, closeHandler} = props;
-    const [shouldFetch, setShouldFetch] = useState(false);
+    const {eventID, ticket, className, closeHandler} = props;
 
-    const { data: ticket, isLoading } = shouldFetch ? useGetEventTicketByID(ticketID as string, eventID) : { data: null, isLoading: false };
-    const { mutate: setEventTicket, isError, isSuccess, isPending } = useSetEventTicket(eventID);
+    const { mutate: setEventTicket, isError: isSetError, isSuccess: isSetSuccess, isPending: isSetPending } = useSetEventTicket(eventID);
+    const { mutate: modifyEventTicket, isError: isModifyError, isSuccess: isModifySuccess, isPending: isModifyPending} = useModifyEventTicket(eventID);
 
     // get total attendee from the event with the eventID
     const defaultValues = {
@@ -60,37 +60,35 @@ export default function HandleTicketForm(props:HandleTicketFormProps) {
     const {handleSubmit, reset, formState: { isDirty, isSubmitting }} = form;
 
     function onSubmit(data: HandleTicket) {
-        setEventTicket({ ticketData: data });
+        ticket ? 
+            modifyEventTicket({ticketData: data, id: ticket.id}):
+            setEventTicket({ ticketData: data });
     };
 
     useEffect(() => {
-        if (ticketID)
-          setShouldFetch(true);
-      }, [ticketID]);
-
-    useEffect(() => {
-        if (isError) {
+        if (isSetError) {
             toast.error("Error occurred adding a ticket");
         };
 
-        if (isSuccess) {
+        if (isSetSuccess) {
             toast.success("Ticket added successfully");
             closeHandler();
         }
 
-    }, [isError, isSuccess]);
+        if (isModifyError) {
+            toast.error("Error occurred editting a ticket");
+        };
+
+        if (isModifySuccess) {
+            toast.success("Ticket editted successfully");
+            closeHandler();
+        }
+
+    }, [isSetError, isSetSuccess, isModifyError, isModifySuccess]);
 
     useEffect(() => {
         if (ticket) reset(defaultValues);
     }, [ticket, reset]);
-
-    if(isLoading) {
-        return (
-            <div className="w-full py-14 flex_center">
-                <SpinnerIcon className="size-10 text-secondary-foreground" />
-            </div>
-        )
-    }
 
     return (
         <Form {...form}>
@@ -106,10 +104,13 @@ export default function HandleTicketForm(props:HandleTicketFormProps) {
                     <SwitchInput name="is_active" label="Active Status" />
                 </div>
                 <div className="sticky bottom-0 right-0 z-50 w-full p-4 bg-background flex gap-3 justify-end">
-                    <Button size='xs' variant='secondary' type='button' disabled={isSubmitting || isPending} onClick={closeHandler}>Cancel</Button>
-                    <Button size='xs' disabled={!isDirty || isSubmitting || isPending}>
-                        {(isSubmitting || isPending) && (<SpinnerIcon className="size-8 text-primary-foreground" />)}
-                        Add Ticket
+                    <Button size='xs' variant='secondary' type='button' disabled={isSubmitting || isSetPending || isModifyPending} onClick={closeHandler}>Cancel</Button>
+                    <Button size='xs' disabled={!isDirty || isSubmitting || isSetPending || isModifyPending}>
+                        {   
+                            (isSubmitting || isSetPending || isModifyPending ) && 
+                            (<SpinnerIcon className="size-8 text-primary-foreground" />)
+                        }
+                        {ticket ? "Edit Ticket" : "Add Ticket"}
                     </Button>
                 </div>
             </form>
