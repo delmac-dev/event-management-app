@@ -8,8 +8,7 @@ import SpinnerIcon from "@/components/icons/spinner-icon";
 import { useGetAuthProfile } from "@/lib/query-hooks";
 import { _dashboardEvents, _dashboardOrgs, _dashboardTickets, _home, _login } from "@/lib/routes";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
+import { useState } from "react";
 
 const navLinks = [
     { name: "organisations",link: _dashboardOrgs },
@@ -37,11 +36,6 @@ export default function Header () {
 const HeaderOptions = () => {
     const { data: user, isLoading, isError, error } = useGetAuthProfile();
     const [open, setOpen] = useState(false); 
-
-    useEffect(()=> {
-        if(isError)
-            toast(`[DASHBOARD AVATAR] : ${error.message}`)
-    }, [isError]);
 
     return (
         <div className="h-full flex items-center">

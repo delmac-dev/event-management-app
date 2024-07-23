@@ -42,13 +42,8 @@ export default function Header () {
 }
 
 const HeaderOptions = () => {
-    const { data: user, isLoading, isError, error } = useGetAuthProfile();
+    const { data: user } = useGetAuthProfile();
     const [open, setOpen] = useState(false);
-
-    useEffect(()=> {
-        if(isError)
-            toast(`[PUBLIC AVATAR] : ${error.message}`)
-    }, [isError]);
 
     return (
         <div className="flex gap-1.5 items-center">

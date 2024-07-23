@@ -21,7 +21,7 @@ const admin = createAdmin().auth.admin;
 export const getAuthProfile = async () => {
     const { data: { user: data }, error } = await supabase.auth.getUser();
 
-    if(error) throw error;
+    console.log(error);
     
     return data ?? null;
 };
