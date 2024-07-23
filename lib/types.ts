@@ -84,10 +84,11 @@ export type FetchedModifiableEventProps = {
 }
 
 export type FetchedMembersProps = {
+    organisation_id: string,
     has_accepted: boolean,
     id: string,
     is_active: boolean,
-    profiles: { email: string, full_name: string, avatar_url: string }
+    profiles: { id: string, email: string, full_name: string, avatar_url: string }
 }
 
 export type FetchedModifiableMemberProps = {

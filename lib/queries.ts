@@ -379,14 +379,15 @@ export const getMembers = async ({id}:{id: string}) => {
     const { data, error } = await supabase
     .from('organisation_members')
     .select(`
-            id, is_active, has_accepted, 
-            profiles(full_name, email, avatar_url)
+            id, organisation_id, is_active, has_accepted, 
+            profiles(id, full_name, email, avatar_url)
         `)
     .eq("organisation_id", id)
+    .order('updated_at', { ascending: false})
 
     if(error) throw error;
 
-    return data ?? null as FetchedMembersProps[] | null;
+    return data as FetchedMembersProps[];
 };
 
 export const getMemberByID = async ({id}:{id: string}) => {
@@ -414,11 +415,11 @@ export const setMember = async ({memberData}:{memberData: HandleMember}) => {
 };
 
 export const modifyMember = async ({memberData, id}: { memberData: HandleMember, id: string}) => {
-    const { organisation_id, user_id, is_active } = memberData;
+    const { is_active } = memberData;
 
     const { data, error } = await supabase
     .from('organisation_members')
-    .update({ organisation_id, user_id, is_active })
+    .update({ is_active })
     .eq('id', id);
 
     if(error) throw error;
