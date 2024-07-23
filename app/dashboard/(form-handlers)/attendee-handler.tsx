@@ -9,7 +9,7 @@ type AttendeeHandlerProps = {
     isOpen: boolean,
     title: string,
     description?: string,
-    eventID: string
+    eventID: string,
 }
 
 export default function AttendeeHandler(props: AttendeeHandlerProps){

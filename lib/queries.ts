@@ -5,7 +5,7 @@ import { createClient } from "./supabase/server";
 import { createAdmin } from "./supabase/admin";
 import { NewOrganisation } from "@/components/forms/new-organisation";
 import { ModifyOrganisation } from "@/components/forms/modify-organisation";
-import { FetchedEventProps, FetchedMembersProps, FetchedModifiableEventProps, FetchedModifiableMemberProps, FetchedOrganisationProps } from "./types";
+import { FetchedAttendeeProps, FetchedEventProps, FetchedMembersProps, FetchedModifiableEventProps, FetchedModifiableMemberProps, FetchedOrganisationProps } from "./types";
 import { generateRandomNumber, stringToList } from "./utils";
 import { NewEvent } from "@/components/forms/new-event";
 import { ModifyEvent } from "@/components/forms/modify-event";
@@ -214,15 +214,17 @@ export const deleteEventTicket = async ({ id }: { id: string }) => {
     return data ?? null;
 }
 
+// :::::::::::::::::::::::::::: EVENT ATTENDEE QUERIES ::::::::::::::::::::::::::::::::::::
 export const getEventAttendees = async ({id}:{id: string}) => {
     const { data, error } = await supabase
     .from('attendees')
     .select('*')
     .eq("event_id", id)
+    .order('updated_at', { ascending: false });
 
     if(error) throw error;
 
-    return data ?? null;
+    return data as FetchedAttendeeProps[];
 };
 
 export const setEventAttendee = async ({attendeeData}:{attendeeData: HandleAttendee}) => {
@@ -266,18 +268,6 @@ export const deleteEventAttendee = async ({ id }: { id: string }) => {
     .from('attendees')
     .delete()
     .eq('id', id);
-
-    return data ?? null;
-};
-
-export const getEventAttendeeByID = async ({id}:{id: string}) => {
-    const { data, error } = await supabase
-    .from('attendees')
-    .select('event_id, user_id, ticket_id, full_name, email, status, payment_status')
-    .eq("id", id)
-    .single()
-
-    if(error) throw error;
 
     return data ?? null;
 };

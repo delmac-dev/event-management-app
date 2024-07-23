@@ -96,4 +96,24 @@ export type FetchedModifiableMemberProps = {
         value: string;
         label: string;
     } 
+};
+
+export type FetchedAttendeeProps = {
+    id: string,
+    user_id: string | null
+    email: string,
+    event_id: string,
+    full_name: string
+    has_account: boolean,
+    hold_expire_in: string,
+    payment_status: string,
+    status: string,
+    ticket_code: string,
+    ticket_id: string,
+    updated_at: string,
+    created_at: string
+}
+
+export type FetchedTicketsProps = {
+    
 }

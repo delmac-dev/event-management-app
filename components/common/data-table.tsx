@@ -22,7 +22,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
+            <TableRow key={headerGroup.id} className="bg-muted hover:bg-muted">
               {headerGroup.headers.map((header) => {
                 return (
                   <TableHead key={header.id}>

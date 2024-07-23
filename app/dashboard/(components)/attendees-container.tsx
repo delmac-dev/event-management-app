@@ -19,7 +19,7 @@ export default function AttendeesContainer({eventID}:{eventID: string}) {
 
     return (
         <BodyContent>
-            <DataTable columns={columns} data={[]} />
+            <DataTable columns={columns} data={attendees ?? []} />
         </BodyContent>
     )
 }
