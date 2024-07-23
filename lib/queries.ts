@@ -194,18 +194,6 @@ export const modifyEventTicket = async ({ticketData, id}: { ticketData: HandleTi
     return data ?? null;
 };
 
-export const getEventTicketByID = async ({id}:{id: string}) => {
-    const { data, error } = await supabase
-    .from('tickets')
-    .select('event_id, name, availability, ticket_code_prefix, total_tickets, ticket_type, price, is_active')
-    .eq("id", id)
-    .single()
-
-    if(error) throw error;
-
-    return data ?? null;
-};
-
 export const deleteEventTicket = async ({ id }: { id: string }) => {
     const { data } = await supabase
     .from('tickets')
