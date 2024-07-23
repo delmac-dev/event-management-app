@@ -68,7 +68,7 @@ export default function HandleTicketForm(props:HandleTicketFormProps) {
           setShouldFetch(true);
       }, [ticketID]);
 
-      useEffect(() => {
+    useEffect(() => {
         if (isError) {
             toast.error("Error occurred adding a ticket");
         };

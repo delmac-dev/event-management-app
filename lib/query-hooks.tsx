@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { deleteEventTicket, deleteMember, getAuthProfile, getEventByID, getEventTicketByID, getEventTickets, getMemberByID, getMemberEvents, getMembers, getOrganisationByID, getOrganisationEvents, getProfile, getUserOrganisations, getUserOrgSelect, modifyEvent, modifyMember, modifyOrganisation, modifyProfile, setEvent, setEventTicket, setMember, setOrganisation } from "./queries";
+import { deleteEventAttendee, deleteEventTicket, deleteMember, getAuthProfile, getEventByID, getEventTicketByID, getEventTickets, getEventTicketSelect, getMemberByID, getMemberEvents, getMembers, getOrganisationByID, getOrganisationEvents, getProfile, getUserOrganisations, getUserOrgSelect, modifyEvent, modifyMember, modifyOrganisation, modifyProfile, setEvent, setEventAttendee, setEventTicket, setMember, setOrganisation } from "./queries";
 import { dashboardKeys, publicKeys } from "./query-keys";
 
 export function useGetAuthProfile() {
@@ -28,6 +28,7 @@ export const useModifyProfile = () => {
     })
 }
 
+// ::::::::::::::::::::::::: DASHBOARD ORGANISATION HOOK ::::::::::::::::::::::::::
 export function useGetUserOrganisations() {
     const queryKey = dashboardKeys.orgs();
     const queryFn = async() => await getUserOrganisations();
@@ -76,6 +77,7 @@ export const useGetUserOrgSelect = () => {
     return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
 }
 
+// ::::::::::::::::::::: ORGANISATION EVENTS HOOKS :::::::::::::::::::::::
 export const useSetEvent = (id?: string) => {
     const queryClient = useQueryClient();
 
@@ -110,6 +112,7 @@ export const useModifyEvent = ( id: string ) => {
     })
 };
 
+// :::::::::::::::::::::: ORGAISATION MEMBERS HOOKS ::::::::::::::::::::::
 export const useGetMembers = ( id: string ) => {
     const queryKey = dashboardKeys.orgMembers(id);
     const queryFn = async () => await getMembers({id});
@@ -154,6 +157,7 @@ export const useGetMemberByID = (memberID: string, id: string) => {
     return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
 }
 
+// ::::::::::::::::::::: EVENTS TICKET HOOKS ::::::::::::::::::::::::::::::
 export const useGetEventTickets = ( id: string) => {
     const queryKey = dashboardKeys.eventTickets(id);
     const queryFn = async () => await getEventTickets({id});
@@ -184,6 +188,48 @@ export const useDeleteEventTicket = (id: string) => {
     const queryKey = dashboardKeys.eventTickets(id);
     return useMutation({ 
         mutationFn: deleteEventTicket,
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKey })
+    })
+}
+
+// :::::::::::::::::::: ATTENDEE HOOKS :::::::::::::::::::::::::::::::::::::;
+export const useGetEventAttendees = (id: string) => {
+    const queryKey = dashboardKeys.eventAttendees(id);
+    const queryFn = async () => await getEventTickets({id});
+
+    return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
+}
+
+export const useSetEventAttendee = (id: string) => {
+    const queryClient = useQueryClient();
+
+    const queryKey = dashboardKeys.eventAttendees(id);
+    return useMutation({
+      mutationFn: setEventAttendee,
+      onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKey })
+    }) 
+}
+
+export const useGetEventTicketSelect = (id: string) => {
+    const queryKey = dashboardKeys.eventTicketSelect(id);
+    const queryFn = async () => await getEventTicketSelect({id});
+
+    return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
+}
+
+export const useGetEventAttendeeByID = (attendeeID: string, id: string) => {
+    const queryKey = dashboardKeys.eventAttendee(attendeeID, id);
+    const queryFn = async() => await getEventTicketByID({id: attendeeID});
+
+    return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
+}
+
+export const useDeleteEventAttendee = (id: string) => {
+    const queryClient = useQueryClient();
+
+    const queryKey = dashboardKeys.eventAttendees(id);
+    return useMutation({ 
+        mutationFn: deleteEventAttendee,
         onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKey })
     })
 }

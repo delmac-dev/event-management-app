@@ -6,11 +6,12 @@ import { createAdmin } from "./supabase/admin";
 import { NewOrganisation } from "@/components/forms/new-organisation";
 import { ModifyOrganisation } from "@/components/forms/modify-organisation";
 import { FetchedEventProps, FetchedMembersProps, FetchedModifiableEventProps, FetchedModifiableMemberProps, FetchedOrganisationProps } from "./types";
-import { stringToList } from "./utils";
+import { generateRandomNumber, stringToList } from "./utils";
 import { NewEvent } from "@/components/forms/new-event";
 import { ModifyEvent } from "@/components/forms/modify-event";
 import { HandleMember } from "@/components/forms/handle-member";
 import { HandleTicket } from "@/components/forms/handle-ticket";
+import { HandleAttendee } from "@/components/forms/handle-attendee";
 
 const supabase = createClient();
 
@@ -150,19 +151,14 @@ export const deleteEvent = async ({id}:{id: string}) => {
 }
 
 export const getEventTickets = async ({id}:{id: string}) => {
-    // const { data, error } = await supabase
-    // .from('tickets')
-    // .select(`
-    //         id, is_active, has_accepted, 
-    //         profiles(full_name, email, avatar_url)
-    //     `)
-    // .eq("event_id", id)
+    const { data, error } = await supabase
+    .from('tickets')
+    .select('*')
+    .eq("event_id", id)
 
-    // if(error) throw error;
+    if(error) throw error;
 
-    // return data
-
-    return null;
+    return data ?? null;
 };
 
 export const setEventTicket = async ({ticketData}:{ticketData: HandleTicket}) => {
@@ -178,7 +174,6 @@ export const setEventTicket = async ({ticketData}:{ticketData: HandleTicket}) =>
     if (error) throw error;
 
     return null;
-
 };
 
 export const modifyEventTicket = async ({ticketData, id}: { ticketData: HandleTicket, id: string}) => {
@@ -219,10 +214,73 @@ export const deleteEventTicket = async ({ id }: { id: string }) => {
     return data ?? null;
 }
 
-export const getEventAttendees = () => {};
-export const setEventAttendee = () => {};
-export const updateEventAttendee = () => {};
-export const deleteEventAttendee = () => {};
+export const getEventAttendees = async ({id}:{id: string}) => {
+    const { data, error } = await supabase
+    .from('attendees')
+    .select('*')
+    .eq("event_id", id)
+
+    if(error) throw error;
+
+    return data ?? null;
+};
+
+export const setEventAttendee = async ({attendeeData}:{attendeeData: HandleAttendee}) => {
+    const {event_id, user_id, ticket_id, full_name, email, status, payment_status} = attendeeData;
+
+    const { data: prefixData, error: prefixError } = await supabase
+    .from('tickets')
+    .select('ticket_code_prefix')
+    .eq('id', ticket_id)
+    .single();
+    
+    if (!prefixData || prefixError)
+        throw new Error('Error fetching ticket code prefix');
+    
+    const ticket_code = `${prefixData.ticket_code_prefix}${generateRandomNumber()}`;
+
+    const { error } = await supabase
+        .from('attendees')
+        .insert({event_id, user_id, ticket_id, full_name, email, status, payment_status, ticket_code});
+
+    if (error) throw error;
+
+    return null;
+};
+
+export const modifyEventAttendee = async ({attendeeData, id}: { attendeeData: HandleAttendee, id: string}) => {
+    const {ticket_id, full_name, email, status, payment_status} = attendeeData;
+
+    const { data, error } = await supabase
+    .from('attendees')
+    .update({ ticket_id, full_name, email, status, payment_status })
+    .eq('id', id);
+
+    if(error) throw error;
+
+    return data ?? null;
+};
+
+export const deleteEventAttendee = async ({ id }: { id: string }) => {
+    const { data } = await supabase
+    .from('attendees')
+    .delete()
+    .eq('id', id);
+
+    return data ?? null;
+};
+
+export const getEventAttendeeByID = async ({id}:{id: string}) => {
+    const { data, error } = await supabase
+    .from('attendees')
+    .select('event_id, user_id, ticket_id, full_name, email, status, payment_status')
+    .eq("id", id)
+    .single()
+
+    if(error) throw error;
+
+    return data ?? null;
+};
 
 // ALL QUERIES RELATING TO ORGANIZATIONS
 export const getUserOrganisations = async() => {
@@ -430,4 +488,15 @@ export const getUserOrgSelect = async () => {
     const organisations = data.map(member => member.organisation_id)
 
     return organisations as { value: string; label: string }[];
+}
+
+export const getEventTicketSelect = async ({id}:{id: string}) => {
+    const { data, error } = await supabase
+    .from('tickets')
+    .select('value:id, label:name')
+    .eq("event_id", id)
+
+    if(error) throw error;
+
+    return data ?? null;
 }

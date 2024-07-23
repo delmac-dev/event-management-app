@@ -9,6 +9,9 @@ import SpinnerIcon from "@/components/icons/spinner-icon";
 export default function TicketsContainer({eventID}:{eventID: string}) {
     const { data: tickets, isLoading } = useGetEventTickets(eventID);
 
+    console.log(tickets);
+    
+
     if(isLoading) {
         return (
             <BodyContent className="flex_center">

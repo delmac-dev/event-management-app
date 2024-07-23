@@ -83,3 +83,7 @@ export function listToString(list: string[]) {
   
   return list.join(',');
 }
+
+export function generateRandomNumber() {
+  return Math.floor(1000000000 + Math.random() * 9000000000).toString(); // Ensures a 10-digit number
+}

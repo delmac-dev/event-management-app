@@ -13,6 +13,7 @@ export type Database = {
         Row: {
           created_at: string | null
           email: string | null
+          event_id: string | null
           full_name: string | null
           has_account: boolean | null
           hold_expire_in: string | null
@@ -27,6 +28,7 @@ export type Database = {
         Insert: {
           created_at?: string | null
           email?: string | null
+          event_id?: string | null
           full_name?: string | null
           has_account?: boolean | null
           hold_expire_in?: string | null
@@ -41,6 +43,7 @@ export type Database = {
         Update: {
           created_at?: string | null
           email?: string | null
+          event_id?: string | null
           full_name?: string | null
           has_account?: boolean | null
           hold_expire_in?: string | null
@@ -53,6 +56,13 @@ export type Database = {
           user_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "attendees_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "attendees_ticket_id_fkey"
             columns: ["ticket_id"]
@@ -192,7 +202,7 @@ export type Database = {
             foreignKeyName: "notifications_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: "events"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]

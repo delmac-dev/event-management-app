@@ -318,3 +318,7 @@ export const TIME_REGEX = /^(?:[01]\d|2[0-3]):[0-5]\d$/;
 export const AVAILABILITY_OPTIONS = ["available", "unavailable"];
 
 export const TICKET_TYPE_OPTIONS = ["free", "priced"];
+
+export const ATTENDEE_STATUS_OPTIONS = ['registered', 'checked-in', 'cancelled', 'no-show'];
+
+export const PAYMENT_STATUS_OPTIONS = ['pending', 'completed', 'failed'];
