@@ -12,7 +12,7 @@ export default function EventsContainer () {
 
     if(isLoading) {
         return (
-            <section className="sub_container">
+            <section className="sub_container flex_center w-full h-80">
                 <SpinnerIcon className="size-10 text-secondary-foreground" />
             </section>
         )

@@ -20,7 +20,7 @@ export default function EventCard (props: fetchedPublicEventsProps) {
                     <h3 className="font-medium text-lg leading-none tracking-tight truncate">
                         <Link href={_event(id)}>{name}</Link>
                     </h3>
-                    <p className="text-xs font-normal font-muted-foreground mt-1.5">{headline}</p>
+                    <p className="text-xs font-normal font-muted-foreground mt-1.5 truncate">{headline}</p>
                 </div>
                 <div className="w-full flex-1 mt-3">
                     <p className="text-sm text-muted-foreground overflow-hidden text-ellipsis line-clamp-2">{about}</p>
