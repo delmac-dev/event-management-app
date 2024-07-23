@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { Form } from "../ui/form";
 import { cn, listToString, timeToDate } from "@/lib/utils";
-import { DateInput, ImageInput, NumberInput, RadioGroupInput, SelectInput, TextareaInput, TextInput, TimeInput } from "../common/custom-form-fields";
+import { DateInput, ImageInput, NumberInput, RadioGroupInput, SelectInput, SwitchInput, TextareaInput, TextInput, TimeInput } from "../common/custom-form-fields";
 import { ACCEPTED_IMAGE_TYPES, EVENT_TYPE_OPTIONS, eventCategoryList, MAX_FILE_SIZE, schools, TIME_REGEX } from "@/lib/constants";
 import { Button } from "../ui/button";
 import { useGetEventByID, useModifyEvent } from "@/lib/query-hooks";
@@ -146,6 +146,7 @@ export function ModifyEventForm({eventID, className}:{eventID:string, className?
         <>
             <Form {...form}>
                 <form onSubmit={handleSubmit(onSubmit)} className={cn("w-full p-4 space-y-4 rounded-sm border", className)}>
+                    <SwitchInput name="is_published" label="Publish this event" />
                     <SelectInput name="organisation_id" label="Organisation" defaultvalue={event?.organisation_id.value} list={[event?.organisation_id as { value: string; label: string; }]} disabled />
                     <SelectInput name="organiser" label="Organiser" defaultvalue={event?.organiser.value} list={[event?.organiser as { value: string; label: string; }]} disabled />
                     <TextInput name="name" label="Name" />
@@ -154,7 +155,6 @@ export function ModifyEventForm({eventID, className}:{eventID:string, className?
                     <NumberInput name="capacity" label="Capacity" placeHolder="Total Capacity" min={25} showError />
                     <TextInput name="tags" label="Tags ( #cool, #free, #awesome )" />
                     <RadioGroupInput name="event_type" label="Event Type" defaultValue={event?.event_type} options={EVENT_TYPE_OPTIONS} />
-                    {/* is_published switch input */}
                     <TextareaInput name="about" label="About This Event" />
                     <DateInput name="event_date" label="Event Date" showError/>
                     <TimeInput name="start_at" label="Starting Time" showError />

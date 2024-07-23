@@ -56,7 +56,7 @@ export type FetchedEventProps = {
     updated_at: string
     agenda: { time: string, title: string, description: string } [] | null,
     faq: { question: string, answer: string }[] | null,
-    location: { name: string, school: string, description: string }[] | null,
+    location: { name: string, school: string, description: string } | null,
 }
 
 export type FetchedModifiableEventProps = {
@@ -131,6 +131,16 @@ export type FetchedTicketsProps = {
     wait_on: string | null;
 }
 
-export type fetchedPublicEvents = {
-    
+export type fetchedPublicEventsProps = {
+    id: string,
+    about: string,
+    name: string,
+    headline: string,
+    banner: string,
+    event_date: string,
+    end_at: string,
+    start_at: string,
+    location: { name: string, school: string, description: string },
+    tags: string[]
+    profiles: { avatar_url: string, full_name: string, id: string }
 }

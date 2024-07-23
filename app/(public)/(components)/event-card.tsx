@@ -2,15 +2,18 @@
 
 import { Button } from "@/components/ui/button";
 import { _attendEvent, _event } from "@/lib/routes";
+import { fetchedPublicEventsProps } from "@/lib/types";
 import { TicketPlus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function EventCard ({ id , name , headline , about , images , capacity , event_type }: any) {
+export default function EventCard (props: fetchedPublicEventsProps) {
+    const {id, banner, name, headline, about} = props;
+
     return (
-        <div className="w-full flex flex-col rounded-sm p-3 border">
-            <Link href={_event(id)} className="overflow-hidden w-full aspect-video flex_center">
-                <Image src={images[0]} height={900} width={1600} alt="event image" className="w-full h-full object-cover" />
+        <div className="w-full flex flex-col rounded-sm p-3 border bg-background">
+            <Link href={_event(id)} className="relative z-0 overflow-hidden w-full aspect-video flex_center">
+                <Image src={banner} fill alt="event image" className="w-full h-full object-cover" />
             </Link>
             <div className="w-full flex-1 pt-4 flex flex-col">
                 <div className="w-full">

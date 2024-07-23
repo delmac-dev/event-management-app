@@ -5,7 +5,7 @@ import { createClient } from "./supabase/server";
 import { createAdmin } from "./supabase/admin";
 import { NewOrganisation } from "@/components/forms/new-organisation";
 import { ModifyOrganisation } from "@/components/forms/modify-organisation";
-import { FetchedAttendeeProps, FetchedEventProps, FetchedMembersProps, FetchedModifiableEventProps, FetchedModifiableMemberProps, FetchedOrganisationProps, FetchedTicketsProps } from "./types";
+import { FetchedAttendeeProps, FetchedEventProps, FetchedMembersProps, FetchedModifiableEventProps, FetchedModifiableMemberProps, FetchedOrganisationProps, fetchedPublicEventsProps, FetchedTicketsProps } from "./types";
 import { generateRandomNumber, stringToList } from "./utils";
 import { NewEvent } from "@/components/forms/new-event";
 import { ModifyEvent } from "@/components/forms/modify-event";
@@ -448,6 +448,7 @@ export const declineMembership = async ({ memberID }: { memberID: string }) => {
 
 // ALL QUERIES RELATING TO TICKETS
 export const getTicketByCode = () => {};
+
 export const getTickets = () => {};
 export const unbookTicket = () => {};
 
@@ -483,13 +484,31 @@ export const getEventTicketSelect = async ({id}:{id: string}) => {
     return data ?? null;
 }
 
+// ::::::::::::::::::::::::::::: PUBLIC QUERIES :::::::::::::::::::::::::::::::::::::::::::
 export const getPublicEvents = async () => {
     const { data, error} = await supabase
     .from('events')
+    .select('id, about, name, headline, banner, event_date, end_at, start_at, location, tags, profiles(id, full_name, avatar_url)')
+    .eq('is_published', true)
+    .eq('event_type', 'public')
+
+    if(error) throw error;
+
+    return data as fetchedPublicEventsProps[];
+}
+
+export const getPublicEvent = async ({id}:{id: string}) => {
+    const { data, error} = await supabase
+    .from('events')
     .select('*')
-    .eq('is_published', true);
+    .eq('id', id)
+    .single()
 
     if(error) throw error;
 
     return data;
+}
+
+export const getPublicTicket = async ({id}:{id: string}) => {
+
 }

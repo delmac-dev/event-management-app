@@ -7,6 +7,8 @@ import { useGetPublicEvents } from "@/lib/query-hooks";
 
 export default function EventsContainer () {
     const {data:events, isLoading, isError} = useGetPublicEvents();
+    console.log(events);
+    
 
     if(isLoading) {
         return (
