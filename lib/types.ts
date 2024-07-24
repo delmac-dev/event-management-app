@@ -198,3 +198,11 @@ export type FetchedMyTickets = {
     updated_at: string,
     user_id: string,
 }
+
+export type SearchedTicketsProps = {
+    id: string,
+    ticket_id: string,
+    full_name: string,
+    email: string,
+    ticket_code: string
+}

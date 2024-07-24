@@ -5,7 +5,7 @@ import { createClient } from "./supabase/server";
 import { createAdmin } from "./supabase/admin";
 import { NewOrganisation } from "@/components/forms/new-organisation";
 import { ModifyOrganisation } from "@/components/forms/modify-organisation";
-import { FetchedAttendeeProps, FetchedBookableTicketProps, FetchedEventProps, FetchedMembersProps, FetchedModifiableEventProps, FetchedModifiableMemberProps, FetchedMyTickets, FetchedOrganisationProps, FetchedPublicEventProps, FetchedPublicEventsProps, FetchedTicketsProps } from "./types";
+import { FetchedAttendeeProps, FetchedBookableTicketProps, FetchedEventProps, FetchedMembersProps, FetchedModifiableEventProps, FetchedModifiableMemberProps, FetchedMyTickets, FetchedOrganisationProps, FetchedPublicEventProps, FetchedPublicEventsProps, FetchedTicketsProps, SearchedTicketsProps } from "./types";
 import { generateRandomNumber, stringToList } from "./utils";
 import { NewEvent } from "@/components/forms/new-event";
 import { ModifyEvent } from "@/components/forms/modify-event";
@@ -526,6 +526,19 @@ export const getPublicTicket = async ({id}:{id: string}) => {
 }
 
 export const getTicketByCode = () => {};
+
+export const getSearchedTickets = async ({searchData}: { searchData: string}) => {
+    if(searchData === '') return [];
+
+    const { data, error } = await supabase
+    .from('attendees')
+    .select('id, ticket_id, full_name, email, ticket_code')
+    .or(`full_name.ilike.%${searchData}%,email.ilike.%${searchData}%`);
+
+    if(error) throw error;
+    
+    return data as SearchedTicketsProps[];
+}
 
 export const getBookableTickets = async ({id}:{id: string}) => {
     const { data, error} = await supabase
