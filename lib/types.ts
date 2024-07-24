@@ -131,7 +131,7 @@ export type FetchedTicketsProps = {
     wait_on: string | null;
 }
 
-export type fetchedPublicEventsProps = {
+export type FetchedPublicEventsProps = {
     id: string,
     about: string,
     name: string,
@@ -143,4 +143,33 @@ export type fetchedPublicEventsProps = {
     location: { name: string, school: string, description: string },
     tags: string[]
     profiles: { avatar_url: string, full_name: string, id: string }
+}
+
+export type AttachedPublicTicketsProps = {
+
+}
+
+export type FetchedPublicEventProps = {
+    id: string,
+    about: string,
+    banner: string,
+    headline: string,
+    capacity: number,
+    category: string,
+    created_at: string,
+    end_at: string,
+    event_date: string,
+    event_status: string,
+    event_type: string,
+    is_published: boolean,
+    name: string,
+    organisation_id: string,
+    organiser: string,
+    tags: string[],
+    tickets: AttachedPublicTicketsProps[],
+    start_at: string,
+    updated_at: string
+    location: { name: string, school: string, description: string } | null,
+    agenda: { time: string, title: string, description: string } [] | null,
+    faq: { question: string, answer: string }[] | null,
 }

@@ -54,6 +54,8 @@ export function stringToList(str: string) {
 }
 
 export const convertTo12HourFormat = (time24: string) => {
+  if(time24 === "") return "";
+  
   let [hours, minutes] = time24.split(':');
   const suffix = +hours >= 12 ? 'PM' : 'AM';
   hours = (hours === '00' ? '12' : (+hours % 12 || 12)).toString();
@@ -67,6 +69,8 @@ export const timeToDate = (time24: string): Date => {
 };
 
 export const formatDate = (dateString: string) => {
+  if(dateString === "") return "";
+  
   const date = new Date(dateString);
   const formatter = new Intl.DateTimeFormat('en-GB', {
     weekday: 'short',

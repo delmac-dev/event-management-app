@@ -5,7 +5,7 @@ import { createClient } from "./supabase/server";
 import { createAdmin } from "./supabase/admin";
 import { NewOrganisation } from "@/components/forms/new-organisation";
 import { ModifyOrganisation } from "@/components/forms/modify-organisation";
-import { FetchedAttendeeProps, FetchedEventProps, FetchedMembersProps, FetchedModifiableEventProps, FetchedModifiableMemberProps, FetchedOrganisationProps, fetchedPublicEventsProps, FetchedTicketsProps } from "./types";
+import { FetchedAttendeeProps, FetchedEventProps, FetchedMembersProps, FetchedModifiableEventProps, FetchedModifiableMemberProps, FetchedOrganisationProps, FetchedPublicEventProps, FetchedPublicEventsProps, FetchedTicketsProps } from "./types";
 import { generateRandomNumber, stringToList } from "./utils";
 import { NewEvent } from "@/components/forms/new-event";
 import { ModifyEvent } from "@/components/forms/modify-event";
@@ -494,19 +494,26 @@ export const getPublicEvents = async () => {
 
     if(error) throw error;
 
-    return data as fetchedPublicEventsProps[];
+    return data as FetchedPublicEventsProps[];
 }
 
 export const getPublicEvent = async ({id}:{id: string}) => {
-    const { data, error} = await supabase
+    const { data:eventData, error:eventError} = await supabase
     .from('events')
     .select('*')
     .eq('id', id)
     .single()
 
-    if(error) throw error;
+    const { data: ticketsData, error: ticketsError} = await supabase
+    .from('tickets')
+    .select('*')
+    .eq('event_id', id) 
 
-    return data;
+    if(eventError) throw eventError;
+
+    const data = { ...eventData, tickets: ticketsData };
+
+    return data as FetchedPublicEventProps;
 }
 
 export const getPublicTicket = async ({id}:{id: string}) => {

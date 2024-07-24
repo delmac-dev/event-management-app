@@ -2,10 +2,10 @@
 export const publicKeys = {
     all: ['public'] as const,
     events: () => [...publicKeys.all, 'event'] as const,
-    event: (id: number) => [...publicKeys.all, 'event', id] as const,
+    event: (id: string) => [...publicKeys.all, 'event', id] as const,
     attendees: (filters: any) => [...publicKeys.all, 'attendees', filters] as const,
-    attendee: (id: number) => [...publicKeys.all, 'attendee', id] as const,
-    tickets: (eventID: number) => [...publicKeys.all, 'tickets', eventID] as const,
+    attendee: (id: string) => [...publicKeys.all, 'attendee', id] as const,
+    tickets: (eventID: string) => [...publicKeys.all, 'tickets', eventID] as const,
 };
 
 export const dashboardKeys = {

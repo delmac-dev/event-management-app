@@ -2,12 +2,12 @@
 
 import { Button } from "@/components/ui/button";
 import { _attendEvent, _event } from "@/lib/routes";
-import { fetchedPublicEventsProps } from "@/lib/types";
+import { FetchedPublicEventsProps } from "@/lib/types";
 import { TicketPlus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function EventCard (props: fetchedPublicEventsProps) {
+export default function EventCard (props: FetchedPublicEventsProps) {
     const {id, banner, name, headline, about} = props;
 
     return (
