@@ -91,3 +91,14 @@ export function listToString(list: string[]) {
 export function generateRandomNumber() {
   return Math.floor(1000000000 + Math.random() * 9000000000).toString(); // Ensures a 10-digit number
 }
+
+export function dateAvatar(dateString: string) {
+  if(dateString === '') return { month: '', day: ''};
+
+  const monthNames = ["Jan.", "Feb.", "Mar.", "Apr.", "May.", "Jun.", "Jul.", "Aug.", "Sep.", "Oct.", "Nov.", "Dec."];
+  const date = new Date(dateString);
+  const month = monthNames[date.getMonth()];
+  const day = date.getDate().toString().padStart(2, '0');
+
+  return { month, day };
+}

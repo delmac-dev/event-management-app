@@ -5,13 +5,14 @@ import { createClient } from "./supabase/server";
 import { createAdmin } from "./supabase/admin";
 import { NewOrganisation } from "@/components/forms/new-organisation";
 import { ModifyOrganisation } from "@/components/forms/modify-organisation";
-import { FetchedAttendeeProps, FetchedEventProps, FetchedMembersProps, FetchedModifiableEventProps, FetchedModifiableMemberProps, FetchedOrganisationProps, FetchedPublicEventProps, FetchedPublicEventsProps, FetchedTicketsProps } from "./types";
+import { FetchedAttendeeProps, FetchedBookableTicketProps, FetchedEventProps, FetchedMembersProps, FetchedModifiableEventProps, FetchedModifiableMemberProps, FetchedOrganisationProps, FetchedPublicEventProps, FetchedPublicEventsProps, FetchedTicketsProps } from "./types";
 import { generateRandomNumber, stringToList } from "./utils";
 import { NewEvent } from "@/components/forms/new-event";
 import { ModifyEvent } from "@/components/forms/modify-event";
 import { HandleMember } from "@/components/forms/handle-member";
 import { HandleTicket } from "@/components/forms/handle-ticket";
 import { HandleAttendee } from "@/components/forms/handle-attendee";
+import { HandleTicketBooking } from "@/components/forms/handle-ticket-booking";
 
 const supabase = createClient();
 
@@ -20,8 +21,6 @@ const admin = createAdmin().auth.admin;
 // ALL QUERIES RELATING TO PROFILE
 export const getAuthProfile = async () => {
     const { data: { user: data }, error } = await supabase.auth.getUser();
-
-    console.log(error);
     
     return data ?? null;
 };
@@ -446,16 +445,7 @@ export const declineMembership = async ({ memberID }: { memberID: string }) => {
 
 }
 
-// ALL QUERIES RELATING TO TICKETS
-export const getTicketByCode = () => {};
-
-export const getTickets = () => {};
-export const unbookTicket = () => {};
-
-export const getNotifications = () => {};
-export const updateNotification = () => {};
-
-// FORM NECCESSARY QUERIES
+// ::::::::::::::::::::::::::::: FORM NECCESSARY QUERIES ::::::::::::::::::::::::::::::::::
 export const getUserOrgSelect = async () => {
     const { data: { user }} = await supabase.auth.getUser();
 
@@ -492,7 +482,7 @@ export const getPublicEvents = async () => {
     .eq('is_published', true)
     .eq('event_type', 'public')
 
-    if(error) throw error;
+    if(error) console.log({error});
 
     return data as FetchedPublicEventsProps[];
 }
@@ -519,3 +509,53 @@ export const getPublicEvent = async ({id}:{id: string}) => {
 export const getPublicTicket = async ({id}:{id: string}) => {
 
 }
+
+export const getTicketByCode = () => {};
+
+export const getBookableTickets = async ({id}:{id: string}) => {
+    const { data, error} = await supabase
+    .from('tickets')
+    .select('id, name, total_tickets, available_tickets, ticket_type, price')
+    .eq('event_id', id);
+
+    if(error) throw error;
+
+    return data as FetchedBookableTicketProps[];
+};
+
+export const bookTicket = async ({attendeeData}: { attendeeData: HandleTicketBooking}) => {
+    let { ticket_id, full_name, user_id, email, event_id} = attendeeData;
+    let has_account= true;
+    let status = "registered";
+    let payment_status = "paid";
+
+    const { data: prefixData, error: prefixError } = await supabase
+    .from('tickets')
+    .select('ticket_code_prefix')
+    .eq('id', ticket_id)
+    .single();
+    
+    if (!prefixData || prefixError)
+        throw new Error('Error fetching ticket code prefix');
+    
+    let ticket_code = `${prefixData.ticket_code_prefix}${generateRandomNumber()}`;
+
+    if(user_id === '') {
+        has_account = false;
+        user_id = null;
+    } 
+        
+
+    const { data, error } = await supabase
+    .from('attendees')
+    .insert({ event_id, ticket_id, full_name, email, user_id, has_account, ticket_code, status, payment_status })
+
+    if(error) throw error;
+
+    return data ?? null;
+}
+
+export const unbookTicket = () => {};
+
+export const getNotifications = () => {};
+export const updateNotification = () => {};

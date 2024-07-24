@@ -4,15 +4,15 @@ import SpinnerIcon from "@/components/icons/spinner-icon";
 import { Button } from "@/components/ui/button";
 import { useGetPublicEvent } from "@/lib/query-hooks";
 import { _attendEvent } from "@/lib/routes";
-import { convertTo12HourFormat, formatDate } from "@/lib/utils";
+import { convertTo12HourFormat, dateAvatar } from "@/lib/utils";
 import { Image } from "lucide-react";
 import NextImage from "next/image";
 import Link from "next/link";
-import Footer from "./footer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function EventDetailContainer({eventID}:{eventID:string}) {
     const { data: event, isLoading} = useGetPublicEvent(eventID);
+    const date = dateAvatar(event?.event_date || "");
 
     if(isLoading) {
         return (
@@ -27,9 +27,9 @@ export default function EventDetailContainer({eventID}:{eventID:string}) {
             <section className="main_container">
                 <div className="sub_container flex flex-col md:flex-row justify-between gap-4 py-10">
                     <div className="flex-1 flex gap-7 p">
-                        <div className="size-20 md:size-24 aspect-square rounded-lg border bg-background flex flex-col p-3.5 md:p-7 justify-between items-center">
-                            <p className="text-xl md:text-2xl font-bold">MAR.</p>
-                            <p className="text-xl md:text-2xl font-bold">07</p>
+                        <div className="size-20 md:size-24 aspect-square rounded-lg border bg-background flex flex-col p-3.5 justify-between items-center">
+                            <p className="text-xl md:text-2xl font-bold">{date.month}</p>
+                            <p className="text-xl md:text-2xl font-bold">{date.day}</p>
                         </div>
                         <div className="flex-1 space-y-1">
                             <h2 className="text-lg sm:text-2xl font-semibold">{event?.name}</h2>

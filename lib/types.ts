@@ -173,3 +173,12 @@ export type FetchedPublicEventProps = {
     agenda: { time: string, title: string, description: string } [] | null,
     faq: { question: string, answer: string }[] | null,
 }
+
+export type FetchedBookableTicketProps = {
+    id: string,
+    name: string,
+    total_tickets: number,
+    available_tickets: number,
+    ticket_type: string,
+    price: string,
+}
