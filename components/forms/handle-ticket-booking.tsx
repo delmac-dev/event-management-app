@@ -61,9 +61,7 @@ export default function HandleTicketBookingForm({eventID}:{eventID: string}) {
     const {trigger, handleSubmit, formState: { isSubmitting, isDirty }} = form;
 
     function onSubmit(data: HandleTicketBooking) {
-        // bookTicket({attendeeData: data});
-        console.log({data});
-        
+        bookTicket({attendeeData: data});
     };
 
     const moveTo = async (tab:TabProps, fields?:any, isPrev=false) => {
@@ -83,7 +81,7 @@ export default function HandleTicketBookingForm({eventID}:{eventID: string}) {
         };
 
         if (isSuccess) {
-            toast.success("Organisation created successfully");
+            toast.success("Ticket booked successfully");
             setTab("success");
         }
 

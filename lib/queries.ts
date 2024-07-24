@@ -527,7 +527,7 @@ export const bookTicket = async ({attendeeData}: { attendeeData: HandleTicketBoo
     let { ticket_id, full_name, user_id, email, event_id} = attendeeData;
     let has_account= true;
     let status = "registered";
-    let payment_status = "paid";
+    let payment_status = "completed";
 
     const { data: prefixData, error: prefixError } = await supabase
     .from('tickets')
