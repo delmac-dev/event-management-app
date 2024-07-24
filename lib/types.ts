@@ -182,3 +182,19 @@ export type FetchedBookableTicketProps = {
     ticket_type: string,
     price: string,
 }
+
+export type FetchedMyTickets = {
+    created_at: string
+    email: string
+    event_id: string,
+    full_name: string,
+    has_account: boolean,
+    hold_expire_in: string | null,
+    id: string,
+    payment_status: string,
+    status: string,
+    ticket_code: string,
+    ticket_id: string,
+    updated_at: string,
+    user_id: string,
+}

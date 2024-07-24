@@ -1,10 +1,10 @@
 "use client";
 
-import { TicketType } from '@/lib/constants';
+import { FetchedMyTickets } from '@/lib/types';
 import { Ticket } from 'lucide-react';
 import React from 'react'
 
-const TicketCard = ({ticket_code, full_name, email}: TicketType ) => {
+const TicketCard = ({ticket_code, full_name, email}: FetchedMyTickets ) => {
   return (
     <div className="relative w-full bg-bacground border h-72 rounded-lg p-5 flex flex-col justify-start items-center">
         <div className="w-24 h-24 rounded-full bg-secondary mb-5 flex_center">

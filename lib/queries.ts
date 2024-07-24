@@ -5,7 +5,7 @@ import { createClient } from "./supabase/server";
 import { createAdmin } from "./supabase/admin";
 import { NewOrganisation } from "@/components/forms/new-organisation";
 import { ModifyOrganisation } from "@/components/forms/modify-organisation";
-import { FetchedAttendeeProps, FetchedBookableTicketProps, FetchedEventProps, FetchedMembersProps, FetchedModifiableEventProps, FetchedModifiableMemberProps, FetchedOrganisationProps, FetchedPublicEventProps, FetchedPublicEventsProps, FetchedTicketsProps } from "./types";
+import { FetchedAttendeeProps, FetchedBookableTicketProps, FetchedEventProps, FetchedMembersProps, FetchedModifiableEventProps, FetchedModifiableMemberProps, FetchedMyTickets, FetchedOrganisationProps, FetchedPublicEventProps, FetchedPublicEventsProps, FetchedTicketsProps } from "./types";
 import { generateRandomNumber, stringToList } from "./utils";
 import { NewEvent } from "@/components/forms/new-event";
 import { ModifyEvent } from "@/components/forms/modify-event";
@@ -443,6 +443,21 @@ export const acceptMembership = async ({ memberID }: { memberID: string }) => {
 
 export const declineMembership = async ({ memberID }: { memberID: string }) => {
 
+}
+
+export const getMyTickets = async () => {
+    const { data: { user }} = await supabase.auth.getUser();
+
+    if (!user) throw new Error('No user logged in');
+
+    const {data, error} = await supabase
+    .from('attendees')
+    .select('*')
+    .eq('user_id', user.id)
+
+    if(error) throw error;
+
+    return data as FetchedMyTickets[];
 }
 
 // ::::::::::::::::::::::::::::: FORM NECCESSARY QUERIES ::::::::::::::::::::::::::::::::::
