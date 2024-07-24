@@ -206,3 +206,25 @@ export type SearchedTicketsProps = {
     email: string,
     ticket_code: string
 }
+
+export type FetchedPublicAttendeesProps = {
+    id: string;
+    full_name: string;
+    email: string;
+    ticket_code: string;
+    event_id: string;
+    user_id: string;
+    tickets: {
+        id: string;
+        ticket_type: string;
+        name: string;
+        events: {
+            id: string;
+            name: string;
+            headline: string;
+            banner: string;
+            event_date: string;
+            start_at: string;
+        };
+    };
+}
