@@ -5,6 +5,10 @@ export const _login = '/auth/login';
 // public
 export const _home = '/';
 export const _events = '/events';
+export const _about = '/about';
+export const _cookies = '/cookies';
+export const _pricing = '/pricing';
+export const _termsandconditions = '/terms-conditions';
 export const _event = (slug: string) => `${_events}/${slug}`;
 export const _attendEvent = (slug: string) => `${_event(slug)}/attend`;
 export const _organisations = '/organisations';

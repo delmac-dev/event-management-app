@@ -1,5 +1,6 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { EventType } from "@/lib/constants";
 import { _attendEvent, _event } from "@/lib/routes";
@@ -9,24 +10,24 @@ import Link from "next/link";
 
 export default function EventCard ({ id , name , headline , about , images , capacity , event_type }:EventType) {
     return (
-        <div className="w-full flex flex-col rounded-sm p-3 border">
+        <div className="w-full flex flex-col rounded-lg p-3 bg-gray-50 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-md">
             <Link href={_event(id)} className="overflow-hidden w-full aspect-video flex_center">
-                <Image src={images[0]} height={900} width={1600} alt="event image" className="w-full h-full object-cover" />
+                <Image src={images[0]} height={900} width={1600} alt="event image" className="w-full h-full object-cover rounded-md" />
             </Link>
-            <div className="w-full flex-1 pt-4 flex flex-col">
-                <div className="w-full">
-                    <h3 className="font-medium text-lg leading-none tracking-tight truncate">
+            <div className="w-full flex-1 pt-4 flex flex-col items-center justify-center">
+                <div className="w-full text-center">
+                    <h3 className="font-medium text-base text-center leading-none tracking-tight truncate">
                         <Link href={_event(id)}>{name}</Link>
                     </h3>
-                    <p className="text-xs font-normal font-muted-foreground mt-1.5">{headline}</p>
+                    <Badge variant="secondary" className="mt-1.5 text-xs text-orange-500 bg-orange-50"><p className="font-normal font-muted-foreground">{headline}</p></Badge>
                 </div>
                 <div className="w-full flex-1 mt-3">
-                    <p className="text-sm text-muted-foreground overflow-hidden text-ellipsis line-clamp-2">{about}</p>
+                    <p className="text-sm text-center text-muted-foreground overflow-hidden text-ellipsis line-clamp-2">{about}</p>
                 </div>
-                <div className="w-full flex justify-between mt-3">
-                    <Button size='sm' className="rounded-none">
-                        <Link href={_attendEvent(id)}>Book Your Ticket</Link>
-                        <TicketPlus className="size-6 ml-2.5" />
+                <div className="w-full flex justify-center mt-3">
+                    <Button size='xs' className="rounded-sm hover:text-green-400" variant="outline">
+                        <Link href={_attendEvent(id)}>Book Ticket</Link>
+                        <TicketPlus className="size-6 ml-2.5" strokeWidth={1} />
                     </Button>
                 </div>
             </div>

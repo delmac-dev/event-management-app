@@ -28,8 +28,8 @@ export default function Header () {
     return (
         <header className="sticky bg-background main_container top-0 left-0 z-10 h-14 border-b flex_center justify-between pl-3 max-lg:pr-1.5 pr-3">
             <div className="flex gap-1 items-center">
-                <Logo />
-                <Link href={_home} className="text-sm font-semibold">CampusEvents</Link>
+                <Logo  className="hidden"/>
+                <Link href={_home} className="text-lg font-semibold text-red-500">CONNECT</Link>
             </div>
             <div className="hidden md:flex items-center gap-4">
                 {navLinks.map(({name, link}, _i) => (
@@ -84,7 +84,7 @@ const ActionButtons = ({isMobile = false, onClick = () => null} : {isMobile?: bo
                     key={_id}
                     variant={variant as "outline" | "default"} 
                     size='sm'
-                    className={cn( !isMobile && "rounded-full" )} 
+                    className={cn( !isMobile && "rounded-lg" )} 
                     onClick={() => handleClick(link)}
                 >
                     {name}

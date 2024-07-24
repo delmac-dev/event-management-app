@@ -102,7 +102,72 @@ export const events: EventType[] = [
         event_type: "workshop",
         updated_at: "2024-07-04T08:00:00Z",
         created_at: "2024-07-04T08:00:00Z"
-    }
+    },
+
+    {
+        id: "e5eaf510-1cf5-4f5f-d9f6-8e2c7f1f5f9a",
+        organisation_id: "531098765432109",
+        organiser: "567890123456789",
+        name: "Environmental Workshop",
+        headline: "Sustainable Living Practices",
+        about: "A workshop on sustainable living practices and how to implement them in daily life.",
+        images: ["/dddepth-236.jpg"],
+        start_at: "10:00:00",
+        end_at: "15:00:00",
+        location: { address: "Green Hall, KNUST", city: "Kumasi", country: "Ghana" },
+        faq: [{ "Is there a fee?": "No", "What should I bring?": "Notebook and pen" }],
+        agenda: [{ "10:00": "Welcome"}, {"11:00": "First Session"}, {"13:00": "Lunch Break"}, {"14:00": "Second Session" }],
+        is_published: true,
+        has_started: false,
+        category: ["environment", "workshop"],
+        capacity: 150,
+        event_type: "workshop",
+        updated_at: "2024-07-04T08:00:00Z",
+        created_at: "2024-07-04T08:00:00Z"
+    },
+    {
+        id: "e5eaf510-1cf5-4f5f-d9f6-8e2c7f1f5f9a",
+        organisation_id: "531098765432109",
+        organiser: "567890123456789",
+        name: "Environmental Workshop",
+        headline: "Sustainable Living Practices",
+        about: "A workshop on sustainable living practices and how to implement them in daily life.",
+        images: ["/dddepth-236.jpg"],
+        start_at: "10:00:00",
+        end_at: "15:00:00",
+        location: { address: "Green Hall, KNUST", city: "Kumasi", country: "Ghana" },
+        faq: [{ "Is there a fee?": "No", "What should I bring?": "Notebook and pen" }],
+        agenda: [{ "10:00": "Welcome"}, {"11:00": "First Session"}, {"13:00": "Lunch Break"}, {"14:00": "Second Session" }],
+        is_published: true,
+        has_started: false,
+        category: ["environment", "workshop"],
+        capacity: 150,
+        event_type: "workshop",
+        updated_at: "2024-07-04T08:00:00Z",
+        created_at: "2024-07-04T08:00:00Z"
+    },
+    {
+        id: "e5eaf510-1cf5-4f5f-d9f6-8e2c7f1f5f9a",
+        organisation_id: "531098765432109",
+        organiser: "567890123456789",
+        name: "Environmental Workshop",
+        headline: "Sustainable Living Practices",
+        about: "A workshop on sustainable living practices and how to implement them in daily life.",
+        images: ["/dddepth-236.jpg"],
+        start_at: "10:00:00",
+        end_at: "15:00:00",
+        location: { address: "Green Hall, KNUST", city: "Kumasi", country: "Ghana" },
+        faq: [{ "Is there a fee?": "No", "What should I bring?": "Notebook and pen" }],
+        agenda: [{ "10:00": "Welcome"}, {"11:00": "First Session"}, {"13:00": "Lunch Break"}, {"14:00": "Second Session" }],
+        is_published: true,
+        has_started: false,
+        category: ["environment", "workshop"],
+        capacity: 150,
+        event_type: "workshop",
+        updated_at: "2024-07-04T08:00:00Z",
+        created_at: "2024-07-04T08:00:00Z"
+    },
+    
 ];
 
 export const tickets:TicketType[] = [
