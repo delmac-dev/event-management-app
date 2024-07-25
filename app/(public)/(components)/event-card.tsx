@@ -6,6 +6,7 @@ import { FetchedPublicEventsProps } from "@/lib/types";
 import { TicketPlus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
 
 export default function EventCard (props: FetchedPublicEventsProps) {
     const {id, banner, name, headline, about} = props;
@@ -20,15 +21,15 @@ export default function EventCard (props: FetchedPublicEventsProps) {
                     <h3 className="font-medium text-lg leading-none tracking-tight truncate">
                         <Link href={_event(id)}>{name}</Link>
                     </h3>
-                    <p className="text-xs font-normal font-muted-foreground mt-1.5 truncate">{headline}</p>
+                    <Badge variant="secondary" className="mt-1.5 text-xs text-orange-500 bg-orange-50"><p className="font-normal font-muted-foreground">{headline}</p></Badge>
                 </div>
                 <div className="w-full flex-1 mt-3">
                     <p className="text-sm text-muted-foreground overflow-hidden text-ellipsis line-clamp-2">{about}</p>
                 </div>
-                <div className="w-full flex justify-between mt-3">
-                    <Button size='sm' className="rounded-none">
-                        <Link href={_attendEvent(id)}>Book Your Ticket</Link>
-                        <TicketPlus className="size-6 ml-2.5" />
+                <div className="w-full flex justify-center mt-3">
+                    <Button size='xs' className="rounded-sm hover:text-green-400" variant="outline">
+                        <Link href={_attendEvent(id)}>Book Ticket</Link>
+                        <TicketPlus className="size-6 ml-2.5" strokeWidth={1} />
                     </Button>
                 </div>
             </div>

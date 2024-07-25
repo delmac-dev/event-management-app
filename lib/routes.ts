@@ -34,7 +34,7 @@ export const _dashboardProfileEdit = `${_dashboardProfile}/edit`;
 export const _dashboardNotifications = `${_dashboardProfile}/notifications`;
 
 // company
-export const _company = '/company';
-export const _contactUs = '/contact-us';
 export const _terms = '/terms'; 
-export const _privacy = '/privacy';
+export const _about = '/about';
+export const _cookies = '/cookies';
+export const _pricing = '/pricing';
