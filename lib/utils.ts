@@ -19,10 +19,12 @@ export function getUrl(link: string = '') {
   return url + link
 }
 
-export const parseNavigation = (pathname: string, navigation: NavigationProps[]) => {
+export const parseNavigation = (pathname: string, navigation: NavigationProps[], useStartWith:boolean = false) => {
+  const logic = (link: string ) => useStartWith? pathname.startsWith(link) : link === pathname;
+
   return navigation.map(navigationItem => ({
     ...navigationItem,
-    active: navigationItem.link === pathname
+    active: logic(navigationItem.link)
   }));
 };
 

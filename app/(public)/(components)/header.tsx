@@ -7,16 +7,16 @@ import ProfileAvatar from "@/components/common/profile-avatar";
 import { Button } from "@/components/ui/button";
 import { useGetAuthProfile } from "@/lib/query-hooks";
 import { _dashboard, _dashboardEvents, _events, _home, _login, _tickets } from "@/lib/routes";
-import { cn } from "@/lib/utils";
+import { NavigationProps } from "@/lib/types";
+import { cn, parseNavigation } from "@/lib/utils";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
 
 const navLinks = [
-    { name: "events",link: _events },
-    { name: "dashboard", link: _dashboard },
-    { name: "my ticket", link: _tickets }
+    { name: "events",link: _events, active: false },
+    { name: "dashboard", link: _dashboard, active: false },
+    { name: "my ticket", link: _tickets, active: false }
 ]
 
 const actionLinks = [
@@ -25,15 +25,28 @@ const actionLinks = [
 ]
 
 export default function Header () {
+    const [content, setContent] = useState<NavigationProps[]>(navLinks);
+    const pathname = usePathname();
+
+    useEffect(()=> {
+        setContent(parseNavigation(pathname, navLinks, true));
+    }, [pathname]);
+
+    useEffect(()=>{
+        console.log(pathname, navLinks, content);
+    })
+
     return (
         <header className="sticky bg-background main_container top-0 left-0 z-10 h-14 border-b flex_center justify-between pl-3 max-lg:pr-1.5 pr-3">
             <div className="flex gap-1 items-center">
                 <Logo />
                 <Link href={_home} className="text-sm font-semibold">CampusEvents</Link>
             </div>
-            <div className="hidden md:flex items-center gap-4">
-                {navLinks.map(({name, link}, _i) => (
-                    <Link key={_i} href={link} className="font-medium text-sm capitalize">{name}</Link>
+            <div className="hidden h-full md:flex items-center gap-4">
+                {content.map(({name, link, active}, _i) => (
+                    <Link key={_i} href={link} className={cn("h-full flex_center font-medium text-sm capitalize border-b-2", active ? "border-primary" : "border-transparent hover:border-primary")}>
+                        {name}
+                    </Link>
                 ))}
             </div>
             <HeaderOptions />
