@@ -2,6 +2,7 @@ import Header from "../(components)/header";
 import { _event } from "@/lib/routes";
 import EventsHeader from "../(components)/events-header";
 import EevntsContainer from "../(components)/events-container";
+import Footer from "../(components)/footer";
 
 export default async function Events() {
   return (
@@ -11,6 +12,7 @@ export default async function Events() {
         <EventsHeader />
         <EevntsContainer />
       </main>
+      <Footer />
     </>
   );
 }
