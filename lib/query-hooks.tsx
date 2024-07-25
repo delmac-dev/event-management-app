@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { bookTicket, deleteEventAttendee, deleteEventTicket, deleteMember, getAuthProfile, getBookableTickets, getEventAttendees, getEventByID, getEventTickets, getEventTicketSelect, getMaxCapacity, getMemberByID, getMemberEvents, getMembers, getMyTickets, getOrganisationByID, getOrganisationEvents, getProfile, getPublicEvent, getPublicEvents, getPublicTicket, getSearchedTickets, getUserOrganisations, getUserOrgSelect, modifyEvent, modifyEventAttendee, modifyEventTicket, modifyMember, modifyOrganisation, modifyProfile, setEvent, setEventAttendee, setEventTicket, setMember, setOrganisation } from "./queries";
+import { bookTicket, deleteEventAttendee, deleteEventTicket, deleteMember, getAuthProfile, getBookableTickets, getEventAttendees, getEventByID, getEventTickets, getEventTicketSelect, getMaxCapacity, getMemberByID, getMemberEvents, getMembers, getMyTickets, getNotificationCount, getNotifications, getOrganisationByID, getOrganisationEvents, getProfile, getPublicEvent, getPublicEvents, getPublicTicket, getSearchedTickets, getUserOrganisations, getUserOrgSelect, modifyEvent, modifyEventAttendee, modifyEventTicket, modifyMember, modifyNotification, modifyOrganisation, modifyProfile, setEvent, setEventAttendee, setEventTicket, setMember, setOrganisation } from "./queries";
 import { dashboardKeys, publicKeys } from "./query-keys";
 
 export function useGetAuthProfile() {
@@ -66,13 +66,6 @@ export const useModifyOrganisation = ( id: string ) => {
 export const useGetOrganisationEvents = (id: string) => {
     const queryKey = dashboardKeys.orgEvents(id);
     const queryFn = async () => await getOrganisationEvents({id});
-
-    return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
-}
-
-export const useGetUserOrgSelect = () => {
-    const queryKey = dashboardKeys.userOrgSelectList();
-    const queryFn = async () => await getUserOrgSelect();
 
     return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
 }
@@ -213,13 +206,6 @@ export const useSetEventAttendee = (id: string) => {
     }) 
 }
 
-export const useGetEventTicketSelect = (id: string) => {
-    const queryKey = dashboardKeys.eventTicketSelect(id);
-    const queryFn = async () => await getEventTicketSelect({id});
-
-    return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
-}
-
 export const useDeleteEventAttendee = (id: string) => {
     const queryClient = useQueryClient();
 
@@ -295,7 +281,48 @@ export const useGetSearchedTickets = (searchData: string) => {
     return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
 }
 
+// :::::::::::::::::::::::::::::: NOTIFICATIONS HOOKS :::::::::::::::::::::::::::::::::::
+export const useGetNotifications = (tab: string) => {
+    const queryKey = dashboardKeys.notifications(tab);
+    
+    const queryFn = async () => await getNotifications({tab});
+
+    return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
+}
+
+export const useGetNotificationCount = () => {
+    const queryKey = dashboardKeys.notificationCount;
+    
+    const queryFn = async () => await getNotificationCount();
+
+    return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
+}
+
+export const useModifyNotifications = (id: string) => {
+    const queryClient = useQueryClient();
+
+    const queryKey = dashboardKeys.notification(id);
+    return useMutation({ 
+        mutationFn: modifyNotification,
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKey })
+    })
+}
+
 // :::::::::::::::::::::::::::::: FORM NECCESARY HOOKS ::::::::::::::::::::::::::::::::::
+export const useGetUserOrgSelect = () => {
+    const queryKey = dashboardKeys.userOrgSelectList();
+    const queryFn = async () => await getUserOrgSelect();
+
+    return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
+}
+
+export const useGetEventTicketSelect = (id: string) => {
+    const queryKey = dashboardKeys.eventTicketSelect(id);
+    const queryFn = async () => await getEventTicketSelect({id});
+
+    return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
+}
+
 export const useGetMaxCapacity = (id: string) => {
     const queryKey = dashboardKeys.maxCapacity(id);
     
