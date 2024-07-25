@@ -33,8 +33,8 @@ const Loading = () => (
 
 const TicketDetail = ({attendee}:{attendee: FetchedPublicAttendeesProps}) => {
   const { full_name, email, ticket_code, tickets } = attendee;
-  const { name, events } = tickets;
-  const { id, headline, banner, event_date, start_at } = events;
+  const { name: ticketName, events } = tickets;
+  const { id,name, headline, banner, event_date, start_at } = events;
 
   return (
     <>
@@ -56,6 +56,10 @@ const TicketDetail = ({attendee}:{attendee: FetchedPublicAttendeesProps}) => {
             <p className="text-lg text-gray-600">Ticket Code:</p>
             <p className="text-xl font-bold text-gray-800">{ticket_code}</p>
           </div>
+          <div>
+            <p className="text-lg text-gray-600">Ticket Name:</p>
+            <p className="text-xl font-bold text-gray-800">{ticketName}</p>
+          </div>
         </div>
       </section>
       <section className="sub_container bg-white shadow-md rounded-lg p-6">
@@ -75,7 +79,7 @@ const TicketDetail = ({attendee}:{attendee: FetchedPublicAttendeesProps}) => {
                 <p className="text-xl font-semibold text-gray-800">{formatDate(event_date)}</p>
               </div>
               <div className="md:w-1/2">
-                <p className="text-lg text-gray-600 mb-2">Time:</p>
+                <p className="text-lg text-gray-600 mb-2">Starts:</p>
                 <p className="text-xl font-semibold text-gray-800">{convertTo12HourFormat(start_at)}</p>
               </div>
             </div>
