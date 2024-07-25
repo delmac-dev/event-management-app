@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { SearchedTicketsProps } from "@/lib/types";
 
 const FormSchema = z.object({
   query: z.string().min(1, "Must enter a query"),
@@ -55,7 +56,7 @@ export default function Tickets() {
         <section className="sub_container py-5">
         {
           isLoading ? 
-            (<Loading />) : 
+            (<Loading />) : search === "" ? null :
             searchedTickets && searchedTickets.length > 0 ? 
               (<SearchedTicketsContainer searchedTickets={searchedTickets} />) : 
               (<EmptyContainer />)
@@ -79,17 +80,26 @@ const EmptyContainer = () => (
   </div>
 )
 
-const SearchedTicketsContainer = ({searchedTickets}: {searchedTickets: any}) => {
+const SearchedTicketsContainer = ({ searchedTickets }: { searchedTickets: SearchedTicketsProps[] }) => {
   return (
-    <div className="w-full flex_center justify-start space-y-7 flex-col">
-      {searchedTickets.map((ticket: any) => (
-        <div key={ticket.id} className="w-full max-w-screen-sm rounded-sm p-4 border">
-          <h3>{ticket.full_name}</h3>
-          <p>Email: {ticket.email}</p>
-          <p>Ticket Code: {ticket.ticket_code}</p>
-          <Link href={_ticket(ticket.id)}> view ticket detail</Link>
+    <div className="w-full flex_center flex-col space-y-7">
+      {searchedTickets.map((ticket) => (
+        <div key={ticket.id} className="w-full max-w-screen-sm p-4 border rounded-md shadow-md bg-white">
+          <div className="mb-4">
+            <h3 className="text-xl font-semibold text-gray-800">{ticket.full_name}</h3>
+            <p className="text-sm text-gray-500">{ticket.email}</p>
+          </div>
+          <div className="flex justify-between items-center">
+            <div>
+              <p className="text-sm font-medium text-gray-600">Ticket Code:</p>
+              <p className="text-lg font-bold text-gray-800">{ticket.ticket_code}</p>
+            </div>
+            <Link href={_ticket(ticket.id)} className="text-blue-600 hover:text-blue-800 text-sm font-medium">
+              View Ticket Details
+            </Link>
+          </div>
         </div>
       ))}
     </div>
-  )
-}
+  );
+};
