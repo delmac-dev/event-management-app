@@ -12,14 +12,24 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 export type TableCellProps = {
-    type: 'action',
+    type: 'action'|'total-tickets',
     data: FetchedTicketsProps
 }
 
 export function TableCell({type, data}:TableCellProps) {
     switch(type) {
       case 'action': return <Action ticket={data} eventID={data.event_id} />
+      case 'total-tickets': return <TotalTickets totalTickets={data.total_tickets} availableTickets={data.available_tickets} />
     }
+}
+
+const TotalTickets = (props:{ totalTickets: number, availableTickets: number}) => {
+    const { totalTickets, availableTickets } = props;
+    return (
+        <>
+            {availableTickets} / {totalTickets}
+        </>
+    )
 }
 
 const Action = ({ ticket, eventID }:{ ticket: FetchedTicketsProps, eventID: string }) => {

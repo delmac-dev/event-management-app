@@ -14,8 +14,11 @@ export const columns: ColumnDef<FetchedTicketsProps>[] = [
     header: "Availability",
   },
   {
-    accessorKey: "total_tickets",
-    header: "Total Tickets",
+    id: "total-tickets",
+    header: "Tickets Left",
+    cell: ({ row: { original }}) => (
+      <TableCell type="total-tickets" data={original} />
+    )
   },
   {
     accessorKey: "ticket_type",
