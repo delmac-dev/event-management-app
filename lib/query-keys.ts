@@ -8,6 +8,7 @@ export const publicKeys = {
     attendee: (id: string) => [...publicKeys.all, 'attendee', id] as const,
     tickets: (eventID: string) => [...publicKeys.all, 'tickets', eventID] as const,
     searchedTickets: (query: string) => [...publicKeys.all, 'tickets', 'search', query] as const,
+    searchedTicket: (id: string) => [...publicKeys.all, 'tickets', 'detail', id] as const,
 };
 
 export const dashboardKeys = {

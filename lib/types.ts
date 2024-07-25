@@ -1,11 +1,12 @@
 import { Provider, SupabaseClient } from "@supabase/supabase-js"
+import { Database } from "./supabase/database.type"
 
 export type QueryProps = {
     params: {[key: string]: string}
     searchParams: { [key: string]: string }
 }
 
-export type TypedSupabaseClient = {}
+export type TypedSupabaseClient = SupabaseClient<Database>;
 
 export type OAuthProvider = {
     name: Provider,
