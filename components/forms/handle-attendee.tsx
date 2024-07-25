@@ -17,7 +17,7 @@ const FormSchema = z.object({
     user_id: z.string().nullable(),
     ticket_id: z.string().min(1, "Must select a ticket"),
     full_name: z.string().min(1, "Must enter a full name"),
-    email: z.string().min(1, "Must enter an email"),
+    email: z.string().email("Must enter an email"),
     status: z.string().min(1, "Must choose a status"),
     payment_status: z.string().min(1, "Must choose a payment status"),
 });
@@ -100,8 +100,8 @@ export default function HandleAttendeeForm(props:HandleAttendeeFormProps) {
                     <SelectInput name="ticket_id" label="Ticket" placeHolder="Select a ticket" list={selectTickets ?? []} />
                     <TextInput name="full_name" label="Full Name" placeHolder="Enter the attendee's full name" />
                     <TextInput name="email" label="Email" placeHolder="Enter the attendee's email" />
-                    <RadioGroupInput name="status" label="Ticket Type" disabled={!attendee} options={ATTENDEE_STATUS_OPTIONS.slice(0,2)} />
-                    <RadioGroupInput name="payment_status" label="Payment Status" disabled={!attendee} options={PAYMENT_STATUS_OPTIONS.slice(0,2)} />
+                    <RadioGroupInput name="status" label="Ticket Type" disabled={!attendee} options={ATTENDEE_STATUS_OPTIONS} />
+                    <RadioGroupInput name="payment_status" label="Payment Status" disabled={!attendee} options={PAYMENT_STATUS_OPTIONS} />
                 </div>
                 <div className="sticky bottom-0 right-0 z-50 w-full p-4 bg-background flex gap-3 justify-end">
                     <Button size='xs' variant='secondary' type='button' disabled={isSubmitting || isSetPending || isModifyPending} onClick={closeHandler}>Cancel</Button>

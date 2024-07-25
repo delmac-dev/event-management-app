@@ -370,7 +370,7 @@ export const RadioGroupInput = (props: RadioGroupInputProps) => {
                   defaultValue={field.value}
                   value={field.value}
                   disabled={disabled}
-                  className="flex space-y-0 space-x-1"
+                  className="space-y-0 grid grid-cols-3 place-content-start"
                 >  
                     {options.map((item, _id) => (
                         <FormItem key={_id} className="relative flex_center space-y-0 w-28 aspect-video rounded-sm border has-[:checked]:bg-muted/20">
