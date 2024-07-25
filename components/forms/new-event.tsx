@@ -9,7 +9,7 @@ import { cn, timeToDate } from "@/lib/utils";
 import { Button } from "../ui/button";
 import React, { useEffect } from "react";
 import { DateInput, ImageInput, NumberInput, RadioGroupInput, SelectInput, TextareaInput, TextInput, TimeInput } from "@/components/common/custom-form-fields";
-import { ACCEPTED_IMAGE_TYPES, EVENT_TYPE_OPTIONS, eventCategoryList, MAX_FILE_SIZE, schools, TIME_REGEX } from "@/lib/constants";
+import { ACCEPTED_IMAGE_TYPES, EVENT_TYPE_OPTIONS, EVENT_CATEGORIES, MAX_FILE_SIZE, SCHOOLS, TIME_REGEX } from "@/lib/constants";
 import { useGetUserOrgSelect, useSetEvent } from "@/lib/query-hooks";
 import SpinnerIcon from "../icons/spinner-icon";
 import { uploadFile } from "@/lib/supabase/upload-file";
@@ -127,13 +127,13 @@ export default function NewEventForm({closeHandler, organisationID, className}:N
                     <TextInput name="name" label="Name" placeHolder="What's the name of your event" />
                     <TextInput name="headline" label="Headline" placeHolder="Enter a memorable headline" />
                     <RadioGroupInput name="event_type" label="Event Type" options={EVENT_TYPE_OPTIONS} />
-                    <SelectInput name="category" label="Category" placeHolder="Select a category" list={eventCategoryList} />
+                    <SelectInput name="category" label="Category" placeHolder="Select a category" list={EVENT_CATEGORIES} />
                     <NumberInput name="capacity" label="Capacity" placeHolder="Total Capacity" min={25} showError />
                     <TextInput name="tags" label="Tags ( #cool, #free, #awesome )" placeHolder="Tags Associated with your event" />
                     <DateInput name="event_date" label="Event Date" showError />
                     <TimeInput name="start_at" label="Starting Time" showError />
                     <TimeInput name="end_at" label="Ending Time" showError />
-                    <SelectInput name="location.school" label="School" placeHolder="Campus event is taking place" list={schools}/>
+                    <SelectInput name="location.school" label="School" placeHolder="Campus event is taking place" list={SCHOOLS}/>
                     <TextInput name="location.name" label="Location (ie. kumaplay auditorium)" placeHolder="Location of the event" />
                     <TextareaInput name="location.description" label="Location Guide (ie. around engineering campus)" placeHolder="Help Attendees find event" />
                     <ImageInput name="banner" label="Banner" />

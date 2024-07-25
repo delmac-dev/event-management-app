@@ -7,7 +7,7 @@ import { z } from "zod";
 import { Form } from "../ui/form";
 import { cn, listToString, timeToDate } from "@/lib/utils";
 import { DateInput, ImageInput, NumberInput, RadioGroupInput, SelectInput, SwitchInput, TextareaInput, TextInput, TimeInput } from "../common/custom-form-fields";
-import { ACCEPTED_IMAGE_TYPES, EVENT_TYPE_OPTIONS, eventCategoryList, MAX_FILE_SIZE, schools, TIME_REGEX } from "@/lib/constants";
+import { ACCEPTED_IMAGE_TYPES, EVENT_TYPE_OPTIONS, EVENT_CATEGORIES, MAX_FILE_SIZE, SCHOOLS, TIME_REGEX } from "@/lib/constants";
 import { Button } from "../ui/button";
 import { useGetEventByID, useModifyEvent } from "@/lib/query-hooks";
 import { _dashboardEvents } from "@/lib/routes";
@@ -151,7 +151,7 @@ export function ModifyEventForm({eventID, className}:{eventID:string, className?
                     <SelectInput name="organiser" label="Organiser" defaultvalue={event?.organiser.value} list={[event?.organiser as { value: string; label: string; }]} disabled />
                     <TextInput name="name" label="Name" />
                     <TextInput name="headline" label="Headline" />
-                    <SelectInput name="category" label="Category" placeHolder="Select a category" defaultvalue={event?.category} list={eventCategoryList} />
+                    <SelectInput name="category" label="Category" placeHolder="Select a category" defaultvalue={event?.category} list={EVENT_CATEGORIES} />
                     <NumberInput name="capacity" label="Capacity" placeHolder="Total Capacity" min={25} showError />
                     <TextInput name="tags" label="Tags ( #cool, #free, #awesome )" />
                     <RadioGroupInput name="event_type" label="Event Type" defaultValue={event?.event_type} options={EVENT_TYPE_OPTIONS} />
@@ -159,7 +159,7 @@ export function ModifyEventForm({eventID, className}:{eventID:string, className?
                     <DateInput name="event_date" label="Event Date" showError/>
                     <TimeInput name="start_at" label="Starting Time" showError />
                     <TimeInput name="end_at" label="Ending Time" showError />
-                    <SelectInput name="location.school" label="School" defaultvalue={event?.location.school} list={schools}/>
+                    <SelectInput name="location.school" label="School" defaultvalue={event?.location.school} list={SCHOOLS}/>
                     <TextInput name="location.name" label="Location (ie. kumaplay auditorium)" />
                     <TextareaInput name="location.description" label="Location Guide (ie. around engineering campus)" />
                     <ImageInput name="banner" label="Banner" />

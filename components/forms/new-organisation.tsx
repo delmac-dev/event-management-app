@@ -6,7 +6,7 @@ import { Form } from "../ui/form";
 import { cn } from "@/lib/utils";
 import { ImageInput, SelectInput, TextareaInput, TextInput } from "@/components/common/custom-form-fields";
 import { Button } from "../ui/button";
-import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE, orgCategories } from "@/lib/constants";
+import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE, ORGANISATION_CATEGORIES } from "@/lib/constants";
 import { useSetOrganisation } from "@/lib/query-hooks";
 import { useEffect } from "react";
 import SpinnerIcon from "../icons/spinner-icon";
@@ -77,7 +77,7 @@ export default function NewOrganisationForm({closeHandler, className}:NewOrganis
                     <TextInput name="name" label="Name" placeHolder="Enter the organisation name" />
                     <TextInput name="headline" label="Headline" placeHolder="Enter headline" />
                     <TextareaInput name="about" label="About" placeHolder="Something about this organisation" />
-                    <SelectInput name="category" label="Category" placeHolder="Select a Category" list={orgCategories} />
+                    <SelectInput name="category" label="Category" placeHolder="Select a Category" list={ORGANISATION_CATEGORIES} />
                     <ImageInput name="avatar_url" label="Avatar" />
                 </div>
                 <div className="sticky bottom-0 right-0 z-50 w-full p-4 bg-background flex gap-3 justify-end">

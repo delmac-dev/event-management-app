@@ -6,7 +6,7 @@ import { Form } from "../ui/form";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { SelectUserInput, SwitchInput, TextInput } from "../common/custom-form-fields";
-import { useGetMemberByID, useModifyMember, useSetMember } from "@/lib/query-hooks";
+import { useModifyMember, useSetMember } from "@/lib/query-hooks";
 import { useEffect, useState } from "react";
 import SpinnerIcon from "../icons/spinner-icon";
 import { FetchedMembersProps } from "@/lib/types";
@@ -81,7 +81,7 @@ export default function HandleMemberForm(props:HandleMemberFormProps) {
                 <div className="relative z-0 flex-1 space-y-6 overflow-auto p-4">
                     {!member && (<SelectUserInput name="user_id" label="User" />)}
                     {member && (<TextInput name="user_id" label="User" disabled />)}
-                    <SwitchInput name="is_active" label="Active Status" disabled={!member} />
+                    <SwitchInput name="is_active" label="Active Status" disabled={!member || !member.has_accepted} />
                 </div>
                 <div className="sticky bottom-0 right-0 z-50 w-full p-4 bg-background flex gap-3 justify-end">
                     <Button size='xs' variant='secondary' type='button' disabled={isSubmitting || isSetPending || isModifyPending} onClick={closeHandler}>Cancel</Button>
