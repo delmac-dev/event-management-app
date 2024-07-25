@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { bookTicket, deleteEventAttendee, deleteEventTicket, deleteMember, getAuthProfile, getBookableTickets, getEventAttendees, getEventByID, getEventTickets, getEventTicketSelect, getMemberByID, getMemberEvents, getMembers, getMyTickets, getOrganisationByID, getOrganisationEvents, getProfile, getPublicEvent, getPublicEvents, getPublicTicket, getSearchedTickets, getUserOrganisations, getUserOrgSelect, modifyEvent, modifyEventAttendee, modifyEventTicket, modifyMember, modifyOrganisation, modifyProfile, setEvent, setEventAttendee, setEventTicket, setMember, setOrganisation } from "./queries";
+import { bookTicket, deleteEventAttendee, deleteEventTicket, deleteMember, getAuthProfile, getBookableTickets, getEventAttendees, getEventByID, getEventTickets, getEventTicketSelect, getMaxCapacity, getMemberByID, getMemberEvents, getMembers, getMyTickets, getOrganisationByID, getOrganisationEvents, getProfile, getPublicEvent, getPublicEvents, getPublicTicket, getSearchedTickets, getUserOrganisations, getUserOrgSelect, modifyEvent, modifyEventAttendee, modifyEventTicket, modifyMember, modifyOrganisation, modifyProfile, setEvent, setEventAttendee, setEventTicket, setMember, setOrganisation } from "./queries";
 import { dashboardKeys, publicKeys } from "./query-keys";
 
 export function useGetAuthProfile() {
@@ -291,6 +291,15 @@ export const useGetSearchedTickets = (searchData: string) => {
     const queryKey = publicKeys.searchedTickets(searchData);
     
     const queryFn = async () => await getSearchedTickets({searchData});
+
+    return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
+}
+
+// :::::::::::::::::::::::::::::: FORM NECCESARY HOOKS ::::::::::::::::::::::::::::::::::
+export const useGetMaxCapacity = (id: string) => {
+    const queryKey = dashboardKeys.maxCapacity(id);
+    
+    const queryFn = async () => await getMaxCapacity({id});
 
     return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
 }

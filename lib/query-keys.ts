@@ -33,4 +33,6 @@ export const dashboardKeys = {
     orgMember: (memberID: string, id: string) => [...dashboardKeys.org(id), 'org-member', memberID] as const,
 
     tickets: () => [...dashboardKeys.all, 'tickets'] as const,
+
+    maxCapacity: (id: string) => [...dashboardKeys.event(id), "capacity"]
 };

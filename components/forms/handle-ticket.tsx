@@ -8,17 +8,17 @@ import { NumberInput, RadioGroupInput, SwitchInput, TextInput } from "../common/
 import { Button } from "../ui/button";
 import { AVAILABILITY_OPTIONS, TICKET_TYPE_OPTIONS } from "@/lib/constants";
 import { useEffect, useState } from "react";
-import { useModifyEventTicket, useSetEventTicket } from "@/lib/query-hooks";
+import { useGetMaxCapacity, useModifyEventTicket, useSetEventTicket } from "@/lib/query-hooks";
 import SpinnerIcon from "../icons/spinner-icon";
 import { FetchedTicketsProps } from "@/lib/types";
 
 const FormSchema = z.object({
     event_id: z.string(),
-    name: z.string(),
+    name: z.string().min(6, "Must be 6 characters or more"),
     availability: z.string(),
     ticket_code_prefix: z.union([
-        z.string().length(0),
-        z.string().length(3)
+        z.string().length(0, "Must be extractly 3 characters or none"),
+        z.string().length(3, "Must be extractly 3 characters or none")
     ]),
     total_tickets: z.number(),
     ticket_type: z.string(),
@@ -36,11 +36,12 @@ export type HandleTicketFormProps = {
 
 export default function HandleTicketForm(props:HandleTicketFormProps) {
     const {eventID, ticket, className, closeHandler} = props;
+    const [maxTickets, setMaxTickets] = useState(0);
 
+    const {data: maxCapacity, isLoading} = useGetMaxCapacity(eventID);
     const { mutate: setEventTicket, isError: isSetError, isSuccess: isSetSuccess, isPending: isSetPending } = useSetEventTicket(eventID);
     const { mutate: modifyEventTicket, isError: isModifyError, isSuccess: isModifySuccess, isPending: isModifyPending} = useModifyEventTicket(eventID);
 
-    // get total attendee from the event with the eventID
     const defaultValues = {
         event_id: eventID,
         name: ticket?.name || '',
@@ -90,14 +91,33 @@ export default function HandleTicketForm(props:HandleTicketFormProps) {
         if (ticket) reset(defaultValues);
     }, [ticket, reset]);
 
+    useEffect(()=> {
+        let max = 0;
+        if(maxCapacity) 
+            max=maxCapacity.total_capacity - maxCapacity.used_capacity
+
+        if(ticket)
+            max = max + ticket.total_tickets;
+            
+        setMaxTickets(max);
+    }, [maxCapacity, ticket]);
+
+    if(isLoading) {
+        return (
+            <div className="w-full py-14 flex_center">
+                <SpinnerIcon className="size-10 text-secondary-foreground" />
+            </div>
+        )
+    }
+
     return (
         <Form {...form}>
             <form onSubmit={handleSubmit(onSubmit)} className={cn("w-full flex-1 flex flex-col", className)}>
                 <div className="relative z-0 flex-1 space-y-4 overflow-auto p-4">
-                    <TextInput name="name" label="Ticket Name" placeHolder="Enter the ticket name" />
+                    <TextInput name="name" label="Ticket Name" placeHolder="Enter the ticket name" showError/>
                     <RadioGroupInput name="availability" label="Availability" options={AVAILABILITY_OPTIONS} />
-                    <TextInput name="ticket_code_prefix" label="Ticket Code Prefix" placeHolder="Enter ticket code prefix" />
-                    <NumberInput name="total_tickets" label="Total Tickets" />
+                    <TextInput name="ticket_code_prefix" label="Ticket Code Prefix" placeHolder="Enter ticket code prefix" showError />
+                    <NumberInput name="total_tickets" label="Total Tickets" max={maxTickets} disabled={maxTickets === 0} />
                     <RadioGroupInput name="ticket_type" label="Ticket Type" disabled options={TICKET_TYPE_OPTIONS} />
                     <NumberInput name="price" label="Price" placeHolder="25" disabled={form.getValues('ticket_type') === 'free'} />
                     <SwitchInput name="is_active" label="Active Status" />

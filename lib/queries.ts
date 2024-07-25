@@ -154,11 +154,11 @@ export const getEventTickets = async ({id}:{id: string}) => {
     const { data, error } = await supabase
     .from('tickets')
     .select('*')
-    .eq("event_id", id)
+    .eq("event_id", id);
 
     if(error) throw error;
 
-    return data as FetchedTicketsProps[];
+    return data as FetchedTicketsProps[];;
 };
 
 export const setEventTicket = async ({ticketData}:{ticketData: HandleTicket}) => {
@@ -488,6 +488,32 @@ export const getEventTicketSelect = async ({id}:{id: string}) => {
 
     return data ?? null;
 }
+
+export const getMaxCapacity = async ({ id }: { id: string }) => {
+    const { data: event, error: eventError } = await supabase
+    .from('events')
+    .select('capacity')
+    .eq('id', id)
+    .single();
+
+    if (eventError) throw eventError;
+
+    const { data: tickets, error: ticketsError } = await supabase
+    .from('tickets')
+    .select('total_tickets')
+    .eq('event_id', id);
+
+    if (ticketsError) throw ticketsError;
+
+    const totalTickets = tickets.reduce((sum, ticket) => sum + ticket.total_tickets, 0);
+
+    const maxCapacity = {
+        total_capacity: event.capacity || 0,
+        used_capacity: totalTickets || 0,
+    };
+
+    return maxCapacity;
+};
 
 // ::::::::::::::::::::::::::::: PUBLIC QUERIES :::::::::::::::::::::::::::::::::::::::::::
 export const getPublicEvents = async () => {
