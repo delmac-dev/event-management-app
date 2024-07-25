@@ -7,16 +7,26 @@ import ProfileAvatar from "@/components/common/profile-avatar";
 import SpinnerIcon from "@/components/icons/spinner-icon";
 import { useGetAuthProfile } from "@/lib/query-hooks";
 import { _dashboardEvents, _dashboardOrgs, _dashboardTickets, _home, _login } from "@/lib/routes";
+import { NavigationProps } from "@/lib/types";
+import { cn, parseNavigation } from "@/lib/utils";
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const navLinks = [
-    { name: "organisations",link: _dashboardOrgs },
-    { name: "events", link: _dashboardEvents },
-    { name: "tickets", link: _dashboardTickets }
+    { name: "organisations",link: _dashboardOrgs, active: false },
+    { name: "events", link: _dashboardEvents, active: false },
+    { name: "tickets", link: _dashboardTickets, active: false }
 ]
 
 export default function Header () {
+    const [content, setContent] = useState<NavigationProps[]>(navLinks);
+    const pathname = usePathname();
+
+    useEffect(()=> {
+        setContent(parseNavigation(pathname, navLinks, true));
+    }, [pathname]);
+
     return (
         <header className="main_container sticky top-0 left-0 z-50 bg-background h-14 border-b flex_center justify-between">
             <div className="flex gap-1 h-full items-center px-3 border-r">
@@ -24,8 +34,10 @@ export default function Header () {
                 <Link href={_home} className="text-sm font-semibold hidden lg:block">CampusEvents</Link>
             </div>
             <div className="h-full hidden md:flex_center flex-1 gap-4 px-3 border-r">
-                {navLinks.map(({name, link}, _i) => (
-                    <Link key={_i} href={link} className="font-medium text-sm capitalize">{name}</Link>
+                {content.map(({name, link, active}, _i) => (
+                    <Link key={_i} href={link} className={cn("h-full flex_center font-medium text-sm capitalize  border-b-2", active ? "border-primary" : "border-transparent hover:border-primary")}>
+                        {name}
+                    </Link>
                 ))}
             </div>
             <HeaderOptions />
