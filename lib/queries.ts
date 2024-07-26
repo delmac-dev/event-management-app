@@ -282,7 +282,8 @@ export const getUserOrganisations = async() => {
             .from('organisation_members')
             .select('profiles (avatar_url)')
             .eq('organisation_id', organisationId)
-            .neq('is_active', false)
+            .eq('is_active', true)
+            .eq('has_accepted', true)
     
         if (!members || memberError) throw new Error(memberError?.message || "Error fetching organisations");
 
