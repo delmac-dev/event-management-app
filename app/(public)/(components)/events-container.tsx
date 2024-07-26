@@ -18,7 +18,7 @@ export default function EventsContainer () {
 
     if(events && events.length === 0) {
         return (
-            <section className="sub_container flex_center h-64 rounded-lg border border-dashed border-spacing-4 flex-col gap-3 text-sm font-medium text-secondary-foreground">
+            <section className="sub_container flex_center h-64 flex-col gap-3 text-sm font-medium text-secondary-foreground">
                 <ArchiveX className="text-secondary-foreground" />
                 There are no events happening
             </section>
