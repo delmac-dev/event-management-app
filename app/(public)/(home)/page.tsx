@@ -80,7 +80,7 @@ export default async function Index() {
           </div>
         </div>
       </section>
-      <section className="main_container py-16">
+      <section className="main_container py-16 px-4">
         <div className="sub_container">
           <div className="mb-12 w-full text-center lg:mb-[70px] flex flex-col items-center">
             <span className="mb-2 block text-lg font-semibold text-muted-foreground">FAQ</span>
