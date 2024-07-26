@@ -2,10 +2,10 @@
 
 import SheetFormWrapper from "@/components/common/sheet-form-wrapper";
 import HandleMemberForm from "@/components/forms/handle-member";
-import HandleTicketForm from "@/components/forms/handle-ticket";
+import SpinnerIcon from "@/components/icons/spinner-icon";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { useDeleteMember } from "@/lib/query-hooks";
+import { useDeleteMember, useGetAuthProfile } from "@/lib/query-hooks";
 import { FetchedMembersProps } from "@/lib/types";
 import { EllipsisVertical } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -26,6 +26,7 @@ export function TableCell({type, data}:TableCellProps) {
 
 const Action = ({ member, organisationID }:{ member: FetchedMembersProps, organisationID: string }) => {
     const {mutate: deleteMember, isError, isSuccess} = useDeleteMember(organisationID);
+    const { data: user, isLoading } = useGetAuthProfile();
     const [open, setOpen] = useState(false);
     const wrapperData = { title: "Edit this member", open, setOpen }
 
@@ -45,16 +46,24 @@ const Action = ({ member, organisationID }:{ member: FetchedMembersProps, organi
 
     }, [isError, isSuccess]);
 
+    if(isLoading) {
+        return (
+            <div className="h-12 w-12 flex_center">
+                <SpinnerIcon className="size-10 text-secondary-foreground" />
+            </div>
+        )
+    }
+
     return(
         <>
             <SheetFormWrapper { ...wrapperData }>
-                <HandleMemberForm orgID={organisationID} closeHandler={()=>setOpen(false)}  member={member}/>
+                <HandleMemberForm orgID={organisationID} closeHandler={()=>setOpen(false)} />
             </SheetFormWrapper>
             <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
-                <EllipsisVertical className="h-5 w-5" />
+                <Button variant="ghost" className="h-8 w-8 p-0" disabled={member.profiles.id === user?.id}>
+                    <span className="sr-only">Open menu</span>
+                    <EllipsisVertical className="h-5 w-5" />
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">

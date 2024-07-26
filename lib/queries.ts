@@ -284,6 +284,7 @@ export const getUserOrganisations = async() => {
             .eq('organisation_id', organisationId)
             .eq('is_active', true)
             .eq('has_accepted', true)
+            .order('created_at', { ascending: false})
     
         if (!members || memberError) throw new Error(memberError?.message || "Error fetching organisations");
 
@@ -387,7 +388,7 @@ export const getMembers = async ({id}:{id: string}) => {
             profiles(id, full_name, email, avatar_url)
         `)
     .eq("organisation_id", id)
-    .order('updated_at', { ascending: false})
+    .order('created_at', { ascending: true})
 
     if(error) throw error;
 
