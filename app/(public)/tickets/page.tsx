@@ -4,7 +4,7 @@ import { _ticket } from "@/lib/routes";
 import Header from "../(components)/header";
 import Footer from "../(components)/footer";
 import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+import { Search, SquareArrowOutUpRight, Ticket } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGetSearchedTickets } from "@/lib/query-hooks";
 import { useState } from "react";
@@ -83,23 +83,32 @@ const EmptyContainer = () => (
 const SearchedTicketsContainer = ({ searchedTickets }: { searchedTickets: SearchedTicketsProps[] }) => {
   return (
     <div className="w-full flex_center flex-col space-y-7">
-      {searchedTickets.map((ticket) => (
-        <div key={ticket.id} className="w-full max-w-screen-sm p-4 border rounded-md shadow-md bg-white">
-          <div className="mb-4">
-            <h3 className="text-xl font-semibold text-gray-800">{ticket.full_name}</h3>
-            <p className="text-sm text-gray-500">{ticket.email}</p>
-          </div>
-          <div className="flex justify-between items-center">
-            <div>
-              <p className="text-sm font-medium text-gray-600">Ticket Code:</p>
-              <p className="text-lg font-bold text-gray-800">{ticket.ticket_code}</p>
-            </div>
-            <Link href={_ticket(ticket.id)} className="text-blue-600 hover:text-blue-800 text-sm font-medium">
-              View Ticket Details
-            </Link>
-          </div>
-        </div>
-      ))}
+      {searchedTickets.map((ticket) => (<SearchedTicketCard {...ticket} />))}
     </div>
   );
 };
+
+const SearchedTicketCard = (props:SearchedTicketsProps) => {
+  const { id, email, ticket_code, full_name} = props;
+    
+  return (
+    <div key={id} className="w-full max-w-screen-sm p-4 border rounded-md bg-secondary/50 flex flex-start gap-3">
+      <div className="size-10 rounded-sm bg-secondary border flex_center">
+        <Ticket className="size-6" />
+      </div>
+      <div className="flex-1">
+        <div className="mb-4">
+          <h3 className="text-xl font-semibold text-foreground">{full_name}</h3>
+          <p className="text-sm text-muted-foreground">{email}</p>
+        </div>
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
+          <p className="text-lg font-bold text-muted-foreground">{ticket_code}</p>
+          <Link href={_ticket(id)} className="group hover:underline text-primary text-sm font-medium flex">
+            View Ticket Details
+            <SquareArrowOutUpRight className="text-muted-foreground group-hover:text-secondary-foreground size-4 ml-2" />
+          </Link>
+        </div>
+      </div>
+    </div>
+  )
+}
