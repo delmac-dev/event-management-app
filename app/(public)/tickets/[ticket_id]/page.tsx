@@ -4,8 +4,10 @@ import { FetchedPublicAttendeesProps, QueryProps } from "@/lib/types";
 import Header from "../../(components)/header";
 import { useGetPublicTicket } from "@/lib/query-hooks";
 import SpinnerIcon from "@/components/icons/spinner-icon";
-import { convertTo12HourFormat, formatDate } from "@/lib/utils";
+import { cn, convertTo12HourFormat, formatDate } from "@/lib/utils";
 import Footer from "../../(components)/footer";
+import Image from "next/image";
+import QRCodeGenerator from "../../(components)/qrcode-generator";
 
 export default function Ticket({ params }: QueryProps) {
   const ticketID = params.ticket_id;
@@ -14,7 +16,10 @@ export default function Ticket({ params }: QueryProps) {
   return (
     <>
       <Header />
-      <main className="main_container py-12">
+      <main className="main_container flex-1 px-4">
+        <section className="sub_container py-7 flex_center justify-between">
+          <h1 className="text-xl font-medium uppercase text-secondary-foreground">Ticket Details</h1>
+        </section>
         {isLoading?
           (<Loading />):
           (<TicketDetail attendee={attendee as FetchedPublicAttendeesProps} />)
@@ -34,58 +39,50 @@ const Loading = () => (
 const TicketDetail = ({attendee}:{attendee: FetchedPublicAttendeesProps}) => {
   const { full_name, email, ticket_code, tickets } = attendee;
   const { name: ticketName, events } = tickets;
-  const { id,name, headline, banner, event_date, start_at } = events;
+  const { id, name, headline, banner, event_date, start_at } = events;
 
   return (
     <>
-      <section className="sub_container mb-6">
-        <h1 className="text-3xl font-semibold text-gray-800">Ticket Details</h1>
-      </section>
-      <section className="sub_container bg-white shadow-md rounded-lg p-6 mb-6">
-        <h2 className="text-2xl font-medium text-gray-800 mb-4">Ticket Holder Information</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <p className="text-lg text-gray-600">Full Name:</p>
-            <p className="text-xl font-bold text-gray-800">{full_name}</p>
+      <TicketDetailComponent header="Ticket Holder Information">
+        <div className="w-full flex gap-6 md:gap-4 flex-col md:flex-row">
+          <div className="flex-1 grid grid-cols-2 gap-6">
+            <DetailCard header="Full Name" value={full_name} className="overflow-hidden truncate" />
+            <DetailCard header="Email" value={email} />
+            <DetailCard header="Ticket Code" value={ticket_code} />
+            <DetailCard header="Ticket Name" value={ticketName} />
           </div>
-          <div>
-            <p className="text-lg text-gray-600">Email:</p>
-            <p className="text-xl font-bold text-gray-800">{email}</p>
-          </div>
-          <div>
-            <p className="text-lg text-gray-600">Ticket Code:</p>
-            <p className="text-xl font-bold text-gray-800">{ticket_code}</p>
-          </div>
-          <div>
-            <p className="text-lg text-gray-600">Ticket Name:</p>
-            <p className="text-xl font-bold text-gray-800">{ticketName}</p>
+          <div className="flex-1 h-full flex_center justify-start mb:justify-center">
+            <QRCodeGenerator value={ticket_code} size={200} />
           </div>
         </div>
-      </section>
-      <section className="sub_container bg-white shadow-md rounded-lg p-6">
-        <h2 className="text-2xl font-medium text-gray-800 mb-4">Event Information</h2>
-        <div className="flex flex-col md:flex-row items-center">
-          <div className="md:w-1/2 mb-6 md:mb-0">
-            <img src={banner} alt={name} className="w-full h-64 object-cover rounded-lg shadow-lg" />
+      </TicketDetailComponent>
+      <TicketDetailComponent header="Event Information">
+        <div className="w-full flex gap-6 md:gap-4 flex-col md:flex-row">
+          <div className="flex-1 aspect-video relative z-0 overflow-hidden">
+            <Image src={banner} alt={name} fill className="w-full object-cover rounded-lg" />
           </div>
-          <div className="md:w-1/2 md:pl-6">
-            <p className="text-lg text-gray-600 mb-2">Event Name:</p>
-            <h3 className="text-2xl font-semibold text-gray-800 mb-4">{name}</h3>
-            <p className="text-lg text-gray-600 mb-2">Headline:</p>
-            <p className="text-xl text-gray-800 mb-4">{headline}</p>
-            <div className="flex flex-col md:flex-row">
-              <div className="md:w-1/2 mb-4 md:mb-0">
-                <p className="text-lg text-gray-600 mb-2">Date:</p>
-                <p className="text-xl font-semibold text-gray-800">{formatDate(event_date)}</p>
-              </div>
-              <div className="md:w-1/2">
-                <p className="text-lg text-gray-600 mb-2">Starts:</p>
-                <p className="text-xl font-semibold text-gray-800">{convertTo12HourFormat(start_at)}</p>
-              </div>
-            </div>
+          <div className="flex-1 space-y-4">
+            <DetailCard header="Event Name" value={name} />
+            <DetailCard header="Headline" value={headline} />
+            <DetailCard header="Event Date" value={formatDate(event_date)} />
+            <DetailCard header="Event Time" value={convertTo12HourFormat(start_at)} />
           </div>
         </div>
-      </section>
+      </TicketDetailComponent>
     </>
   )
 }
+
+const TicketDetailComponent = ({header, children}:{header: string, children: React.ReactNode}) => (
+  <section className="sub_container bg-secondary/60 border rounded-lg p-6 mb-6 space-y-10 h-auto">
+    <h2 className="text-xl font-medium text-secondary-foreground mb-4">{header}</h2>
+    {children}
+  </section>
+)
+
+const DetailCard = ({header, value, className}:{header: string, value: string, className?: string}) => (
+  <div className="space-y-1.5">
+    <p className="text-base text-muted-foreground">{header}</p>
+    <p className={cn("text-sm font-semibold text-secondary-foreground", className)}>{value}</p>
+  </div>
+)
