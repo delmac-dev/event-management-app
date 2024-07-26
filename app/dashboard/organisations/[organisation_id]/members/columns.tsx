@@ -20,8 +20,11 @@ export const columns: ColumnDef<FetchedMembersProps>[] = [
     ),
   },
   {
-    accessorKey: "is_active",
+    id: "is_active",
     header: "Status",
+    cell: ({ row: { original }}) => (
+      <TableCell type="status" data={original} />
+    )
   },
   {
     id: "actions",

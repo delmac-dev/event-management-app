@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 export type TableCellProps = {
-    type: 'action' | 'full_name' | 'email',
+    type: 'action' | 'full_name' | 'email' | 'status',
     data: FetchedMembersProps
 }
 
@@ -21,6 +21,7 @@ export function TableCell({type, data}:TableCellProps) {
       case 'action': return <Action member={data} organisationID={data.organisation_id} />
       case 'full_name': return <FullName fullName={data.profiles.full_name} />
       case 'email': return <Email email={data.profiles.email} />
+      case 'status': return <Status status={data.is_active} hasAccepted={data.has_accepted} />
     }
 }
 
@@ -93,3 +94,11 @@ const Email = ({ email }: { email: string }) => {
         <>{email}</>
     )
 }
+
+const Status = ({ status, hasAccepted }:{ status: boolean, hasAccepted: boolean}) => (
+    <div className="w-full flex flex-start">
+        <p className="text-sm font-medium px-2 py-1 rounded-full bg-secondary">
+            {status? "active": hasAccepted? "suspended" : "invited"}
+        </p>
+    </div>
+)
