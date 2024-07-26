@@ -27,9 +27,9 @@ export default function EventDetailContainer({eventID}:{eventID:string}) {
             <section className="main_container">
                 <div className="sub_container flex flex-col md:flex-row justify-between gap-4 py-10">
                     <div className="flex-1 flex gap-7 p">
-                        <div className="size-20 md:size-24 aspect-square rounded-lg border bg-background flex flex-col p-3.5 justify-between items-center">
-                            <p className="text-xl md:text-2xl font-bold">{date.month}</p>
+                        <div className="size-20 md:size-24 rounded-lg border bg-background flex_center flex-col">
                             <p className="text-xl md:text-2xl font-bold">{date.day}</p>
+                            <p className="text-lg md:text-xl font-bold text-muted-foreground">{date.month}</p>
                         </div>
                         <div className="flex-1 space-y-1">
                             <h2 className="text-lg sm:text-2xl font-semibold">{event?.name}</h2>

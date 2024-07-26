@@ -25,7 +25,7 @@ export default function EventCard (props: FetchedPublicEventsProps) {
             </div>
             <div className="isolate w-full min-h-48 max-h-48 flex-1 p-4 pt-8 flex flex-col relative z-0">
                 <div className="w-full absolute z-50 h-12 top-0 left-1/2 -translate-y-1/2 -translate-x-1/2 flex justify-center">
-                    <Button className="rounded-full border bg-secondary hover:bg-secondary/80 text-secondary-foreground font-medium" asChild>
+                    <Button className="rounded-full border bg-secondary hover:bg-secondary/80 backdrop-blur-xl text-secondary-foreground font-medium" asChild>
                         <Link href={_attendEvent(id)}>
                             Book Ticket
                             <TicketPlus className="size-6 ml-2.5" strokeWidth={1} />
