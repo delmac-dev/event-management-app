@@ -6,7 +6,7 @@ import Notifications from "@/components/common/notification-button";
 import ProfileAvatar from "@/components/common/profile-avatar";
 import { Button } from "@/components/ui/button";
 import { useGetAuthProfile } from "@/lib/query-hooks";
-import { _dashboard, _dashboardEvents, _events, _home, _login, _tickets } from "@/lib/routes";
+import { _dashboard, _events, _home, _login, _tickets } from "@/lib/routes";
 import { NavigationProps } from "@/lib/types";
 import { cn, parseNavigation } from "@/lib/utils";
 import Link from "next/link";
@@ -15,13 +15,12 @@ import { useEffect, useState } from "react";
 
 const navLinks = [
     { name: "events",link: _events, active: false },
-    { name: "dashboard", link: _dashboard, active: false },
     { name: "my ticket", link: _tickets, active: false }
 ]
 
 const actionLinks = [
     {name: "Login", link: _login, variant: "outline"},
-    {name: "Start An Event", link: `${_dashboardEvents}?new=true`, variant: "default"},
+    {name: "Dashboard", link: `${_dashboard}`, variant: "default"},
 ]
 
 export default function Header () {
@@ -59,7 +58,7 @@ const HeaderOptions = () => {
             {user ? (
                 <div className="flex gap-2">
                     <Notifications />
-                    <ProfileAvatar user={user} />
+                    <ProfileAvatar />
                 </div>
             ): (
                 <div className="hidden md:flex gap-2">

@@ -4,8 +4,6 @@ import Logo from "@/components/common/logo";
 import MobileNavigation from "@/components/common/mobile-navigation";
 import Notifications from "@/components/common/notification-button";
 import ProfileAvatar from "@/components/common/profile-avatar";
-import SpinnerIcon from "@/components/icons/spinner-icon";
-import { useGetAuthProfile } from "@/lib/query-hooks";
 import { _dashboardEvents, _dashboardOrgs, _dashboardTickets, _home, _login } from "@/lib/routes";
 import { NavigationProps } from "@/lib/types";
 import { cn, parseNavigation } from "@/lib/utils";
@@ -46,15 +44,13 @@ export default function Header () {
 }
 
 const HeaderOptions = () => {
-    const { data: user, isLoading, isError, error } = useGetAuthProfile();
     const [open, setOpen] = useState(false); 
 
     return (
         <div className="h-full flex items-center">
             <div className="h-full flex items-center gap-2 px-3 max-lg:border-r">
                 <Notifications />
-                {user && !isLoading && <ProfileAvatar user={user} />}
-                {isLoading && <SpinnerIcon className="text-secondary-foreground size-7" />}
+                <ProfileAvatar />
             </div>
             <MobileNavigation navLinks={navLinks} open={open} setOpen={setOpen} />
         </div>

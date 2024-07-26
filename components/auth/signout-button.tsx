@@ -14,7 +14,7 @@ export default function SignOutButton({extraAction}: { extraAction: ()=>void}) {
       <Button 
         type="submit"  
         variant='secondary'
-        className="w-full mt-2" 
+        className="w-full rounded-none justify-start bg-background px-2.5" 
         formAction={handleSignOut}
       >
         SignOut
