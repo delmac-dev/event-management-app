@@ -78,7 +78,7 @@
     @apply border-border font-poppins ;
   }
 
-  input:-webkit-autofill,
+  /* input:-webkit-autofill,
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus,
   input:-webkit-autofill:active {
@@ -86,7 +86,7 @@
     box-shadow: 0 0 0px 30px white inset;
     -webkit-text-fill-color: inherit;
     caret-color: inherit;
-  }
+  } */
 
   body {
     @apply relative bg-background text-foreground min-h-screen w-full flex flex-col;

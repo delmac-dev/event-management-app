@@ -14,7 +14,7 @@ import { Input } from "../ui/input";
 import { useBookTicket, useGetAuthProfile, useGetBookableTickets } from "@/lib/query-hooks";
 import SpinnerIcon from "../icons/spinner-icon";
 import { Switch } from "../ui/switch";
-import { FetchedBookableTicketProps } from "@/lib/types";
+import { FetchedAttendeeProps, FetchedBookableTicketProps } from "@/lib/types";
 
 const FormSchema = z.object({
     event_id: z.string().min(1, "Must include the event"),
@@ -42,9 +42,10 @@ type CustomTabContentProps = {
 }
 
 export default function HandleTicketBookingForm({eventID}:{eventID: string}) {
+    const [ createdAttendee, setCreatedAttendee ] = useState<FetchedAttendeeProps|null>(null)
     const { data: profile, isLoading: authLoading } = useGetAuthProfile();
     const { data: bookableTickets, isLoading } = useGetBookableTickets(eventID);
-    const { mutate: bookTicket, isError, isSuccess, isPending, error} = useBookTicket();
+    const { mutate: bookTicket, isError, isSuccess, isPending, error, data} = useBookTicket();
 
     const [tab, setTab] = useState<TabProps>("tickets");
     const form = useForm<HandleTicketBooking>({
@@ -61,7 +62,7 @@ export default function HandleTicketBookingForm({eventID}:{eventID: string}) {
     const {trigger, handleSubmit, formState: { isSubmitting, isDirty }} = form;
 
     function onSubmit(data: HandleTicketBooking) {
-        bookTicket({attendeeData: data});
+        bookTicket({attendeeData: data})
     };
 
     const moveTo = async (tab:TabProps, fields?:any, isPrev=false) => {
@@ -76,16 +77,20 @@ export default function HandleTicketBookingForm({eventID}:{eventID: string}) {
     useEffect(() => {
         if (isError) {
             toast.error("Error occurred booking your ticket");
-            console.log(error);
-            
         };
 
         if (isSuccess) {
             toast.success("Ticket booked successfully");
             setTab("success");
+            setCreatedAttendee(data);
         }
 
     }, [isError, isSuccess]);
+
+    useEffect(() => {
+        console.log({createdAttendee});
+        
+    }, [createdAttendee]);
 
     if(isLoading || authLoading) {
         return (
@@ -123,11 +128,18 @@ export default function HandleTicketBookingForm({eventID}:{eventID: string}) {
                     <CustomTabContent 
                         tabName="success" 
                         tabEnd
-                        className="flex flex-col"
+                        className="flex flex-col justify-between"
                     >
-                        <div className="w-full py-8 flex_center flex-col">
+                        <div className="w-full py-2 flex_center flex-col">
                             <TicketCheck strokeWidth={1} className="size-32 text-muted-foreground" />
-                            
+                        </div>
+                        <div className="w-full flex-1 py-5 space-y-4">
+                            <h2 className="mx-auto max-w-prose text-2xl font-semibold text-foreground text-center">Congratulations !!</h2>
+                            <p className="text-xl font-medium mx-auto w-full text-center">{createdAttendee?.full_name}</p>
+                            <p className="text-lg font-normal text-muted-foreground text-center">You are attending this event</p>
+                        </div>
+                        <div className="w-full pt-4 flex_center">
+                            <Button>print your ticket</Button>
                         </div>
                     </CustomTabContent>
                 </form>
@@ -157,29 +169,28 @@ function CustomTabContent(props: CustomTabContentProps) {
                 <div className={cn("hidden w-full py-5", title && "block")}>
                     <h4 className="text-xl md:text-2xl text-center">{title}</h4>
                 </div>
-                <div className={cn("w-full py-2 space-y-4", className)}>
+                <div className={cn("w-full py-2 space-y-4 flex-1", className)}>
                     {children}
                 </div>
             </div>
-            <div className="w-full pt-4 flex flex-row-reverse justify-between">
-                {!tabEnd && (
+            {!tabEnd && (
+                <div className="w-full pt-4 flex flex-row-reverse justify-between">
                     <Button type={submit? "submit" : "button" } onClick={onNext} disabled={isLoading}>
                         {(submit && isLoading) && (<SpinnerIcon className="size-8 text-primary-foreground" />)}
                         {nextLabel}
                         {!submit && (<ArrowRight className="ml-2 size-4" />)}
                     </Button>
-                )}
-                {(!tabEnd && onPrevious) && (
-                    <Button type="button" onClick={onPrevious}>
-                        <ArrowLeft className="mr-2 size-4" />
-                        {previousLabel}
-                    </Button>
-                )}
-            </div>
+                    {onPrevious && (
+                        <Button type="button" onClick={onPrevious}>
+                            <ArrowLeft className="mr-2 size-4" />
+                            {previousLabel}
+                        </Button>
+                    )}
+                </div>
+            )}
         </TabsContent>
     )
 }
-
 
 function TicketRadioGroup({name, tickets}: {name: string, tickets: FetchedBookableTicketProps[]}) {
     const { field } = useController({name});
@@ -192,13 +203,31 @@ function TicketRadioGroup({name, tickets}: {name: string, tickets: FetchedBookab
                   defaultValue={field.value}
                   className="w-full flex_center flex-col space-y-4"
                 >  
-                    {tickets.map(({id, name}, _id) => (
-                        <FormItem key={_id} className="relative w-full max-w-80 h-24 space-y-0 p-3 rounded-sm border-2 border-dashed has-[:checked]:bg-muted/20">
-                            <FormControl>
-                                <RadioGroupItem value={id} className="absolute top-1 right-1 border-muted-foreground" />
-                            </FormControl>
-                            <FormLabel className="w-full h-full flex_center font-normal capitalize cursor-pointer">
-                                {name}
+                    {tickets.map(({id, name, price, ticket_type, total_tickets, available_tickets}, _id) => (
+                        <FormItem key={_id} className="w-full max-w-96 space-y-0 p-3 rounded-lg border-2 border-transparent has-[:checked]:border-primary">
+                            <FormLabel 
+                                className={cn("w-full h-full flex_center font-normal capitalize cursor-pointer px-6",
+                                    "relative isolate w-full h-24 bg-primary",
+                                    "flex"
+                                )}
+                            >
+                                <FormControl>
+                                    <RadioGroupItem value={id} className="absolute top-1 left-1 border-muted-foreground" />
+                                </FormControl>
+                                <div className="flex-1 h-full flex_center flex-col items-start gap-1 pl-6">
+                                    <h2 className="text-primary-foreground text-xl font-bold">{name}</h2>
+                                    <p className="text-secondary text-base font-medium">
+                                        {available_tickets} of {total_tickets} left
+                                    </p>
+                                </div>
+                                <div className="h-full w-20 border-l border-dashed pl-1 flex_center flex-col gap-2">
+                                    <h4 className="text-lg font-semibold text-primary-foreground">GH {price}</h4>
+                                    <p className="text-xs px-3 py-1 rounded-full bg-muted text-foreground font-medium">
+                                        {ticket_type}
+                                    </p>
+                                </div>
+                                <span className="size-10 -left-5 rounded-full bg-secondary absolute block top-1/2 -translate-y-1/2 " />
+                                <span className="size-10 -right-5 rounded-full bg-secondary absolute block top-1/2 -translate-y-1/2 " />
                             </FormLabel>
                         </FormItem>
                     ))}
@@ -217,7 +246,7 @@ function TicketDetailInput(props:{name: string, label: string, placeHolder: stri
             <FormItem className="w-full max-w-screen-sm space-y-2.5">
                 <FormLabel className="font-normal text-base md:text-lg">{label}</FormLabel>
                 <FormControl>
-                    <Input { ...field } placeholder={placeHolder} className="w-full h-12 md:h-14 md:text-base"/>
+                    <Input { ...field } placeholder={placeHolder} className="w-full h-12 md:h-14 md:text-base bg-secondary border border-primary"/>
                 </FormControl>
                 <FormMessage />
             </FormItem>
@@ -231,13 +260,14 @@ function UserSwitchInput(props:{name: string, label: string, disabled: boolean, 
 
     return (
         <FormFieldContextProvider name={name}>
-            <FormItem className="w-full max-w-screen-sm flex justify-between items-center px-4 py-2 rounded-md border">
+            <FormItem className="w-full max-w-screen-sm flex justify-between items-center px-4 py-2 rounded-md border border-primary">
                 <FormLabel className="text-sm font-medium text-secondary-foreground"> {label} </FormLabel>
                 <FormControl>
                     <Switch 
                         checked={field.value === userID}
                         onCheckedChange={(checked) => field.onChange(checked ? userID : '')}
                         disabled={disabled} 
+                        className="bg-primary"
                     />
                 </FormControl>
             </FormItem>

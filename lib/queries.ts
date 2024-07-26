@@ -526,7 +526,8 @@ export const getBookableTickets = async ({id}:{id: string}) => {
     const { data, error} = await supabase
     .from('tickets')
     .select('id, name, total_tickets, available_tickets, ticket_type, price')
-    .eq('event_id', id);
+    .eq('event_id', id)
+    .order('updated_at', { ascending: false});
 
     if(error) throw error;
 
@@ -559,10 +560,12 @@ export const bookTicket = async ({attendeeData}: { attendeeData: HandleTicketBoo
     const { data, error } = await supabase
     .from('attendees')
     .insert({ event_id, ticket_id, full_name, email, user_id, has_account, ticket_code, status, payment_status })
+    .select()
+    .single();
 
     if(error) throw error;
 
-    return data ?? null;
+    return data as FetchedAttendeeProps;
 }
 
 export const unbookTicket = () => {};

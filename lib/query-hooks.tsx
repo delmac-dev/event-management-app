@@ -262,7 +262,10 @@ export const useBookTicket = () => {
     const queryKey = publicKeys.events();
     return useMutation({ 
         mutationFn: bookTicket,
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKey })
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({ queryKey: queryKey });
+            return data;
+        }
     })
 }
 

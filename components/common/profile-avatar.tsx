@@ -71,8 +71,8 @@ export default function ProfileAvatar() {
                     ))}
                     <SignOutButton extraAction={()=> setOpen(false)} />
                     <div className="w-full mt-2 border-t bg-muted/20 p-2 flex_center justify-start gap-4">
-                        {userThemes.map((item) => (
-                            <Button variant='ghost' className={cn("size-8 p-0", isActive(item.name) && 'bg-muted')} onClick={() => setTheme(item.name)}>
+                        {userThemes.map((item, _id) => (
+                            <Button key={_id} variant='ghost' className={cn("size-8 p-0", isActive(item.name) && 'bg-muted')} onClick={() => setTheme(item.name)}>
                                 <item.icon className="size-5 text-muted-foreground" />
                             </Button>
                         ))}
