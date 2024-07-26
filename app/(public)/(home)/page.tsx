@@ -90,7 +90,7 @@ export default async function Index() {
           </div>
           <div className="-mx-4 grid grid-cols-1 md:grid-cols-2 gap-4">
             {FAQS.map(({ question, answer }, _id) => (
-              <div className="mb-12 flex lg:mb-[70px]">
+              <div key={_id} className="mb-12 flex lg:mb-[70px]">
                 <div className="mr-4 flex h-[50px] w-full max-w-[50px] items-center justify-center rounded-xl bg-primary sm:mr-6 sm:h-[60px] sm:max-w-[60px]">
                   <CircleHelp className="size-9 text-primary-foreground" />
                 </div>

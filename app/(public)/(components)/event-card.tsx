@@ -12,7 +12,7 @@ export default function EventCard (props: FetchedPublicEventsProps) {
     const {id, banner, name, headline, about} = props;
 
     return (
-        <div className="w-full flex flex-col rounded-sm p-3 border bg-gray-50 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-md">
+        <div className="w-full flex flex-col rounded-sm p-3 border bg-secondary transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-md">
             <Link href={_event(id)} className="relative z-0 overflow-hidden w-full aspect-video flex_center">
                 <Image src={banner} fill alt="event image" className="w-full h-full object-cover" />
             </Link>
