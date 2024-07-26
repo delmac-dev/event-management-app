@@ -51,7 +51,7 @@ const TicketDetail = ({attendee}:{attendee: FetchedPublicAttendeesProps}) => {
             <DetailCard header="Ticket Code" value={ticket_code} />
             <DetailCard header="Ticket Name" value={ticketName} />
           </div>
-          <div className="flex-1 h-full flex_center justify-start mb:justify-center">
+          <div className="flex-1 h-full flex_center justify-start md:justify-center">
             <QRCodeGenerator value={ticket_code} size={200} />
           </div>
         </div>
