@@ -75,8 +75,8 @@ const EventPricing: React.FC = () => {
     return (
         <>  <Header></Header>
             <div className="container mx-auto px-4 py-8">
-                <h2 className="text-3xl font-bold text-center mb-8">Pricing Options</h2>
-                <p className="text-center text-lg mb-8">Choose the perfect plan for your event needs</p>
+                <h2 className="text-2xl font-bold text-center mb-8">Pricing Options</h2>
+                <p className="text-center text-base md:text-lg mb-8">Choose the perfect plan for your event needs</p>
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     {pricingOptions.map((option, index) => (
                         <Card key={index} className={`flex flex-col justify-between ${option.cardColor} shadow-lg`}>

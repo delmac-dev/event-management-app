@@ -271,7 +271,10 @@ export const getUserOrganisations = async() => {
     const { data: organisationsData, error: orgError } = await supabase
     .from('organisation_members')
     .select('organisations(*)')
-    .eq('user_id', user.id);
+    .eq('user_id', user.id)
+    .eq('is_active', true)
+    .eq('has_accepted', true)
+    .order('created_at', { ascending: false})
 
     if (!organisationsData || orgError) throw new Error(orgError?.message || "Error fetching organisations");
 
@@ -285,6 +288,7 @@ export const getUserOrganisations = async() => {
             .eq('is_active', true)
             .eq('has_accepted', true)
             .order('created_at', { ascending: false})
+            .limit(5);
     
         if (!members || memberError) throw new Error(memberError?.message || "Error fetching organisations");
 
