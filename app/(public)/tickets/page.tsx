@@ -101,7 +101,7 @@ const SearchedTicketCard = (props:SearchedTicketsProps) => {
           <h3 className="text-xl font-semibold text-foreground">{full_name}</h3>
           <p className="text-sm text-muted-foreground">{email}</p>
         </div>
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
           <p className="text-lg font-bold text-muted-foreground">{ticket_code}</p>
           <Link href={_ticket(id)} className="group hover:underline text-primary text-sm font-medium flex">
             View Ticket Details
