@@ -152,6 +152,81 @@ export const PRIVACY_POLICY = [
     },
 ]
 
+export const TEAM = [
+  {
+      name: 'Edwin Elikem Draffor',
+      role: 'Project Leader / Developer',
+      githubUrl: 'https://github.com/edwinelikem',
+      twitterUrl: 'https://twitter.com/edwinelikem',
+  },
+  {
+      name: 'Tengue Delali Precious',
+      role: 'Developer',
+      githubUrl: 'https://github.com/tenguedelali',
+      twitterUrl: 'https://twitter.com/tenguedelali',
+  },
+  {
+      name: 'Kojo Nhyira Mante-Darkwa',
+      role: 'Developer',
+      githubUrl: 'https://github.com/kojonhyira',
+      twitterUrl: 'https://twitter.com/kojonhyira',
+  },
+  {
+      name: 'Bennett Kofi Okyere Aboagye',
+      role: 'Developer',
+      githubUrl: 'https://github.com/bennettkofi',
+      twitterUrl: 'https://twitter.com/bennettkofi',
+  },
+  {
+      name: 'Okantey Gideon Nii Okaitey',
+      role: 'Developer',
+      githubUrl: 'https://github.com/okanteygideon',
+      twitterUrl: 'https://twitter.com/okanteygideon',
+  },
+  {
+      name: 'Akorful Jeffery Adu Quaye',
+      role: 'Developer',
+      githubUrl: 'https://github.com/akorfuljeffery',
+      twitterUrl: 'https://twitter.com/akorfuljeffery',
+  },
+  {
+      name: 'Amponsah Nathaniel',
+      role: 'Developer',
+      githubUrl: 'https://github.com/amponsahnathaniel',
+      twitterUrl: 'https://twitter.com/amponsahnathaniel',
+  },
+  {
+      name: 'Afrim Prince Gabriel',
+      role: 'Developer',
+      githubUrl: 'https://github.com/afrimprince',
+      twitterUrl: 'https://twitter.com/afrimprince',
+  },
+  {
+      name: 'Danu Jeffery Selassie',
+      role: 'Developer',
+      githubUrl: 'https://github.com/danujeffery',
+      twitterUrl: 'https://twitter.com/danujeffery',
+  },
+  {
+      name: 'Menson John Asare',
+      role: 'Developer',
+      githubUrl: 'https://github.com/mensonjohn',
+      twitterUrl: 'https://twitter.com/mensonjohn',
+  },
+  {
+      name: 'Nkrumah Charles Nhyira',
+      role: 'Developer',
+      githubUrl: 'https://github.com/nkrumahcharles',
+      twitterUrl: 'https://twitter.com/nkrumahcharles',
+  },
+  {
+      name: 'Koomson Arnon Acquah',
+      role: 'Develolper',
+      githubUrl: 'https://github.com/koomsonarnon',
+      twitterUrl: 'https://twitter.com/koomsonarnon',
+  },
+]
+
 export const EVENT_CATEGORIES = [
     {label: "Seminar", value:"seminar"},
     {label: "Workshop", value:"workshop"},
