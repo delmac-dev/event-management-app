@@ -24,13 +24,13 @@ export default function TermsAndConditions() {
       <Header />
       <main className="main_container flex-1 px-4">
         <LegalContainer
-          id="terms"
+          id="team-section"
           header="Terms and conditions"
           subHeader="Welcome to Connect! By accessing or using our application, you agree to comply with and be bound by these Terms and Conditions. Please read them carefully."
           data = {TERMS}
         />
         <LegalContainer
-          id="team-section"
+          id="privacy-policy"
           header="Privacy Policy"
           data = {PRIVACY_POLICY}
         />
