@@ -1,10 +1,10 @@
 import Header from "../(components)/header";
 import { _event } from "@/lib/routes";
-import EventsFilter from "../(components)/events-filter";
 import EventsHeader from "../(components)/events-header";
 import EevntsContainer from "../(components)/events-container";
 import EevntsContainerV from "../(components)/events-container-v";
 import EventsHeaderV from "../(components)/events-header-v";
+import EventsFilter from "../(components)/events-filter";
 
 export default async function Events() {
   return (

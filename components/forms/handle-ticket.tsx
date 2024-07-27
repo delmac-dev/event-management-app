@@ -100,7 +100,6 @@ export default function HandleTicketForm(props:HandleTicketFormProps) {
                     <NumberInput name="total_tickets" label="Total Tickets" />
                     <RadioGroupInput name="ticket_type" label="Ticket Type" disabled options={TICKET_TYPE_OPTIONS} />
                     <NumberInput name="price" label="Price" placeHolder="25" disabled={form.getValues('ticket_type') === 'free'} />
-                    {/* is_active switch input */}
                     <SwitchInput name="is_active" label="Active Status" />
                 </div>
                 <div className="sticky bottom-0 right-0 z-50 w-full p-4 bg-background flex gap-3 justify-end">

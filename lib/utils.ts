@@ -19,10 +19,12 @@ export function getUrl(link: string = '') {
   return url + link
 }
 
-export const parseNavigation = (pathname: string, navigation: NavigationProps[]) => {
+export const parseNavigation = (pathname: string, navigation: NavigationProps[], useStartWith:boolean = false) => {
+  const logic = (link: string ) => useStartWith? pathname.startsWith(link) : link === pathname;
+
   return navigation.map(navigationItem => ({
     ...navigationItem,
-    active: navigationItem.link === pathname
+    active: logic(navigationItem.link)
   }));
 };
 
@@ -54,6 +56,8 @@ export function stringToList(str: string) {
 }
 
 export const convertTo12HourFormat = (time24: string) => {
+  if(time24 === "") return "";
+  
   let [hours, minutes] = time24.split(':');
   const suffix = +hours >= 12 ? 'PM' : 'AM';
   hours = (hours === '00' ? '12' : (+hours % 12 || 12)).toString();
@@ -67,6 +71,8 @@ export const timeToDate = (time24: string): Date => {
 };
 
 export const formatDate = (dateString: string) => {
+  if(dateString === "") return "";
+  
   const date = new Date(dateString);
   const formatter = new Intl.DateTimeFormat('en-GB', {
     weekday: 'short',
@@ -86,4 +92,15 @@ export function listToString(list: string[]) {
 
 export function generateRandomNumber() {
   return Math.floor(1000000000 + Math.random() * 9000000000).toString(); // Ensures a 10-digit number
+}
+
+export function dateAvatar(dateString: string) {
+  if(dateString === '') return { month: '', day: ''};
+
+  const monthNames = ["Jan.", "Feb.", "Mar.", "Apr.", "May.", "Jun.", "Jul.", "Aug.", "Sep.", "Oct.", "Nov.", "Dec."];
+  const date = new Date(dateString);
+  const month = monthNames[date.getMonth()];
+  const day = date.getDate().toString().padStart(2, '0');
+
+  return { month, day };
 }

@@ -19,7 +19,7 @@ export default function MembersContainer({organisationID}:{organisationID: strin
 
     return (
         <BodyContent>
-            <DataTable columns={columns} data={[]} />
+            <DataTable columns={columns} data={members || []} />
         </BodyContent>
     )
 }

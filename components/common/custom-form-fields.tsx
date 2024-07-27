@@ -513,8 +513,7 @@ export const SelectUserInput = (props: SelectUserInputProps) => {
             const { data, error } = await supabase
                 .from('profiles')
                 .select('id, full_name, email')
-                .ilike('full_name', `%${query}%`)
-                .or(`email.ilike.%${query}%`);
+                .or(`full_name.ilike.%${query}%,email.ilike.%${query}%`);
             
             if (error) {
                 console.error(error);

@@ -36,7 +36,7 @@ export default async function Index() {
           </p>
           <Button size="xs" className="group mt-7">
             <Link href={`${_dashboardEvents}?new=true`}>
-              Start An Event Now 
+              Start An Event Now
             </Link>
             <ArrowRight size={16} className="ml-2 group-hover:translate-x-0.5 transition-transform" />
           </Button>
@@ -47,7 +47,7 @@ export default async function Index() {
         <div className="sub_container">
           <h1 className="font-medium text-xl text-center">Available Features</h1>
           <div className="w-full mt-7 grid grid-col-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {features.map(({icon, feature}, _id) =>(
+            {features.map(({ icon, feature }, _id) => (
               <div key={_id} className="w-full border p-6 flex flex-col items-start">
                 <Box className="size-8 text-secondary-foreground" />
                 <p className="font-normal text-sm tracking-wide mt-4 text-muted-foreground">{feature}</p>

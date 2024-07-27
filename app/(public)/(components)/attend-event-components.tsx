@@ -5,11 +5,11 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeftIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-export default function AttendeeBookingForm() {
+export default function AttendeeBookingForm({eventID}:{eventID: string}) {
     return (
-      <section className="relative sub_container flex_center flex-col rounded-none md:rounded-lg bg-bacground p-4 h-screen md:max-h-[640px] border-t-8 border-secondary-foreground shadow-md">
-        <AttendHeader />
-        <HandleTicketBookingForm event={null} />
+      <section className="relative sub_container flex_center justify-start flex-col rounded-none md:rounded-lg bg-bacground p-4 h-screen md:max-h-[640px] border-t-8 border-secondary-foreground shadow-md">
+        <AttendHeader /> 
+        <HandleTicketBookingForm eventID={eventID} />
       </section>
     )
 }

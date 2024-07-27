@@ -46,17 +46,19 @@ export function ModifyOrganisationForm({orgID, className}:{orgID: string, classN
         toastMessage: "Organisation deleted successfully",
         redirectTo: _dashboardOrgs,
       }
+    
+      const defaultValues= {
+        name: organisation?.name || '',
+        headline: organisation?.headline || '',
+        about: organisation?.about || '',
+        category: organisation?.category || '',
+        avatar_url: organisation?.avatar_url || '',
+        owner: organisation?.profiles?.full_name || ''
+    }
 
     const form = useForm<ModifyOrganisation>({
         resolver: zodResolver(ModifyOrgFormSchema),
-        defaultValues: {
-            name: '',
-            headline: '',
-            about: '',
-            category: '',
-            avatar_url: '',
-            owner: '',
-        }
+        defaultValues: defaultValues
     });
 
     const {handleSubmit, reset, formState: { isSubmitting, isDirty }} = form;
@@ -67,7 +69,7 @@ export function ModifyOrganisationForm({orgID, className}:{orgID: string, classN
         if (avatarUrl instanceof File) 
             avatarUrl = await uploadFile(avatarUrl, 'organisation.avatars', data.name);
 
-        const plainData = {...data, avatar_url: avatarUrl, owner: organisation?.owner.id as string};
+        const plainData = {...data, avatar_url: avatarUrl, owner: organisation?.owner as string};
 
         modifyOrganisation({ orgData: plainData, id: orgID});
     };
@@ -77,16 +79,8 @@ export function ModifyOrganisationForm({orgID, className}:{orgID: string, classN
     }
 
     useEffect(() => {
-        if (organisation) {
-            reset({
-                name: organisation.name,
-                headline: organisation.headline,
-                about: organisation.about,
-                category: organisation.category,
-                avatar_url: organisation.avatar_url,
-                owner: organisation.owner.full_name
-          });
-        }
+        if (organisation)
+            reset(defaultValues);
     }, [organisation, reset]);
 
     useEffect(() => {

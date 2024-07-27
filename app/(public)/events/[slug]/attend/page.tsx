@@ -2,11 +2,11 @@ import AttendeeBookingForm from "@/app/(public)/(components)/attend-event-compon
 import { QueryProps } from "@/lib/types";
 
 export default async function EventJoin({ params }: QueryProps) {
-    const slug = params.slug;
+    const eventID = params.slug;
 
     return (
         <main className="relative main_container h-screen flex_center flex-1 md:px-4">
-            <AttendeeBookingForm />
+            <AttendeeBookingForm eventID={eventID} />
         </main>
     );
 }

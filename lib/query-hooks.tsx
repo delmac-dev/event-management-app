@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { deleteEventAttendee, deleteEventTicket, deleteMember, getAuthProfile, getEventAttendees, getEventByID, getEventTickets, getEventTicketSelect, getMemberByID, getMemberEvents, getMembers, getOrganisationByID, getOrganisationEvents, getProfile, getUserOrganisations, getUserOrgSelect, modifyEvent, modifyEventAttendee, modifyEventTicket, modifyMember, modifyOrganisation, modifyProfile, setEvent, setEventAttendee, setEventTicket, setMember, setOrganisation } from "./queries";
+import { bookTicket, deleteEventAttendee, deleteEventTicket, deleteMember, getAuthProfile, getBookableTickets, getEventAttendees, getEventByID, getEventTickets, getEventTicketSelect, getMemberByID, getMemberEvents, getMembers, getMyTickets, getOrganisationByID, getOrganisationEvents, getProfile, getPublicEvent, getPublicEvents, getPublicTicket, getSearchedTickets, getUserOrganisations, getUserOrgSelect, modifyEvent, modifyEventAttendee, modifyEventTicket, modifyMember, modifyOrganisation, modifyProfile, setEvent, setEventAttendee, setEventTicket, setMember, setOrganisation } from "./queries";
 import { dashboardKeys, publicKeys } from "./query-keys";
 
 export function useGetAuthProfile() {
@@ -238,4 +238,59 @@ export const useModifyEventAttendee = (id: string) => {
         mutationFn: modifyEventAttendee,
         onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKey })
     })
+}
+
+// ::::::::::::::::::::::::::: PUBLIC HOOKS ::::::::::::::::::::::::::::::::
+
+export const useGetPublicEvents = () => {
+    const queryKey = publicKeys.events();
+    const queryFn = async () => await getPublicEvents();
+
+    return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
+}
+
+export const useGetPublicEvent = (id: string) => {
+    const queryKey = publicKeys.event(id);
+    const queryFn = async () => await getPublicEvent({id});
+
+    return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
+}
+
+export const useGetPublicTicket = (id: string) => {
+    const queryKey = publicKeys.searchedTicket(id);
+    const queryFn = async () => await getPublicTicket({id});
+
+    return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
+}
+
+export const useGetBookableTickets = (id: string) => {
+    const queryKey = publicKeys.bookableTickets(id);
+    const queryFn = async () => await getBookableTickets({id});
+
+    return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
+}
+
+export const useBookTicket = () => {
+    const queryClient = useQueryClient();
+
+    const queryKey = publicKeys.events();
+    return useMutation({ 
+        mutationFn: bookTicket,
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKey })
+    })
+}
+
+export const useGetMyTickets = () => {
+    const queryKey = dashboardKeys.tickets();
+    const queryFn = async () => await getMyTickets();
+
+    return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
+}
+
+export const useGetSearchedTickets = (searchData: string) => {
+    const queryKey = publicKeys.searchedTickets(searchData);
+    
+    const queryFn = async () => await getSearchedTickets({searchData});
+
+    return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
 }

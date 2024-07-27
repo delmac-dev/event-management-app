@@ -20,6 +20,7 @@ const config = {
     fontFamily: {
       "poppins": ["Poppins", "sans-serif"],
       "inter": ["Inter", "sans-serif"],
+      "roboto-mono": ["Roboto Mono", "monospace"],
     },
     extend: {
       maxWidth: {
