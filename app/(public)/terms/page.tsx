@@ -11,6 +11,7 @@ type ContainerDataProps = {
   contents?: string[]
 }
 type LegalContainerProps = {
+  id: string,
   header: string,
   subHeader?: string,
   data: ContainerDataProps[]
@@ -23,11 +24,13 @@ export default function TermsAndConditions() {
       <Header />
       <main className="main_container flex-1 px-4">
         <LegalContainer
+          id="terms"
           header="Terms and conditions"
           subHeader="Welcome to Connect! By accessing or using our application, you agree to comply with and be bound by these Terms and Conditions. Please read them carefully."
           data = {TERMS}
         />
         <LegalContainer
+          id="team-section"
           header="Privacy Policy"
           data = {PRIVACY_POLICY}
         />
@@ -37,8 +40,8 @@ export default function TermsAndConditions() {
   );
 }
 
-const LegalContainer = ({ header, subHeader, data}:LegalContainerProps) => (
-  <section className="sub_container pt-14 pb-7 space-y-6">
+const LegalContainer = ({ id, header, subHeader, data}:LegalContainerProps) => (
+  <section id={id} className="sub_container pt-14 pb-7 space-y-6">
     <div className="w-full space-y-4 text-left md:text-center">
       <h2 className="text-lg md:text-xl lg:text-2xl font-semibold text-foreground">{header}</h2>
       {subHeader && (<p className="w-full text-sm max-w-prose">{subHeader}</p>)}
