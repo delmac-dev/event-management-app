@@ -12,7 +12,8 @@ import QRCodeGenerator from "../../(components)/qrcode-generator";
 export default function Ticket({ params }: QueryProps) {
   const ticketID = params.ticket_id;
   const { data:attendee, isLoading } = useGetPublicTicket(ticketID);
-
+  console.log({attendee});
+  
   return (
     <>
       <Header />

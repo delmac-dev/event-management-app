@@ -289,3 +289,32 @@ export const TICKET_TYPE_OPTIONS = ["free", "priced"];
 export const ATTENDEE_STATUS_OPTIONS = ['registered', 'checked-in', 'cancelled', 'no-show'];
 
 export const PAYMENT_STATUS_OPTIONS = ['pending', 'completed', 'failed'];
+
+export const SAMPLE_ATTENDEE = { 
+  created_at: "2024-07-23T05:29:54.973474+00:00",
+  email: "precioustengue1@gmail.com",
+  event_id: "3f4cc201-475a-4b2c-a348-0d61771f1615",
+  full_name: "Delali Tengue",
+  has_account: false,
+  hold_expire_in: null,
+  id: "ce5b9619-efaf-4c10-901f-ea9af6b629fe",
+  payment_status: "completed",
+  status: "registered",
+  ticket_code: "EAR3478714100",
+  ticket_id: "e267924f-c34c-4195-8d71-ba177ecc4202",
+  tickets: {
+    events: {
+      banner: "https://hussjjsnjgflsynuwxds.supabase.co/storage/v1/object/public/event.banners/global-summit-on-cybersecurity-innovations.jpg",
+      event_date: "2024-09-23",
+      headline: "Securing the Future: Innovations and Challenges in Cybersecurity",
+      id: "3f4cc201-475a-4b2c-a348-0d61771f1615",
+      name: "Global Summit on Cybersecurity Innovations",
+      start_at: "15:00:00",
+    },
+    id: "e267924f-c34c-4195-8d71-ba177ecc4202",
+    name: "Early Bird",
+    ticket_type: "free",
+  },
+  updated_at: "2024-07-23T07:31:46.488891+00:00",
+  user_id: null,
+}

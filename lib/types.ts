@@ -214,7 +214,7 @@ export type FetchedPublicAttendeesProps = {
     email: string;
     ticket_code: string;
     event_id: string;
-    user_id: string;
+    user_id: string | null;
     tickets: {
         id: string;
         ticket_type: string;
