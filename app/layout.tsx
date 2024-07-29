@@ -2,6 +2,10 @@ import { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { Providers } from "@/components/common/providers";
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en.json';
+
+TimeAgo.addDefaultLocale(en);
 
 const defaultUrl = process.env.NEXT_PUBLIC_VERCEL_URL
   ? `https://campusevents.vercel.app/`
