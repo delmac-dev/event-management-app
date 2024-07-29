@@ -389,7 +389,8 @@ export const getMembers = async ({id}:{id: string}) => {
     .from('organisation_members')
     .select(`
             id, organisation_id, is_active, has_accepted, 
-            profiles(id, full_name, email, avatar_url)
+            profiles(id, full_name, email, avatar_url),
+            organisations(owner)
         `)
     .eq("organisation_id", id)
     .order('created_at', { ascending: true})

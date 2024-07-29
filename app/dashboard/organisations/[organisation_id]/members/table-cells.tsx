@@ -26,6 +26,7 @@ export function TableCell({type, data}:TableCellProps) {
 }
 
 const Action = ({ member, organisationID }:{ member: FetchedMembersProps, organisationID: string }) => {
+    const { profiles: { id }, organisations: { owner }} = member;
     const {mutate: deleteMember, isError, isSuccess} = useDeleteMember(organisationID);
     const { data: user, isLoading } = useGetAuthProfile();
     const [open, setOpen] = useState(false);
@@ -50,7 +51,7 @@ const Action = ({ member, organisationID }:{ member: FetchedMembersProps, organi
     if(isLoading) {
         return (
             <div className="h-12 w-12 flex_center">
-                <SpinnerIcon className="size-10 text-secondary-foreground" />
+                <SpinnerIcon className="size-7 text-secondary-foreground" />
             </div>
         )
     }
@@ -58,11 +59,11 @@ const Action = ({ member, organisationID }:{ member: FetchedMembersProps, organi
     return(
         <>
             <SheetFormWrapper { ...wrapperData }>
-                <HandleMemberForm orgID={organisationID} closeHandler={()=>setOpen(false)} />
+                <HandleMemberForm orgID={organisationID} closeHandler={()=>setOpen(false)} member={member} />
             </SheetFormWrapper>
             <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="h-8 w-8 p-0" disabled={member.profiles.id === user?.id}>
+                <Button variant="ghost" className="h-8 w-8 p-0" disabled={id === user?.id || user?.id !== owner}>
                     <span className="sr-only">Open menu</span>
                     <EllipsisVertical className="h-5 w-5" />
                 </Button>

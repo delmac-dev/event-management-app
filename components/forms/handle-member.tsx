@@ -27,7 +27,6 @@ export type HandleMemberFormProps = {
 
 export default function HandleMemberForm(props:HandleMemberFormProps) {
     const {orgID, member, closeHandler, className} = props;
-
     const { mutate: setMember, isError: isSetError, isSuccess: isSetSuccess, isPending: isSetPending } = useSetMember(orgID);
     const { mutate: modifyMember, isError: isModifyError, isSuccess: isModifySuccess, isPending: isModifyPending} = useModifyMember(orgID);
 

@@ -89,7 +89,8 @@ export type FetchedMembersProps = {
     has_accepted: boolean,
     id: string,
     is_active: boolean,
-    profiles: { id: string, email: string, full_name: string, avatar_url: string }
+    profiles: { id: string, email: string, full_name: string, avatar_url: string },
+    organisations: { owner: string }
 }
 
 export type FetchedModifiableMemberProps = {
