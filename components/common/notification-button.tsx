@@ -2,10 +2,8 @@
 
 import { Button } from "../ui/button";
 import { ArchiveX, Bell } from "lucide-react";
-import { _dashboardNotifications } from "@/lib/routes";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
-import { useEffect, useState } from "react";
 import { useAcceptMembership, useDeclineMembership, useGetInvitor, useGetNotificationCount, useGetNotifications, useGetRegistor, useModifyNotification } from "@/lib/query-hooks";
 import SpinnerIcon from "../icons/spinner-icon";
 import { FetchedActionNotificationsProps, FetchedInfoNotificationsProps, FetchedNotificationsProps } from "@/lib/types";
