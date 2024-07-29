@@ -16,9 +16,10 @@ export const dashboardKeys = {
     all: ['dashboard'] as const,
     profile: ['profile'] as const,
     authProfile: ['auth-profile'] as const,
-    notifications: (tab: string) => ['notifications', 'tab', tab] as const,
-    notification: (id: string) => ['notifications', id] as const,
+    notifications: ['notifications'] as const,
     notificationCount: ['notifications', 'count'] as const,
+    notificationInvitor: (id: string) => ["notifications", "action", "invitor", id] as const,
+    notificationRegistor: (id: string) => ["notifications", "info", "registor", id] as const,
 
     userOrgSelectList: () => [...dashboardKeys.all, 'org', 'select', 'list'] as const, 
     eventTicketSelect: (id: string) => [...dashboardKeys.all, id, 'ticket', 'select', 'list'] as const, 

@@ -244,7 +244,6 @@ export type FetchedNotificationsProps = {
 export type FetchedInfoNotificationsProps = FetchedNotificationsProps & {
     metadata: {
         attendee_id: string,
-        event_id: string
     },
 };
 
@@ -253,3 +252,14 @@ export type FetchedActionNotificationsProps = FetchedNotificationsProps & {
         member_id: string
     }
 }
+
+export type FetchedInvitorProps = {
+    name: string,
+    organisation: string
+};
+
+export type FetchedRegistorProps = {
+    name: string,
+    event: string,
+    ticket: string
+};

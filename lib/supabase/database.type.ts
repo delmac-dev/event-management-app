@@ -398,7 +398,18 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      accept_membership: {
+        Args: {
+          member_id: string
+        }
+        Returns: undefined
+      }
+      decline_membership: {
+        Args: {
+          member_id: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
-import { NavigationProps } from "./types";
+import { FetchedNotificationsProps, NavigationProps } from "./types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -99,4 +99,8 @@ export function dateAvatar(dateString: string) {
   const day = date.getDate().toString().padStart(2, '0');
 
   return { month, day };
+}
+
+export function filterNotificationsByType( notifications: FetchedNotificationsProps[] | null, type: string) {
+  return notifications?.filter(notification => notification.type === type) || [];
 }

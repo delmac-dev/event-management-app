@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { bookTicket, deleteEventAttendee, deleteEventTicket, deleteMember, getAuthProfile, getBookableTickets, getEventAttendees, getEventByID, getEventTickets, getEventTicketSelect, getMaxCapacity, getMemberByID, getMemberEvents, getMembers, getMyTickets, getNotificationCount, getNotifications, getOrganisationByID, getOrganisationEvents, getProfile, getPublicEvent, getPublicEvents, getPublicTicket, getSearchedTickets, getUserOrganisations, getUserOrgSelect, modifyEvent, modifyEventAttendee, modifyEventTicket, modifyMember, modifyNotification, modifyOrganisation, modifyProfile, setEvent, setEventAttendee, setEventTicket, setMember, setOrganisation } from "./queries";
+import { acceptMembership, bookTicket, declineMembership, deleteEventAttendee, deleteEventTicket, deleteMember, getAuthProfile, getBookableTickets, getEventAttendees, getEventByID, getEventTickets, getEventTicketSelect, getInvitor, getMaxCapacity, getMemberByID, getMemberEvents, getMembers, getMyTickets, getNotificationCount, getNotifications, getOrganisationByID, getOrganisationEvents, getProfile, getPublicEvent, getPublicEvents, getPublicTicket, getRegistor, getSearchedTickets, getUserOrganisations, getUserOrgSelect, modifyEvent, modifyEventAttendee, modifyEventTicket, modifyMember, modifyNotification, modifyOrganisation, modifyProfile, setEvent, setEventAttendee, setEventTicket, setMember, setOrganisation } from "./queries";
 import { dashboardKeys, publicKeys } from "./query-keys";
 
 export function useGetAuthProfile() {
@@ -150,6 +150,26 @@ export const useGetMemberByID = (memberID: string, id: string) => {
     return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
 }
 
+export const useAcceptMembership = () => {
+    const queryClient = useQueryClient();
+
+    const queryKey = dashboardKeys.notifications;
+    return useMutation({ 
+        mutationFn: acceptMembership,
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKey })
+    })
+};
+
+export const useDeclineMembership = () => {
+    const queryClient = useQueryClient();
+
+    const queryKey = dashboardKeys.notifications;
+    return useMutation({ 
+        mutationFn: declineMembership,
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKey })
+    })
+}
+
 // ::::::::::::::::::::: EVENTS TICKET HOOKS ::::::::::::::::::::::::::::::
 export const useGetEventTickets = ( id: string) => {
     const queryKey = dashboardKeys.eventTickets(id);
@@ -285,10 +305,10 @@ export const useGetSearchedTickets = (searchData: string) => {
 }
 
 // :::::::::::::::::::::::::::::: NOTIFICATIONS HOOKS :::::::::::::::::::::::::::::::::::
-export const useGetNotifications = (tab: string) => {
-    const queryKey = dashboardKeys.notifications(tab);
+export const useGetNotifications = () => {
+    const queryKey = dashboardKeys.notifications;
     
-    const queryFn = async () => await getNotifications({tab});
+    const queryFn = async () => await getNotifications();
 
     return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
 }
@@ -301,14 +321,30 @@ export const useGetNotificationCount = () => {
     return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
 }
 
-export const useModifyNotifications = (id: string) => {
+export const useModifyNotification = () => {
     const queryClient = useQueryClient();
 
-    const queryKey = dashboardKeys.notification(id);
+    const queryKey = dashboardKeys.notifications;
     return useMutation({ 
         mutationFn: modifyNotification,
         onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKey })
     })
+}
+
+export const useGetInvitor = (id: string) => {
+    const queryKey = dashboardKeys.notificationInvitor(id);
+    
+    const queryFn = async () => await getInvitor({id});
+
+    return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
+}
+
+export const useGetRegistor = (id: string) => {
+    const queryKey = dashboardKeys.notificationRegistor(id);
+    
+    const queryFn = async () => await getRegistor({id});
+
+    return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
 }
 
 // :::::::::::::::::::::::::::::: FORM NECCESARY HOOKS ::::::::::::::::::::::::::::::::::

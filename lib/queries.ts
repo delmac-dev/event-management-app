@@ -5,7 +5,7 @@ import { createClient } from "./supabase/server";
 import { createAdmin } from "./supabase/admin";
 import { NewOrganisation } from "@/components/forms/new-organisation";
 import { ModifyOrganisation } from "@/components/forms/modify-organisation";
-import { FetchedAttendeeProps, FetchedBookableTicketProps, FetchedEventProps, FetchedMembersProps, FetchedModifiableEventProps, FetchedModifiableMemberProps, FetchedMyTickets, FetchedOrganisationProps, FetchedPublicAttendeesProps, FetchedPublicEventProps, FetchedPublicEventsProps, FetchedTicketsProps, SearchedTicketsProps, TypedSupabaseClient } from "./types";
+import { FetchedAttendeeProps, FetchedBookableTicketProps, FetchedEventProps, FetchedInvitorProps, FetchedMembersProps, FetchedModifiableEventProps, FetchedModifiableMemberProps, FetchedMyTickets, FetchedNotificationsProps, FetchedOrganisationProps, FetchedPublicAttendeesProps, FetchedPublicEventProps, FetchedPublicEventsProps, FetchedRegistorProps, FetchedTicketsProps, SearchedTicketsProps, TypedSupabaseClient } from "./types";
 import { generateRandomNumber, stringToList } from "./utils";
 import { NewEvent } from "@/components/forms/new-event";
 import { ModifyEvent } from "@/components/forms/modify-event";
@@ -445,12 +445,24 @@ export const deleteMember = async ({ id }: { id: string }) => {
     return data ?? null;
 };
 
-export const acceptMembership = async ({ memberID }: { memberID: string }) => {
+export const acceptMembership = async ({ id, memberID }: { id: string, memberID: string }) => {
+    const { data, error } = await supabase.rpc('accept_membership', { member_id: memberID })
 
+    if(error) throw error;
+
+    await modifyNotification({id});
+
+    return null;
 }
 
-export const declineMembership = async ({ memberID }: { memberID: string }) => {
+export const declineMembership = async ({ id, memberID }: { id: string, memberID: string }) => {
+    const { data, error } = await supabase.rpc('decline_membership', { member_id: memberID })
 
+    if(error) throw error;
+
+    await modifyNotification({id});
+
+    return null;
 }
 
 export const getMyTickets = async () => {
@@ -618,7 +630,7 @@ export const getNotificationCount = async() => {
     return data;
 }
 
-export const getNotifications = async({tab}:{tab: string}) => {
+export const getNotifications = async() => {
     const { data: userData, error: userError } = await supabase.auth.getUser();
 
     if (userError || !userData || !userData.user) {
@@ -627,21 +639,16 @@ export const getNotifications = async({tab}:{tab: string}) => {
 
     const user = userData.user;
 
-    let query = supabase
+    const { data, error } = await supabase
     .from('notifications')
     .select('*')
     .eq('user_id', user.id)
-    .eq('is_read', false);
-
-    if (tab) {
-        query = query.eq('type', tab);
-    }
-
-    const { data, error } = await query;
+    .eq('is_read', false)
+    .order('created_at', { ascending: false });
 
     if(error) throw error;
 
-    return data ?? null;
+    return data as unknown as FetchedNotificationsProps[];
 };
 
 export const modifyNotification = async({id}:{id: string}) => {
@@ -654,6 +661,48 @@ export const modifyNotification = async({id}:{id: string}) => {
 
     return data ?? null;
 };
+
+export const getInvitor = async({id}:{id: string}) => {
+    const { data, error } = await supabase
+    .from('organisation_members')
+    .select(`
+        name: organisations(profiles(full_name)),
+        organisation: organisations(name)
+    `)
+    .eq('id', id)
+    .single();
+
+    if(error) throw error;
+
+    const result: FetchedInvitorProps = {
+        name: data?.name?.profiles?.full_name ?? "",
+        organisation: data?.organisation?.name ?? ""
+    };
+
+    return result;
+}
+
+export const getRegistor = async({id}:{id: string}) => {
+    const { data, error } = await supabase
+    .from('attendees')
+    .select(`
+        name: full_name,
+        event: events(name),
+        ticket: tickets(name)
+    `)
+    .eq('id', id)
+    .single();
+    
+    if(error) throw error;
+
+    const result: FetchedRegistorProps = {
+        name: data.name ?? "",
+        event: data.event?.name ?? "",
+        ticket: data.ticket?.name ?? ""
+    }
+
+    return result;
+}
 
 // ::::::::::::::::::::::::::::: FORM NECCESSARY QUERIES ::::::::::::::::::::::::::::::::::
 export const getUserOrgSelect = async () => {
