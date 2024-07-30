@@ -5,9 +5,13 @@ import { Button } from "../ui/button";
 import GoogleIcon from "../icons/google-icon";
 import GithubIcon from "../icons/github-icon";
 import { signInWithOAuth } from "@/lib/actions";
+import { useQueryClient } from "@tanstack/react-query";
+import { Provider } from "@supabase/supabase-js";
 
 
 export default function OAuthProviders() {
+    const queryClient = useQueryClient();
+
     const providers:OAuthProvider[] = [
         {
             name: "github",
@@ -17,7 +21,12 @@ export default function OAuthProviders() {
             name: "google",
             icon: GoogleIcon
         },
-    ]
+    ];
+
+    const handleaOAuthSignIn = async (provider: Provider) => {
+        await signInWithOAuth(provider);
+        queryClient.invalidateQueries();
+    }
 
     return (
         <>
@@ -27,7 +36,7 @@ export default function OAuthProviders() {
                     variant={'outline'} 
                     className="gap-3 capitalize"
                     type="submit" 
-                    formAction={async ()=> await signInWithOAuth(provider.name)}
+                    formAction={async ()=> await handleaOAuthSignIn(provider.name)}
                 >
                     {provider.icon? <provider.icon /> : ''}
                     Continue With {provider.name}
