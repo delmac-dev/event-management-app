@@ -29,7 +29,5 @@ export const updateSession = async (request: NextRequest) => {
 
   const { data: { user }} = await supabase.auth.getUser();
 
-  console.log({user});
-
   return { response, user };
 };
