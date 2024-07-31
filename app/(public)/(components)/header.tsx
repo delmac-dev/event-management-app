@@ -59,8 +59,6 @@ const HeaderOptions = () => {
     useEffect(()=> {
         const getUser = async() => {
             const { data: { user: authUser }, error} = await supabase.auth.getUser();
-            console.log(user?.user_metadata["full_name"]);
-            
             
             if(error) setUser(null);
             else setUser(authUser);

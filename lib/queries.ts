@@ -1,7 +1,6 @@
 "use server";
 
 import { HandleProfile } from "@/components/forms/handle-profile";
-import { createClient } from "./supabase/server";
 import { createAdmin } from "./supabase/admin";
 import { NewOrganisation } from "@/components/forms/new-organisation";
 import { ModifyOrganisation } from "@/components/forms/modify-organisation";
@@ -14,18 +13,18 @@ import { HandleTicket } from "@/components/forms/handle-ticket";
 import { HandleAttendee } from "@/components/forms/handle-attendee";
 import { HandleTicketBooking } from "@/components/forms/handle-ticket-booking";
 
-const supabase = createClient();
-
-const admin = createAdmin().auth.admin;
+type Client = {
+    supabase: TypedSupabaseClient
+}
 
 // ALL QUERIES RELATING TO PROFILE
-export const getAuthProfile = async () => {
+export const getAuthProfile = async ({supabase}: Client) => {
     const { data: { user: data }, error } = await supabase.auth.getUser();
     
     return data ?? null;
 };
 
-export const getProfile = async () => {
+export const getProfile = async ({supabase}: Client) => {
     const { data: { user }} = await supabase.auth.getUser();
 
     if (!user) throw new Error('No user logged in');
@@ -41,7 +40,7 @@ export const getProfile = async () => {
     return data ?? null;
 }
 
-export const modifyProfile = async({ profileData, id }:{ profileData: HandleProfile, id: string }) => {
+export const modifyProfile = async({ supabase, profileData, id }: Client & { profileData: HandleProfile, id: string }) => {
     const { email, full_name, avatar_url, username } = profileData;
 
     const { data, error } = await supabase
@@ -55,13 +54,16 @@ export const modifyProfile = async({ profileData, id }:{ profileData: HandleProf
 };
 
 export const deleteProfile = async({ id }: { id: string }) => {
+    const admin = createAdmin().auth.admin;
     const { data, error } = await admin.deleteUser(id);
+
+    if (error) throw error;
 
     return data ?? null;
 }
 
 // ALL QUERIES RELATING TO EVENTS
-export const getMemberEvents = async () => {
+export const getMemberEvents = async ({supabase}: Client) => {
     const { data: { user }} = await supabase.auth.getUser();
 
     if (!user) throw new Error('No user logged in');
@@ -89,7 +91,7 @@ export const getMemberEvents = async () => {
     return data ?? [] as FetchedEventProps[];
 };
 
-export const getEventByID = async ({id}:{id:string}) => {
+export const getEventByID = async ({supabase, id}:Client & {id:string}) => {
     const { data, error } = await supabase
     .from('events')
     .select(`
@@ -105,7 +107,7 @@ export const getEventByID = async ({id}:{id:string}) => {
     return data as unknown as FetchedModifiableEventProps;
 };
 
-export const setEvent = async ({eventData}:{eventData: NewEvent}) => {
+export const setEvent = async ({supabase, eventData}:Client & {eventData: NewEvent}) => {
     const { data: { user }} = await supabase.auth.getUser();
     let {organisation_id, name, headline, capacity, event_type, category, tags, event_date, start_at, end_at, location, banner} = eventData;
     if (!user) throw new Error('No user logged in');
@@ -124,7 +126,7 @@ export const setEvent = async ({eventData}:{eventData: NewEvent}) => {
     return null;
 };
 
-export const modifyEvent = async ({ eventData, id }: { eventData: ModifyEvent, id: string }) => {
+export const modifyEvent = async ({ supabase, eventData, id }: Client & { eventData: ModifyEvent, id: string }) => {
     const {name, headline, category, capacity, tags, 
         event_type, banner, is_published, about, event_date, start_at, end_at, 
         location, faq, agenda
@@ -141,7 +143,7 @@ export const modifyEvent = async ({ eventData, id }: { eventData: ModifyEvent, i
     return data ?? null;
 };
 
-export const deleteEvent = async ({id}:{id: string}) => {
+export const deleteEvent = async ({supabase, id}:Client & {id: string}) => {
     const { data } = await supabase
     .from('events')
     .delete()
@@ -151,7 +153,7 @@ export const deleteEvent = async ({id}:{id: string}) => {
 }
 
 // :::::::::::::::::::::::::::: EVENT TICKETS QUERIES ::::::::::::::::::::::::::::::::::::
-export const getEventTickets = async ({id}:{id: string}) => {
+export const getEventTickets = async ({supabase, id}:Client & {id: string}) => {
     const { data, error } = await supabase
     .from('tickets')
     .select('*')
@@ -163,7 +165,7 @@ export const getEventTickets = async ({id}:{id: string}) => {
     return data as FetchedTicketsProps[];;
 };
 
-export const setEventTicket = async ({ticketData}:{ticketData: HandleTicket}) => {
+export const setEventTicket = async ({supabase, ticketData}:Client & {ticketData: HandleTicket}) => {
     const {event_id, name, availability, ticket_code_prefix: tcp, total_tickets, ticket_type, price, is_active} = ticketData;
     const { error } = await supabase
         .from('tickets')
@@ -178,7 +180,7 @@ export const setEventTicket = async ({ticketData}:{ticketData: HandleTicket}) =>
     return null;
 };
 
-export const modifyEventTicket = async ({ticketData, id}: { ticketData: HandleTicket, id: string}) => {
+export const modifyEventTicket = async ({supabase, ticketData, id}:Client &  { ticketData: HandleTicket, id: string}) => {
     const { name, availability, ticket_code_prefix: tcp, total_tickets, ticket_type, price, is_active } = ticketData;
 
     const { data, error } = await supabase
@@ -195,7 +197,7 @@ export const modifyEventTicket = async ({ticketData, id}: { ticketData: HandleTi
     return data ?? null;
 };
 
-export const deleteEventTicket = async ({ id }: { id: string }) => {
+export const deleteEventTicket = async ({ supabase, id }:Client &  { id: string }) => {
     const { data } = await supabase
     .from('tickets')
     .delete()
@@ -205,7 +207,7 @@ export const deleteEventTicket = async ({ id }: { id: string }) => {
 }
 
 // :::::::::::::::::::::::::::: EVENT ATTENDEE QUERIES ::::::::::::::::::::::::::::::::::::
-export const getEventAttendees = async ({id}:{id: string}) => {
+export const getEventAttendees = async ({supabase, id}:Client & {id: string}) => {
     const { data, error } = await supabase
     .from('attendees')
     .select('*')
@@ -217,7 +219,7 @@ export const getEventAttendees = async ({id}:{id: string}) => {
     return data as FetchedAttendeeProps[];
 };
 
-export const setEventAttendee = async ({attendeeData}:{attendeeData: HandleAttendee}) => {
+export const setEventAttendee = async ({supabase, attendeeData}:Client & {attendeeData: HandleAttendee}) => {
     const {event_id, user_id, ticket_id, full_name, email, status, payment_status} = attendeeData;
 
     const { data: prefixData, error: prefixError } = await supabase
@@ -240,7 +242,7 @@ export const setEventAttendee = async ({attendeeData}:{attendeeData: HandleAtten
     return null;
 };
 
-export const modifyEventAttendee = async ({attendeeData, id}: { attendeeData: HandleAttendee, id: string}) => {
+export const modifyEventAttendee = async ({supabase, attendeeData, id}:Client &  { attendeeData: HandleAttendee, id: string}) => {
     const {ticket_id, full_name, email, status, payment_status} = attendeeData;
 
     const { data, error } = await supabase
@@ -253,7 +255,7 @@ export const modifyEventAttendee = async ({attendeeData, id}: { attendeeData: Ha
     return data ?? null;
 };
 
-export const deleteEventAttendee = async ({ id }: { id: string }) => {
+export const deleteEventAttendee = async ({ supabase, id }:Client &  { id: string }) => {
     const { data } = await supabase
     .from('attendees')
     .delete()
@@ -263,7 +265,7 @@ export const deleteEventAttendee = async ({ id }: { id: string }) => {
 };
 
 // ALL QUERIES RELATING TO ORGANIZATIONS
-export const getUserOrganisations = async() => {
+export const getUserOrganisations = async({supabase}: Client) => {
     const { data: { user }} = await supabase.auth.getUser();
 
     if (!user) throw new Error('No user logged in');
@@ -308,7 +310,7 @@ export const getUserOrganisations = async() => {
     return filteredOrganisations ?? null as unknown as FetchedOrganisationProps[];
 };
 
-export const getOrganisationByID = async({ id }: { id: string }) => {
+export const getOrganisationByID = async({ supabase, id }:Client &  { id: string }) => {
     const { data, error } = await supabase
     .from('organisations')
     .select(`
@@ -323,7 +325,7 @@ export const getOrganisationByID = async({ id }: { id: string }) => {
     return data ?? null as unknown as FetchedOrganisationProps;
 };
 
-export const setOrganisation = async({orgData}:{orgData: NewOrganisation}) => {
+export const setOrganisation = async({supabase, orgData}:Client & {orgData: NewOrganisation}) => {
     const { data: { user }} = await supabase.auth.getUser();
     let { name, headline, about, avatar_url, category } = orgData;
     if (!user) throw new Error('No user logged in');
@@ -337,7 +339,7 @@ export const setOrganisation = async({orgData}:{orgData: NewOrganisation}) => {
     return null;
 };
 
-export const modifyOrganisation = async({ orgData, id }: { orgData: ModifyOrganisation, id: string }) => {
+export const modifyOrganisation = async({ supabase, orgData, id }:Client &  { orgData: ModifyOrganisation, id: string }) => {
     const { name, headline, avatar_url, about, owner, category } = orgData;
 
     const { data, error } = await supabase
@@ -350,7 +352,7 @@ export const modifyOrganisation = async({ orgData, id }: { orgData: ModifyOrgani
     return data ?? null;
 };
 
-export const deleteOrganisation = async({ id }: { id: string }) => {
+export const deleteOrganisation = async({ supabase, id }:Client &  { id: string }) => {
 
     const { data } = await supabase
     .from('organisations')
@@ -360,7 +362,7 @@ export const deleteOrganisation = async({ id }: { id: string }) => {
     return data ?? null;
 }
 
-export const getOrganisationEvents = async({ id }: { id: string }) => {
+export const getOrganisationEvents = async({ supabase, id }:Client &  { id: string }) => {
     const { data, error } = await supabase
     .from('events')
     .select(`
@@ -373,7 +375,7 @@ export const getOrganisationEvents = async({ id }: { id: string }) => {
     return data ?? null as FetchedEventProps[] | null;
 }
 
-export const getOrganisationOwner = async({ id }: { id: string }) => {
+export const getOrganisationOwner = async({ supabase, id }:Client &  { id: string }) => {
     const { data, error } = await supabase
     .from('profiles')
     .select('full_name')
@@ -384,7 +386,7 @@ export const getOrganisationOwner = async({ id }: { id: string }) => {
 }
 
 // :::::::::::::::::::::::::::::: ORGANISATION MEMBERS QUERIES :::::::::::::::::::::::::::::::::::::::
-export const getMembers = async ({id}:{id: string}) => {
+export const getMembers = async ({supabase, id}:Client & {id: string}) => {
     const { data, error } = await supabase
     .from('organisation_members')
     .select(`
@@ -400,7 +402,7 @@ export const getMembers = async ({id}:{id: string}) => {
     return data as FetchedMembersProps[];
 };
 
-export const getMemberByID = async ({id}:{id: string}) => {
+export const getMemberByID = async ({supabase, id}:Client & {id: string}) => {
     const { data, error } = await supabase
     .from('organisation_members')
     .select('is_active, user: profiles(value: id, label: full_name)')
@@ -412,7 +414,7 @@ export const getMemberByID = async ({id}:{id: string}) => {
     return data ?? null as FetchedModifiableMemberProps | null;
 }
 
-export const setMember = async ({memberData}:{memberData: HandleMember}) => {
+export const setMember = async ({supabase, memberData}:Client & {memberData: HandleMember}) => {
     const { organisation_id, user_id, is_active } = memberData;
 
     const { error } = await supabase
@@ -424,7 +426,7 @@ export const setMember = async ({memberData}:{memberData: HandleMember}) => {
     return null;
 };
 
-export const modifyMember = async ({memberData, id}: { memberData: HandleMember, id: string}) => {
+export const modifyMember = async ({supabase, memberData, id}:Client &  { memberData: HandleMember, id: string}) => {
     const { is_active } = memberData;
 
     const { data, error } = await supabase
@@ -437,7 +439,7 @@ export const modifyMember = async ({memberData, id}: { memberData: HandleMember,
     return data ?? null;
 };
 
-export const deleteMember = async ({ id }: { id: string }) => {
+export const deleteMember = async ({ supabase, id }:Client &  { id: string }) => {
     const { data } = await supabase
     .from('organisation_members')
     .delete()
@@ -446,27 +448,27 @@ export const deleteMember = async ({ id }: { id: string }) => {
     return data ?? null;
 };
 
-export const acceptMembership = async ({ id, memberID }: { id: string, memberID: string }) => {
+export const acceptMembership = async ({ supabase, id, memberID }:Client &  { id: string, memberID: string }) => {
     const { data, error } = await supabase.rpc('accept_membership', { member_id: memberID })
 
     if(error) throw error;
 
-    await modifyNotification({id});
+    await modifyNotification({supabase, id});
 
     return null;
 }
 
-export const declineMembership = async ({ id, memberID }: { id: string, memberID: string }) => {
+export const declineMembership = async ({ supabase, id, memberID }:Client & { id: string, memberID: string }) => {
     const { data, error } = await supabase.rpc('decline_membership', { member_id: memberID })
 
     if(error) throw error;
 
-    await modifyNotification({id});
+    await modifyNotification({supabase, id});
 
     return null;
 }
 
-export const getMyTickets = async () => {
+export const getMyTickets = async ({supabase}: Client) => {
     const { data: { user }} = await supabase.auth.getUser();
 
     if (!user) throw new Error('No user logged in');
@@ -482,7 +484,7 @@ export const getMyTickets = async () => {
 }
 
 // ::::::::::::::::::::::::::::: PUBLIC QUERIES :::::::::::::::::::::::::::::::::::::::::::
-export const getPublicEvents = async () => {
+export const getPublicEvents = async ({supabase}: Client) => {
     const { data, error} = await supabase
     .from('events')
     .select('id, about, name, headline, banner, event_date, end_at, start_at, location, tags, profiles(id, full_name, avatar_url)')
@@ -494,7 +496,7 @@ export const getPublicEvents = async () => {
     return data as FetchedPublicEventsProps[];
 }
 
-export const getPublicEvent = async ({id}:{id: string}) => {
+export const getPublicEvent = async ({supabase, id}:Client & {id: string}) => {
     const { data:eventData, error:eventError} = await supabase
     .from('events')
     .select('*')
@@ -513,7 +515,7 @@ export const getPublicEvent = async ({id}:{id: string}) => {
     return data as FetchedPublicEventProps;
 }
 
-export const getPublicTicket = async ({id}:{id: string}) => {
+export const getPublicTicket = async ({supabase, id}:Client & {id: string}) => {
     const {data, error} = await supabase
     .from('attendees')
     .select(`
@@ -528,7 +530,7 @@ export const getPublicTicket = async ({id}:{id: string}) => {
     return data as FetchedPublicAttendeesProps;
 }
 
-export const getSearchedTickets = async ({searchData}: { searchData: string}) => {
+export const getSearchedTickets = async ({supabase, searchData}:Client &  { searchData: string}) => {
     if(searchData === '') return [];
 
     const { data, error } = await supabase
@@ -541,7 +543,7 @@ export const getSearchedTickets = async ({searchData}: { searchData: string}) =>
     return data as SearchedTicketsProps[];
 }
 
-export const getBookableTickets = async ({id}:{id: string}) => {
+export const getBookableTickets = async ({supabase, id}:Client & {id: string}) => {
     const { data, error} = await supabase
     .from('tickets')
     .select('id, name, total_tickets, available_tickets, ticket_type, price')
@@ -553,7 +555,7 @@ export const getBookableTickets = async ({id}:{id: string}) => {
     return data as FetchedBookableTicketProps[];
 };
 
-export const bookTicket = async ({attendeeData}: { attendeeData: HandleTicketBooking}) => {
+export const bookTicket = async ({supabase, attendeeData}:Client &  { attendeeData: HandleTicketBooking}) => {
     let { ticket_id, full_name, user_id, email, event_id} = attendeeData;
     let has_account= true;
     let status = "registered";
@@ -587,10 +589,10 @@ export const bookTicket = async ({attendeeData}: { attendeeData: HandleTicketBoo
     return data as FetchedAttendeeProps;
 }
 
-export const unbookTicket = () => {};
+export const unbookTicket = ({supabase}: Client) => {};
 
 // :::::::::::::::::::::::::::::::::::::: NOTIFICATIONS QUERIES ::::::::::::::::::::::::::::::::::
-export const getNotificationCount = async() => {
+export const getNotificationCount = async({supabase}: Client) => {
     const { data: userData, error: userError } = await supabase.auth.getUser();
 
     if (userError || !userData || !userData.user) {
@@ -631,7 +633,7 @@ export const getNotificationCount = async() => {
     return data;
 }
 
-export const getNotifications = async() => {
+export const getNotifications = async({supabase}: Client) => {
     const { data: userData, error: userError } = await supabase.auth.getUser();
 
     if (userError || !userData || !userData.user) {
@@ -652,7 +654,7 @@ export const getNotifications = async() => {
     return data as unknown as FetchedNotificationsProps[];
 };
 
-export const modifyNotification = async({id}:{id: string}) => {
+export const modifyNotification = async({supabase, id}:Client & {id: string}) => {
     const { data, error } = await supabase
     .from('notifications')
     .update({ is_read: true })
@@ -663,7 +665,7 @@ export const modifyNotification = async({id}:{id: string}) => {
     return data ?? null;
 };
 
-export const getInvitor = async({id}:{id: string}) => {
+export const getInvitor = async({supabase, id}:Client & {id: string}) => {
     const { data, error } = await supabase
     .from('organisation_members')
     .select(`
@@ -683,7 +685,7 @@ export const getInvitor = async({id}:{id: string}) => {
     return result;
 }
 
-export const getRegistor = async({id}:{id: string}) => {
+export const getRegistor = async({supabase, id}:Client & {id: string}) => {
     const { data, error } = await supabase
     .from('attendees')
     .select(`
@@ -706,7 +708,7 @@ export const getRegistor = async({id}:{id: string}) => {
 }
 
 // ::::::::::::::::::::::::::::: FORM NECCESSARY QUERIES ::::::::::::::::::::::::::::::::::
-export const getUserOrgSelect = async () => {
+export const getUserOrgSelect = async ({supabase}: Client) => {
     const { data: { user }} = await supabase.auth.getUser();
 
     if (!user) throw new Error('No user logged in');
@@ -723,7 +725,7 @@ export const getUserOrgSelect = async () => {
     return organisations as { value: string; label: string }[];
 }
 
-export const getEventTicketSelect = async ({id}:{id: string}) => {
+export const getEventTicketSelect = async ({supabase, id}:Client & {id: string}) => {
     const { data, error } = await supabase
     .from('tickets')
     .select('value:id, label:name')
@@ -734,7 +736,7 @@ export const getEventTicketSelect = async ({id}:{id: string}) => {
     return data ?? null;
 }
 
-export const getMaxCapacity = async ({ id }: { id: string }) => {
+export const getMaxCapacity = async ({ supabase, id }:Client &  { id: string }) => {
     const { data: event, error: eventError } = await supabase
     .from('events')
     .select('capacity')
