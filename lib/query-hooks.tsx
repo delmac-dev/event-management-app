@@ -15,7 +15,7 @@ export function useGetProfile() {
     const queryKey = dashboardKeys.profile;
     const queryFn = async () => await getProfile();
 
-    return useQuery({queryFn, queryKey, refetchOnWindowFocus: false});
+    return useQuery({queryFn, queryKey, staleTime: 0 });
 }
 
 export const useModifyProfile = () => {
