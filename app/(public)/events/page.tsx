@@ -4,6 +4,8 @@ import EventsHeader from "../(components)/events-header";
 import EevntsContainer from "../(components)/events-container";
 import Footer from "../(components)/footer";
 
+export const dynamic = 'force-dynamic';
+
 export default async function Events() {
   return (
     <>
