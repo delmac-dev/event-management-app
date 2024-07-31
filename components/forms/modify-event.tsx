@@ -16,6 +16,7 @@ import { deleteEvent } from "@/lib/queries";
 import { useEffect } from "react";
 import SpinnerIcon from "../icons/spinner-icon";
 import DeleteHandler from "@/app/dashboard/(components)/delete-handler";
+import { createClient } from "@/lib/supabase/client";
 
 const today = new Date();
 today.setHours(0, 0, 0, 0);
@@ -117,8 +118,9 @@ export function ModifyEventForm({eventID, className}:{eventID:string, className?
         modifyEvent({ eventData: plainData, id: eventID});
     };
 
-    const handleOrgDelete = async () => {
-        await deleteEvent({id: eventID});
+    const handleEventDelete = async () => {
+        const supabase = createClient();
+        await deleteEvent({supabase, id: eventID});
     }
 
     useEffect(() => {
@@ -173,7 +175,7 @@ export function ModifyEventForm({eventID, className}:{eventID:string, className?
                     </div>
                 </form>
             </Form>
-            <DeleteHandler { ...deleteHandlerData } deleteAction={handleOrgDelete} />
+            <DeleteHandler { ...deleteHandlerData } deleteAction={handleEventDelete} />
         </>
     )
 }

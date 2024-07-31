@@ -12,10 +12,11 @@ import { Button } from "../ui/button";
 import { useGetOrganisationByID, useModifyOrganisation } from "@/lib/query-hooks";
 import DeleteHandler from "@/app/dashboard/(components)/delete-handler";
 import { _dashboardOrgs } from "@/lib/routes";
-import { deleteOrganisation, getOrganisationOwner } from "@/lib/queries";
+import { deleteOrganisation} from "@/lib/queries";
 import { useEffect } from "react";
 import { uploadFile } from "@/lib/supabase/upload-file";
 import SpinnerIcon from "../icons/spinner-icon";
+import { createClient } from "@/lib/supabase/client";
 
 const ModifyOrgFormSchema = z.object({
     name: z.string(),
@@ -75,7 +76,8 @@ export function ModifyOrganisationForm({orgID, className}:{orgID: string, classN
     };
 
     const handleOrgDelete = async () => {
-        await deleteOrganisation({id: orgID});
+        const supabase = createClient();
+        await deleteOrganisation({supabase, id: orgID});
     }
 
     useEffect(() => {
