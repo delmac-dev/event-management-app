@@ -8,7 +8,7 @@ export function useGetAuthProfile() {
     const queryKey = dashboardKeys.authProfile;
     const queryFn = async () => await getAuthProfile();
 
-    return useQuery({ queryKey, queryFn, refetchOnWindowFocus: false });
+    return useQuery({ queryKey, queryFn });
 }
 
 export function useGetProfile() {
