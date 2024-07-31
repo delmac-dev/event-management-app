@@ -27,7 +27,6 @@ export const getAuthProfile = async () => {
 
 export const getProfile = async () => {
     const { data: { user }} = await supabase.auth.getUser();
-    console.log({user});
 
     if (!user) throw new Error('No user logged in');
 
