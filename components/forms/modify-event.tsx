@@ -119,8 +119,7 @@ export function ModifyEventForm({eventID, className}:{eventID:string, className?
     };
 
     const handleEventDelete = async () => {
-        const supabase = createClient();
-        await deleteEvent({supabase, id: eventID});
+        await deleteEvent({id: eventID});
     }
 
     useEffect(() => {

@@ -76,8 +76,7 @@ export function ModifyOrganisationForm({orgID, className}:{orgID: string, classN
     };
 
     const handleOrgDelete = async () => {
-        const supabase = createClient();
-        await deleteOrganisation({supabase, id: orgID});
+        await deleteOrganisation({id: orgID});
     }
 
     useEffect(() => {

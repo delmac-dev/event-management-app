@@ -3,297 +3,245 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { acceptMembership, bookTicket, declineMembership, deleteEventAttendee, deleteEventTicket, deleteMember, getAuthProfile, getBookableTickets, getEventAttendees, getEventByID, getEventTickets, getEventTicketSelect, getInvitor, getMaxCapacity, getMemberByID, getMemberEvents, getMembers, getMyTickets, getNotificationCount, getNotifications, getOrganisationByID, getOrganisationEvents, getProfile, getPublicEvent, getPublicEvents, getPublicTicket, getRegistor, getSearchedTickets, getUserOrganisations, getUserOrgSelect, modifyEvent, modifyEventAttendee, modifyEventTicket, modifyMember, modifyNotification, modifyOrganisation, modifyProfile, setEvent, setEventAttendee, setEventTicket, setMember, setOrganisation } from "./queries";
 import { dashboardKeys, publicKeys } from "./query-keys";
-import { createClient } from "./supabase/client";
-import { HandleProfile } from "@/components/forms/handle-profile";
-import { HandleTicketBooking } from "@/components/forms/handle-ticket-booking";
-import { HandleAttendee } from "@/components/forms/handle-attendee";
-import { HandleTicket } from "@/components/forms/handle-ticket";
-import { HandleMember } from "@/components/forms/handle-member";
-import { ModifyEvent } from "@/components/forms/modify-event";
-import { NewEvent } from "@/components/forms/new-event";
-import { ModifyOrganisation } from "@/components/forms/modify-organisation";
-import { NewOrganisation } from "@/components/forms/new-organisation";
 
 export function useGetAuthProfile() {
-    const supabase = createClient();
     const queryKey = dashboardKeys.authProfile;
-    const queryFn = async () => await getAuthProfile({supabase});
+    const queryFn = async () => await getAuthProfile();
 
-    return useQuery({ queryKey, queryFn });
+    return useQuery({ queryKey, queryFn, refetchOnWindowFocus: false });
 }
 
 export function useGetProfile() {
-    const supabase = createClient();
     const queryKey = dashboardKeys.profile;
-    const queryFn = async () => await getProfile({supabase});
+    const queryFn = async () => await getProfile();
 
-    return useQuery({queryFn, queryKey, staleTime: 0 });
+    return useQuery({queryFn, queryKey, refetchOnWindowFocus: false});
 }
 
 export const useModifyProfile = () => {
-    const supabase = createClient();
     const queryClient = useQueryClient();
 
     const queryKey = dashboardKeys.profile;
     return useMutation({
-      mutationFn: async ({profileData, id}:{profileData: HandleProfile, id: string}) => (
-        await modifyProfile({supabase, profileData, id})),
+      mutationFn: modifyProfile,
       onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKey })
     })
 }
 
 // ::::::::::::::::::::::::: DASHBOARD ORGANISATION HOOK ::::::::::::::::::::::::::
 export function useGetUserOrganisations() {
-    const supabase = createClient();
     const queryKey = dashboardKeys.orgs();
-    const queryFn = async() => await getUserOrganisations({supabase});
+    const queryFn = async() => await getUserOrganisations();
     
     return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
 }
 
 export const useSetOrganisation = () => {
-    const supabase = createClient();
     const queryClient = useQueryClient();
 
     const queryKey = dashboardKeys.orgs();
     return useMutation({
-      mutationFn: async({orgData}: {orgData: NewOrganisation;}) => (
-        await setOrganisation({supabase, orgData})),
+      mutationFn: setOrganisation,
       onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKey })
     })
 }
 
 export const useGetOrganisationByID = (id: string) => {
-    const supabase = createClient();
     const queryKey = dashboardKeys.org(id);
-    const queryFn = async() => await getOrganisationByID({supabase, id});
+    const queryFn = async() => await getOrganisationByID({id});
 
     return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
 }
 
 export const useModifyOrganisation = ( id: string ) => {
-    const supabase = createClient();
     const queryClient = useQueryClient();
 
     const queryKey = dashboardKeys.org(id);
     return useMutation({ 
-        mutationFn: async({orgData, id}: {orgData: ModifyOrganisation;id: string;}) => (
-            await modifyOrganisation({ supabase, orgData, id})),
+        mutationFn: modifyOrganisation,
         onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKey })
     })
 }
 
 export const useGetOrganisationEvents = (id: string) => {
-    const supabase = createClient();
     const queryKey = dashboardKeys.orgEvents(id);
-    const queryFn = async () => await getOrganisationEvents({supabase, id});
+    const queryFn = async () => await getOrganisationEvents({id});
 
     return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
 }
 
 // ::::::::::::::::::::: ORGANISATION EVENTS HOOKS :::::::::::::::::::::::
 export const useSetEvent = (id?: string) => {
-    const supabase = createClient();
     const queryClient = useQueryClient();
 
     const queryKey = id? dashboardKeys.orgEvents(id):dashboardKeys.events();
     return useMutation({
-      mutationFn: async({ eventData }: { eventData: NewEvent; }) => (
-        await setEvent({ supabase, eventData })),
+      mutationFn: setEvent,
       onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKey })
     })
 }
 
 export const useGetMemberEvents = () => {
-    const supabase = createClient();
     const queryKey = dashboardKeys.events();
-    const queryFn = async () => await getMemberEvents({supabase});
+    const queryFn = async () => await getMemberEvents();
 
     return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
 }
 
 export const useGetEventByID = (id: string) => {
-    const supabase = createClient();
     const queryKey = dashboardKeys.event(id);
-    const queryFn = async() => await getEventByID({supabase, id});
+    const queryFn = async() => await getEventByID({id});
 
     return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
 }
 
 export const useModifyEvent = ( id: string ) => {
-    const supabase = createClient();
     const queryClient = useQueryClient();
 
     const queryKey = dashboardKeys.event(id);
     return useMutation({ 
-        mutationFn: async({ eventData, id }:{ eventData: ModifyEvent; id: string;}) => (
-            await modifyEvent({ supabase, eventData, id })),
+        mutationFn: modifyEvent,
         onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKey })
     })
 };
 
 // :::::::::::::::::::::: ORGAISATION MEMBERS HOOKS ::::::::::::::::::::::
 export const useGetMembers = ( id: string ) => {
-    const supabase = createClient();
     const queryKey = dashboardKeys.orgMembers(id);
-    const queryFn = async () => await getMembers({supabase, id});
+    const queryFn = async () => await getMembers({id});
 
     return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
 } 
 
 export const useSetMember = (id: string) => {
-    const supabase = createClient();
     const queryClient = useQueryClient();
 
     const queryKey = dashboardKeys.orgMembers(id);
     return useMutation({
-      mutationFn: async({memberData}:{memberData: HandleMember;}) => (
-        await setMember({ supabase, memberData })),
+      mutationFn: setMember,
       onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKey })
     }) 
 }
 
 export const useModifyMember = (id: string) => {
-    const supabase = createClient();
     const queryClient = useQueryClient();
 
     const queryKey = dashboardKeys.orgMembers(id);
     return useMutation({ 
-        mutationFn: async({memberData, id}:{ memberData: HandleMember; id: string;}) => (
-            await modifyMember({supabase, memberData, id})),
+        mutationFn: modifyMember,
         onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKey })
     })
 }
 
-export const useDeleteMember = (memberID: string) => {
-    const supabase = createClient();
+export const useDeleteMember = (id: string) => {
     const queryClient = useQueryClient();
 
-    const queryKey = dashboardKeys.orgMembers(memberID);
+    const queryKey = dashboardKeys.orgMembers(id);
     return useMutation({ 
-        mutationFn: async({id}:{id: string}) => await deleteMember({supabase, id}),
+        mutationFn: deleteMember,
         onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKey })
     })
 }
 
 export const useGetMemberByID = (memberID: string, id: string) => {
-    const supabase = createClient();
     const queryKey = dashboardKeys.orgMember(memberID, id);
-    const queryFn = async() => await getMemberByID({supabase, id: memberID});
+    const queryFn = async() => await getMemberByID({id: memberID});
 
     return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
 }
 
 export const useAcceptMembership = () => {
-    const supabase = createClient();
     const queryClient = useQueryClient();
 
     const queryKey = dashboardKeys.notifications;
     return useMutation({ 
-        mutationFn: async({id, memberID}:{ id: string; memberID: string;}) => (
-            await acceptMembership({supabase, id, memberID})),
+        mutationFn: acceptMembership,
         onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKey })
     })
 };
 
 export const useDeclineMembership = () => {
-    const supabase = createClient();
     const queryClient = useQueryClient();
 
     const queryKey = dashboardKeys.notifications;
     return useMutation({ 
-        mutationFn: async({id, memberID}:{ id: string; memberID: string;}) => (
-            await declineMembership({supabase, id, memberID})),
+        mutationFn: declineMembership,
         onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKey })
     })
 }
 
 // ::::::::::::::::::::: EVENTS TICKET HOOKS ::::::::::::::::::::::::::::::
 export const useGetEventTickets = ( id: string) => {
-    const supabase = createClient();
     const queryKey = dashboardKeys.eventTickets(id);
-    const queryFn = async () => await getEventTickets({supabase, id});
+    const queryFn = async () => await getEventTickets({id});
 
     return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
 }
 
 export const useSetEventTicket = (id: string) => {
-    const supabase = createClient();
     const queryClient = useQueryClient();
 
     const queryKey = dashboardKeys.eventTickets(id);
     return useMutation({
-      mutationFn: async({ticketData}:{ticketData: HandleTicket;}) => (
-        await setEventTicket({supabase, ticketData})),
+      mutationFn: setEventTicket,
       onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKey })
-    })
+    }) 
 }
 
-export const useDeleteEventTicket = (ticketID: string) => {
-    const supabase = createClient();
+export const useDeleteEventTicket = (id: string) => {
     const queryClient = useQueryClient();
 
-    const queryKey = dashboardKeys.eventTickets(ticketID);
+    const queryKey = dashboardKeys.eventTickets(id);
     return useMutation({ 
-        mutationFn: async({id}:{id: string}) => (
-            await deleteEventTicket({supabase, id})),
+        mutationFn: deleteEventTicket,
         onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKey })
     })
 }
 
-export const useModifyEventTicket = (ticketID: string) => {
-    const supabase = createClient();
+export const useModifyEventTicket = (id: string) => {
     const queryClient = useQueryClient();
 
-    const queryKey = dashboardKeys.eventTickets(ticketID);
+    const queryKey = dashboardKeys.eventTickets(id);
     return useMutation({ 
-        mutationFn: async({ticketData, id}:{ ticketData: HandleTicket; id: string;} ) => (
-            await modifyEventTicket({supabase, ticketData, id})),
+        mutationFn: modifyEventTicket,
         onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKey })
     })
 }
 
 // :::::::::::::::::::: ATTENDEE HOOKS :::::::::::::::::::::::::::::::::::::;
 export const useGetEventAttendees = (id: string) => {
-    const supabase = createClient();
     const queryKey = dashboardKeys.eventAttendees(id);
-    const queryFn = async () => await getEventAttendees({supabase, id});
+    const queryFn = async () => await getEventAttendees({id});
 
     return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
 }
 
-export const useSetEventAttendee = (attendeeID: string) => {
-    const supabase = createClient();
+export const useSetEventAttendee = (id: string) => {
     const queryClient = useQueryClient();
 
-    const queryKey = dashboardKeys.eventAttendees(attendeeID);
+    const queryKey = dashboardKeys.eventAttendees(id);
     return useMutation({
-      mutationFn: async({attendeeData}:{attendeeData: HandleAttendee;}) => (
-        await setEventAttendee({supabase, attendeeData})),
+      mutationFn: setEventAttendee,
       onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKey })
     }) 
 }
 
-export const useDeleteEventAttendee = (attendeeID: string) => {
-    const supabase = createClient();
+export const useDeleteEventAttendee = (id: string) => {
     const queryClient = useQueryClient();
 
-    const queryKey = dashboardKeys.eventAttendees(attendeeID);
+    const queryKey = dashboardKeys.eventAttendees(id);
     return useMutation({ 
-        mutationFn: async({id}:{id: string}) => (
-            await deleteEventAttendee({supabase, id})),
+        mutationFn: deleteEventAttendee,
         onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKey })
     })
 }
 
 export const useModifyEventAttendee = (id: string) => {
-    const supabase = createClient();
     const queryClient = useQueryClient();
 
     const queryKey = dashboardKeys.eventAttendees(id);
     return useMutation({ 
-        mutationFn: async({attendeeData}: { attendeeData: HandleAttendee; id: string; }) => (
-            await modifyEventAttendee({supabase, attendeeData, id})),
+        mutationFn: modifyEventAttendee,
         onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKey })
     })
 }
@@ -301,45 +249,39 @@ export const useModifyEventAttendee = (id: string) => {
 // ::::::::::::::::::::::::::: PUBLIC HOOKS ::::::::::::::::::::::::::::::::
 
 export const useGetPublicEvents = () => {
-    const supabase = createClient();
     const queryKey = publicKeys.events();
-    const queryFn = async () => await getPublicEvents({supabase});
+    const queryFn = async () => await getPublicEvents();
 
     return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
 }
 
 export const useGetPublicEvent = (id: string) => {
-    const supabase = createClient();
     const queryKey = publicKeys.event(id);
-    const queryFn = async () => await getPublicEvent({supabase, id});
+    const queryFn = async () => await getPublicEvent({id});
 
     return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
 }
 
 export const useGetPublicTicket = (id: string) => {
-    const supabase = createClient();
     const queryKey = publicKeys.searchedTicket(id);
-    const queryFn = async () => await getPublicTicket({supabase, id});
+    const queryFn = async () => await getPublicTicket({id});
 
     return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
 }
 
 export const useGetBookableTickets = (id: string) => {
-    const supabase = createClient();
     const queryKey = publicKeys.bookableTickets(id);
-    const queryFn = async () => await getBookableTickets({supabase, id});
+    const queryFn = async () => await getBookableTickets({id});
 
     return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
 }
 
 export const useBookTicket = () => {
-    const supabase = createClient();
     const queryClient = useQueryClient();
 
     const queryKey = publicKeys.events();
     return useMutation({ 
-        mutationFn: async({attendeeData}: { attendeeData: HandleTicketBooking; }) => (
-            await bookTicket({supabase, attendeeData})),
+        mutationFn: bookTicket,
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: queryKey });
             return data;
@@ -348,93 +290,82 @@ export const useBookTicket = () => {
 }
 
 export const useGetMyTickets = () => {
-    const supabase = createClient();
     const queryKey = dashboardKeys.tickets();
-    const queryFn = async () => await getMyTickets({supabase});
+    const queryFn = async () => await getMyTickets();
 
     return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
 }
 
 export const useGetSearchedTickets = (searchData: string) => {
-    const supabase = createClient();
     const queryKey = publicKeys.searchedTickets(searchData);
     
-    const queryFn = async () => await getSearchedTickets({supabase, searchData});
+    const queryFn = async () => await getSearchedTickets({searchData});
 
     return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
 }
 
 // :::::::::::::::::::::::::::::: NOTIFICATIONS HOOKS :::::::::::::::::::::::::::::::::::
 export const useGetNotifications = () => {
-    const supabase = createClient();
     const queryKey = dashboardKeys.notifications;
     
-    const queryFn = async () => await getNotifications({supabase});
+    const queryFn = async () => await getNotifications();
 
     return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
 }
 
 export const useGetNotificationCount = () => {
-    const supabase = createClient();
     const queryKey = dashboardKeys.notificationCount;
     
-    const queryFn = async () => await getNotificationCount({supabase});
+    const queryFn = async () => await getNotificationCount();
 
     return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
 }
 
 export const useModifyNotification = () => {
-    const supabase = createClient();
     const queryClient = useQueryClient();
 
     const queryKey = dashboardKeys.notifications;
     return useMutation({ 
-        mutationFn: async({id}:{id: string}) => (
-            await modifyNotification({supabase, id})),
+        mutationFn: modifyNotification,
         onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKey })
     })
 }
 
 export const useGetInvitor = (id: string) => {
-    const supabase = createClient();
     const queryKey = dashboardKeys.notificationInvitor(id);
     
-    const queryFn = async () => await getInvitor({supabase, id});
+    const queryFn = async () => await getInvitor({id});
 
     return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
 }
 
 export const useGetRegistor = (id: string) => {
-    const supabase = createClient();
     const queryKey = dashboardKeys.notificationRegistor(id);
     
-    const queryFn = async () => await getRegistor({supabase, id});
+    const queryFn = async () => await getRegistor({id});
 
     return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
 }
 
 // :::::::::::::::::::::::::::::: FORM NECCESARY HOOKS ::::::::::::::::::::::::::::::::::
 export const useGetUserOrgSelect = () => {
-    const supabase = createClient();
     const queryKey = dashboardKeys.userOrgSelectList();
-    const queryFn = async () => await getUserOrgSelect({supabase});
+    const queryFn = async () => await getUserOrgSelect();
 
     return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
 }
 
 export const useGetEventTicketSelect = (id: string) => {
-    const supabase = createClient();
     const queryKey = dashboardKeys.eventTicketSelect(id);
-    const queryFn = async () => await getEventTicketSelect({supabase, id});
+    const queryFn = async () => await getEventTicketSelect({id});
 
     return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
 }
 
 export const useGetMaxCapacity = (id: string) => {
-    const supabase = createClient();
     const queryKey = dashboardKeys.maxCapacity(id);
     
-    const queryFn = async () => await getMaxCapacity({supabase, id});
+    const queryFn = async () => await getMaxCapacity({id});
 
     return useQuery({queryKey, queryFn, refetchOnWindowFocus: false});
 }
