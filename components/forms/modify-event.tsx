@@ -16,7 +16,6 @@ import { deleteEvent } from "@/lib/queries";
 import { useEffect } from "react";
 import SpinnerIcon from "../icons/spinner-icon";
 import DeleteHandler from "@/app/dashboard/(components)/delete-handler";
-import { createClient } from "@/lib/supabase/client";
 
 const today = new Date();
 today.setHours(0, 0, 0, 0);
@@ -147,13 +146,13 @@ export function ModifyEventForm({eventID, className}:{eventID:string, className?
         <>
             <Form {...form}>
                 <form onSubmit={handleSubmit(onSubmit)} className={cn("w-full p-4 space-y-4 rounded-sm border", className)}>
-                    <SwitchInput name="is_published" label="Publish this event" />
+                    <SwitchInput name="is_published" label="Publish this event" disabled={event?.total_tickets === 0} />
                     <SelectInput name="organisation_id" label="Organisation" defaultvalue={event?.organisation_id.value} list={[event?.organisation_id as { value: string; label: string; }]} disabled />
                     <SelectInput name="organiser" label="Organiser" defaultvalue={event?.organiser.value} list={[event?.organiser as { value: string; label: string; }]} disabled />
                     <TextInput name="name" label="Name" />
                     <TextInput name="headline" label="Headline" />
                     <SelectInput name="category" label="Category" placeHolder="Select a category" defaultvalue={event?.category} list={EVENT_CATEGORIES} />
-                    <NumberInput name="capacity" label="Capacity" placeHolder="Total Capacity" min={25} showError />
+                    <NumberInput name="capacity" label="Capacity" placeHolder="Total Capacity" min={event?.used_capacity || 25} showError />
                     <TextInput name="tags" label="Tags ( #cool, #free, #awesome )" />
                     <RadioGroupInput name="event_type" label="Event Type" defaultValue={event?.event_type} options={EVENT_TYPE_OPTIONS} />
                     <TextareaInput name="about" label="About This Event" />

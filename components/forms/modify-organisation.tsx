@@ -16,7 +16,6 @@ import { deleteOrganisation} from "@/lib/queries";
 import { useEffect } from "react";
 import { uploadFile } from "@/lib/supabase/upload-file";
 import SpinnerIcon from "../icons/spinner-icon";
-import { createClient } from "@/lib/supabase/client";
 
 const ModifyOrgFormSchema = z.object({
     name: z.string(),

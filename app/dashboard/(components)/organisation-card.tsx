@@ -9,7 +9,7 @@ import React from 'react';
 import { FetchedOrganisationProps } from '@/lib/types';
 
 const OrganisationCard = (props: FetchedOrganisationProps) => {
-  const {id, name, headline, about, avatar_url, organisation_members} = props;
+  const {id, name, headline, about, avatar_url, organisation_members, is_owner} = props;
   
   return (
     <div className="w-full h-44 rounded-sm flex flex-col border gap-3">
@@ -39,7 +39,9 @@ const OrganisationCard = (props: FetchedOrganisationProps) => {
               </div>
             ))}
           </div>
-          <ChevronRight className='size-5 text-muted-foreground'/>
+          <p className="text-xs font-medium px-1.5 py-1 rounded-full bg-secondary">
+              {is_owner? "owner" : "member"}
+          </p>
         </div>
     </div>
   )

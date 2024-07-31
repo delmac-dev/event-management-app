@@ -24,6 +24,7 @@ export type FetchedOrganisationProps = {
     avatar_url: string,
     category: string,
     created_at: string,
+    is_owner: boolean,
     headline: string
     id: string
     is_verified: boolean
@@ -64,24 +65,26 @@ export type FetchedModifiableEventProps = {
     id: string,
     name: string,
     about: string | null,
-    banner: string,
+    banner: string | null,
     capacity: number,
     category: string,
-    created_at: string,
-    end_at: string,
-    event_date: string,
+    created_at: string | null,
+    end_at: string | null,
+    event_date: string | null,
     event_status: string,
-    event_type: 'public'| "private",
-    start_at: string,
-    tags: string[]
-    updated_at: string,
+    event_type: string,
+    start_at: string | null,
+    tags: string[] | null,
+    updated_at: string | null,
     headline: string,
-    is_published: boolean,
+    is_published: boolean | null,
     location: {name: string, school: string, description: string}
     agenda: { time: string, title: string, description: string } [] | null,
     faq: { question: string, answer: string }[] | null,
-    organisation_id: {value: string, label: string}
-    organiser: {value: string, label: string}
+    organisation_id: {value: string, label: string},
+    organiser: {value: string, label: string},
+    total_tickets: number,
+    used_capacity: number,
 }
 
 export type FetchedMembersProps = {

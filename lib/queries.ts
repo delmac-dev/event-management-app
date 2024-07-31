@@ -72,6 +72,7 @@ export const getMemberEvents = async () => {
         .select('organisation_id')
         .eq('user_id', user.id)
         .eq('is_active', true)
+        .eq('has_accepted', true)
         .order('updated_at', { ascending: false})
 
     if ( orgListError || !dataList) throw new Error("Error fetching events");
@@ -92,19 +93,29 @@ export const getMemberEvents = async () => {
 
 export const getEventByID = async ({id}:{id:string}) => {
     const supabase = createClient();
-    const { data, error } = await supabase
-    .from('events')
-    .select(`
-        *,
-        organisation_id(value:id, label:name),
-        organiser(value:id, label:full_name)
-    `)
-    .eq("id", id)
-    .single()
+    
+    const { data: eventData, error: eventError } = await supabase
+        .from('events')
+        .select(`
+            *,
+            organisation_id(value:id, label:name),
+            organiser(value:id, label:full_name)
+        `)
+        .eq("id", id)
+        .single();
 
-    if(error) throw error;
+    if (eventError) throw eventError;
 
-    return data as unknown as FetchedModifiableEventProps;
+    const { count: totalTickets, error: ticketsError } = await supabase
+        .from('tickets')
+        .select('id', { count: 'exact' })
+        .eq('event_id', id);
+
+    if (ticketsError) throw ticketsError;
+
+    const {used_capacity} = await getMaxCapacity({id})
+
+    return { ...eventData, total_tickets: totalTickets, used_capacity } as unknown as FetchedModifiableEventProps;
 };
 
 export const setEvent = async ({eventData}:{eventData: NewEvent}) => {
@@ -309,17 +320,18 @@ export const getUserOrganisations = async() => {
         return members.map(member => member?.profiles?.avatar_url) as string[];
     };
 
-    const filteredOrganisations = await Promise.all(
+    const filteredOrgs = await Promise.all(
         organisations.map(async (organisation) => {
             const avatars = organisation && await fetchOrganisationMembers(organisation.id);
             return {
                 ...organisation,
-                organisation_members: avatars
+                organisation_members: avatars,
+                is_owner: organisation?.owner === user.id
             };
         })
     );
     
-    return filteredOrganisations ?? null as unknown as FetchedOrganisationProps[];
+    return filteredOrgs as unknown as FetchedOrganisationProps[];
 };
 
 export const getOrganisationByID = async({ id }: { id: string }) => {
@@ -754,7 +766,10 @@ export const getUserOrgSelect = async () => {
     const { data, error } = await supabase
     .from('organisation_members')
     .select('organisation_id:organisations(value:id, label:name)')
-    .eq('user_id', user.id);
+    .eq('user_id', user.id)
+    .eq('is_active', true)
+    .eq('has_accepted', true)
+    .order('created_at', { ascending: false})
 
     if (error) throw error;
 
