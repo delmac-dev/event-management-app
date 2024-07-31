@@ -534,7 +534,7 @@ export const getSearchedTickets = async ({searchData}: { searchData: string}) =>
     const { data, error } = await supabase
     .from('attendees')
     .select('id, ticket_id, full_name, email, ticket_code')
-    .or(`full_name.ilike.%${searchData}%,email.ilike.%${searchData}%`);
+    .or(`ticket_code.ilike.%${searchData}%,email.ilike.%${searchData}%`);
 
     if(error) throw error;
     

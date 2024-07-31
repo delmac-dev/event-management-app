@@ -24,8 +24,8 @@ export default function OAuthProviders() {
     ];
 
     const handleaOAuthSignIn = async (provider: Provider) => {
-        await signInWithOAuth(provider);
         queryClient.invalidateQueries();
+        await signInWithOAuth(provider);
     }
 
     return (

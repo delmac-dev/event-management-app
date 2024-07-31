@@ -10,8 +10,8 @@ export default function SignOutButton({extraAction}: { extraAction: ()=>void}) {
 
   const handleSignOut = async () => {
     extraAction();
-    await signOut();
     queryClient.invalidateQueries();
+    await signOut();
   }
 
   return (
