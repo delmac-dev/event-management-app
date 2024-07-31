@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 
 export default function AttendeeBookingForm({eventID}:{eventID: string}) {
     return (
-      <section className="relative sub_container flex_center justify-start flex-col rounded-none md:rounded-lg bg-secondary p-4 h-screen md:max-h-[640px] border-t-8 border-secondary-foreground shadow-md">
+      <section className="relative sub_container flex_center justify-start flex-col rounded-none md:rounded-lg bg-secondary p-4 h-dvh md:max-h-[640px] border-t-8 border-secondary-foreground shadow-md">
         <AttendHeader /> 
         <HandleTicketBookingForm eventID={eventID} />
       </section>

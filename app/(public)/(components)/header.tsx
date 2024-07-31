@@ -7,8 +7,10 @@ import ProfileAvatar from "@/components/common/profile-avatar";
 import { Button } from "@/components/ui/button";
 import { useGetAuthProfile } from "@/lib/query-hooks";
 import { _dashboard, _events, _home, _login, _tickets } from "@/lib/routes";
+import { createClient } from "@/lib/supabase/client";
 import { NavigationProps } from "@/lib/types";
 import { cn, parseNavigation } from "@/lib/utils";
+import { User } from "@supabase/supabase-js";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -50,8 +52,20 @@ export default function Header () {
 }
 
 const HeaderOptions = () => {
-    const { data: user } = useGetAuthProfile();
+    const supabase = createClient();
+    const [user, setUser] = useState<User | null>(null);
     const [open, setOpen] = useState(false);
+
+    useEffect(()=> {
+        const getUser = async() => {
+            const { data: { user: authUser }, error} = await supabase.auth.getUser();
+            
+            if(error) setUser(null);
+            else setUser(authUser);
+        };
+
+        getUser();
+    }, []);
 
     return (
         <div className="flex gap-1.5 items-center">
