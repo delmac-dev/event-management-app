@@ -9,7 +9,7 @@ export default async function OrganisationEvents({ params }: QueryProps) {
   return (
     <>
       <BodyHeader>
-        <h2 className="text-xl font-medium">Organisation Events</h2>
+        <h2 className="text-xl font-medium">Events</h2>
         <NewEventHandler organisationID={organisationID} />
       </BodyHeader>
       <OrgEventContainer organisationID={organisationID} />

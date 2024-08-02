@@ -15,7 +15,7 @@ export default async function OrganisationMembers({ params, searchParams }: Quer
   return (
     <>
       <BodyHeader>
-        <h2 className="text-xl font-medium">Organisation Members</h2>
+        <h2 className="text-xl font-medium">Members</h2>
         <MemberHandler { ...memberHandlerData } />
       </BodyHeader>
       <MembersContainer organisationID={orgID} />
