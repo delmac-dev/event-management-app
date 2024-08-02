@@ -16,7 +16,7 @@ const EventCard = ({id, name, headline, banner, event_date, start_at, about}: Fe
         <div className="relative z-0 w-full h-full overflow-hidden">
           <Link href={_dashboardEventTickets(id)} className='w-full h-full overflow-hidden flex_center bg-muted'>
             {banner ? 
-              (<NextImage src={banner} alt={name} fill className='object-fill' sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" />):
+              (<NextImage src={banner} alt={name} fill className='object-cover' sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" />):
               (<Image className='size-7 text-muted-foreground' />)
             }
           </Link>
@@ -33,11 +33,11 @@ const EventCard = ({id, name, headline, banner, event_date, start_at, about}: Fe
       </div>
       <div className="px-3 pb-3 h-12 flex justify-between">
         <div className="flex gap-2 items-center justify-start">
-          <Clock3 className='size-5 text-muted-foreground' />
-          <p className="text-sm text-muted-foreground font-medium">{formatDate(event_date)} | {convertTo12HourFormat(start_at)}</p>
+          <Clock3 className='size-4 text-muted-foreground' />
+          <p className="text-xs text-muted-foreground font-medium">{formatDate(event_date)} | {convertTo12HourFormat(start_at)}</p>
         </div>
         <div className="h-full aspect-square flex_center">
-          <Forward className='size-6 text-muted-foreground' />
+          <Forward className='size-5 text-muted-foreground' />
         </div>
       </div>
     </div>
