@@ -9,9 +9,9 @@ import Link from "next/link";
 import SignOutButton from "../auth/signout-button";
 import { useState } from "react";
 import { useGetProfile } from "@/lib/query-hooks";
-import SpinnerIcon from "../icons/spinner-icon";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
+import { Skeleton } from "../ui/skeleton";
 
 const linkList = [
     {name: "My profile", link: _dashboardProfileEdit},
@@ -33,27 +33,30 @@ export default function ProfileAvatar() {
 
     const isActive = (userTheme: string) => (theme === userTheme)
 
-    if(isLoading) {
-        return (
-            <div>
-                <SpinnerIcon className="size-7 text-secondary-foreground" />
-            </div>
-        )
-    }
-
     return (
         <>
             <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
-                    <Button variant="outline" size='sm' className="flex items-center gap-2 rounded-full p-1.5" onClick={()=>setOpen(true)}>
-                        {profile && 
-                            <Image 
-                                src={profile.avatar_url || ""} 
-                                height={40} 
-                                width={40} 
-                                alt="avatar" 
-                                className="w-7 h-7 rounded-full" 
-                            />
+                    <Button 
+                        variant="outline" 
+                        size='sm' 
+                        className="flex items-center gap-2 rounded-full p-1.5" 
+                        onClick={()=>setOpen(true)}
+                        disabled={isLoading}
+                    >
+                        {isLoading ? 
+                            <Skeleton className="size-7 rounded-full" /> :
+                            <>
+                                {profile &&
+                                    <Image 
+                                        src={profile.avatar_url || ""} 
+                                        height={40} 
+                                        width={40} 
+                                        alt="avatar" 
+                                        className="w-7 h-7 rounded-full" 
+                                    />
+                                }
+                            </>
                         }
                         <ChevronDown size={16} />
                     </Button>
