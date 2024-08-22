@@ -26,7 +26,7 @@ export default function MobileNavigation({ navLinks, open, setOpen, children }:{
                 </SheetTrigger>
                 <SheetPortal>
                     <SheetOverlay />
-                    <SheetContent className="w-64 py-20 px-2">
+                    <SheetContent className="w-72 py-20 px-2">
                         <SheetClose className="absolute right-6 p-2 border top-6 rounded-full bg-background focus:outline-none shadow-md">
                             <X className="h-5 w-5" />
                             <span className="sr-only">Close</span>
