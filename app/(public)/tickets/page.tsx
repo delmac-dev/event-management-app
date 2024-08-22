@@ -12,7 +12,6 @@ import SpinnerIcon from "@/components/icons/spinner-icon";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { SearchedTicketsProps } from "@/lib/types";
 
@@ -55,7 +54,7 @@ export default function Tickets() {
         </section>
         <section className="sub_container py-5">
         {
-          isLoading ? 
+          isLoading && search !== "" ? 
             (<Loading />) : search === "" ? null :
             searchedTickets && searchedTickets.length > 0 ? 
               (<SearchedTicketsContainer searchedTickets={searchedTickets} />) : 
