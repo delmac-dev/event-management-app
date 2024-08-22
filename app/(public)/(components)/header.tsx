@@ -5,7 +5,6 @@ import MobileNavigation from "@/components/common/mobile-navigation";
 import Notifications from "@/components/common/notification-button";
 import ProfileAvatar from "@/components/common/profile-avatar";
 import { Button } from "@/components/ui/button";
-import { useGetAuthProfile } from "@/lib/query-hooks";
 import { _dashboard, _events, _home, _login, _tickets } from "@/lib/routes";
 import { createClient } from "@/lib/supabase/client";
 import { NavigationProps } from "@/lib/types";
