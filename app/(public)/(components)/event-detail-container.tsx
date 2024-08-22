@@ -56,7 +56,7 @@ export default function EventDetailContainer({eventID}:{eventID:string}) {
                     <div className="sub_container space-y-7 py-7">
                         <div className="overflow-hidden relative z-0 w-full max-w-screen-md aspect-video bg-muted rounded-lg">
                             {event && event.banner ? 
-                                (<NextImage src={event.banner} alt={event.name} fill className='object-fill' />):
+                                (<NextImage src={event.banner} alt={event.name} fill className='w-full h-full object-cover' />):
                                 (<Image className='size-7 text-muted-foreground' />)
                             }
                         </div>
