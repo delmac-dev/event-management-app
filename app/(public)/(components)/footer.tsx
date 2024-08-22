@@ -53,7 +53,7 @@ const Footer = () => {
                 <div className="max-lg:w-full flex-1 grid grid-cols-1 md:grid-cols-3 gap-7 md:gap-4 ">
                     {footerLinks.map(({ title, links }, _id) => (
                         <div key={_id} className="">
-                            <h5 className="mb-9 text-lg font-semibold text-accent-foreground capitalize tracking-wide">{title}</h5>
+                            <h5 className="mb-4 text-lg font-semibold text-accent-foreground capitalize tracking-wide">{title}</h5>
                             <ul className="flex flex-col gap-1">
                                 {links.map(({ name, link }, _i) => (
                                     <li key={_i}>
