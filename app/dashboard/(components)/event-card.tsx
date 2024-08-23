@@ -36,9 +36,9 @@ const EventCard = ({id, name, headline, banner, event_date, start_at, about}: Fe
           <Clock3 className='size-4 text-muted-foreground' />
           <p className="text-xs text-muted-foreground font-medium">{formatDate(event_date)} | {convertTo12HourFormat(start_at)}</p>
         </div>
-        <div className="h-full aspect-square flex_center">
+        <Link href={_dashboardEventTickets(id)} className="h-full aspect-square flex_center bg-muted/50 hover:bg-muted/70 rounded-sm">
           <Forward className='size-5 text-muted-foreground' />
-        </div>
+        </Link>
       </div>
     </div>
   )

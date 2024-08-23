@@ -192,6 +192,7 @@ export type FetchedMyTickets = {
     created_at: string
     email: string
     event_id: string,
+    event: { name: string, banner: string},
     full_name: string,
     has_account: boolean,
     hold_expire_in: string | null,

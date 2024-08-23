@@ -513,7 +513,7 @@ export const getMyTickets = async () => {
 
     const {data, error} = await supabase
     .from('attendees')
-    .select('*')
+    .select('*, event: events(name, banner)')
     .eq('user_id', user.id)
 
     if(error) throw error;
