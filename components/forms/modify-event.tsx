@@ -48,12 +48,12 @@ const ModifyEventFormSchema = z.object({
         description: z.string()
     })).nullable(),
     event_date: z.string()
-    .refine(value => !isNaN(Date.parse(value)), "Invalid date format (YYYY-MM-DD)")
+    .refine(value => !isNaN(Date.parse(value)), "Invalid date format (MM-DD-YYYY)")
     .refine((value) => {
         const date = new Date(value)
         date.setHours(0, 0, 0, 0);
         return date > today;
-    }),
+    }, "The date must be from tomorrow onwards"),
     banner: z.any()
     .refine((file) => {
       if (file.size === 0 || file.name === undefined) return false;

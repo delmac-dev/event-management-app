@@ -39,7 +39,7 @@ export default function HandleProfileForm({className}:{className?: string}) {
     const { mutate: modifyProfile, isError, isSuccess, isPending } = useModifyProfile();
     const deleteHandlerData = {
         title: "Delete my profile",
-        description: "All the events and a data associated with this organisation will also be deleted along side the profiles",
+        description: "All the events and a data associated with this profile will also be deleted along side the profile",
         buttonText: "Delete Profile",
         toastMessage: "Profile deleted successfully",
         redirectTo: _home
